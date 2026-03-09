@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>EduExam Pro | Admin Panel</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -40,53 +40,168 @@
       --purple-lt: #ede9fe;
       --gold:      #b45309;
       --gold-lt:   #fef3c7;
+      --topbar-h:  56px;
+      --nav-h:     48px;
+      --mob-nav-h: 60px;
     }
 
-    html, body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); min-height: 100%; }
-    body::before { content: ''; position: fixed; inset: 0; z-index: 0; background-image: radial-gradient(circle, rgba(59,130,246,0.07) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; }
+    html, body {
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100%;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: radial-gradient(circle, rgba(59,130,246,0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+    }
 
-    /* ── TOPBAR ── */
-    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; box-shadow: 0 1px 12px rgba(59,130,246,0.07); }
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-logo { width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, var(--blue2), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 10px rgba(37,99,235,0.25); }
-    .topbar-title { font-size: 14px; font-weight: 700; color: var(--text); }
-    .topbar-sub   { font-size: 11px; color: var(--muted); }
-    .admin-badge  { padding: 4px 12px; background: var(--purple-lt); border: 1px solid rgba(124,58,237,0.2); border-radius: 100px; font-size: 11px; font-weight: 600; color: var(--purple); }
-    .live-dot { display: flex; align-items: center; gap: 6px; padding: 5px 12px; background: var(--success-lt); border: 1px solid rgba(5,150,105,0.2); border-radius: 100px; font-size: 11px; font-weight: 600; color: var(--success); }
-    .live-dot::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--success); animation: livePulse 1.6s ease-in-out infinite; }
-    @keyframes livePulse { 0%,100% { opacity:1; box-shadow:0 0 0 0 rgba(5,150,105,0.4); } 50% { opacity:.7; box-shadow:0 0 0 5px rgba(5,150,105,0); } }
-    .btn-logout { padding: 7px 16px; background: var(--danger-lt); border: 1px solid rgba(220,38,38,0.2); border-radius: 8px; color: var(--danger); font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background .2s; }
-    .btn-logout:hover { background: rgba(220,38,38,0.12); }
-    .auto-refresh { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+    /* ══ TOPBAR ══ */
+    .topbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      height: var(--topbar-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px;
+      box-shadow: 0 1px 12px rgba(59,130,246,0.07);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .topbar-logo {
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue2), var(--cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 2px 10px rgba(37,99,235,0.25);
+    }
+    .topbar-title { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .topbar-sub   { font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .admin-badge {
+      padding: 3px 10px;
+      background: var(--purple-lt); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 100px; font-size: 10px; font-weight: 600; color: var(--purple);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .live-dot {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      background: var(--success-lt); border: 1px solid rgba(5,150,105,0.2);
+      border-radius: 100px; font-size: 10px; font-weight: 600; color: var(--success);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .live-dot::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); animation: livePulse 1.6s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(5,150,105,0.4); }
+      50%     { opacity:.7; box-shadow:0 0 0 5px rgba(5,150,105,0); }
+    }
+    .topbar-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .auto-refresh { font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
     .auto-refresh span { font-family: 'JetBrains Mono', monospace; color: var(--blue2); }
+    .btn-logout {
+      padding: 6px 12px;
+      background: var(--danger-lt); border: 1px solid rgba(220,38,38,0.2);
+      border-radius: 8px; color: var(--danger);
+      font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: background .2s; white-space: nowrap;
+    }
+    .btn-logout:hover { background: rgba(220,38,38,0.12); }
 
-    /* ── NAV TABS ── */
-    .nav-tabs { position: sticky; top: 58px; z-index: 90; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); display: flex; padding: 0 28px; overflow-x: auto; }
-    .nav-tab { padding: 13px 18px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all .2s; }
+    /* ══ DESKTOP NAV TABS ══ */
+    .nav-tabs {
+      position: sticky; top: var(--topbar-h); z-index: 190;
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; padding: 0 16px; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      padding: 12px 16px;
+      font-size: 12.5px; font-weight: 600; color: var(--muted);
+      cursor: pointer; border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all .2s;
+    }
     .nav-tab:hover { color: var(--blue2); }
     .nav-tab.active { color: var(--blue1); border-bottom-color: var(--blue2); }
 
-    /* ── PAGE ── */
-    .page { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 24px 20px 60px; }
+    /* ══ MOBILE BOTTOM NAV ══ */
+    .mob-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      height: var(--mob-nav-h);
+      box-shadow: 0 -4px 24px rgba(15,23,42,0.10);
+    }
+    .mob-nav-inner {
+      display: flex; overflow-x: auto; height: 100%;
+      scrollbar-width: none; align-items: stretch;
+    }
+    .mob-nav-inner::-webkit-scrollbar { display: none; }
+    .mob-nav-item {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; padding: 0 14px;
+      font-size: 9px; font-weight: 600; color: var(--muted);
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      border-top: 2px solid transparent; transition: all .2s;
+    }
+    .mob-nav-item .mn-icon { font-size: 18px; line-height: 1; }
+    .mob-nav-item.active { color: var(--blue2); border-top-color: var(--blue2); background: var(--blue-lt); }
+
+    /* ══ PAGE ══ */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 1160px; margin: 0 auto;
+      padding: 16px 14px 80px;
+    }
     .tab-panel { display: none; animation: fadeUp .35s ease both; }
     .tab-panel.active { display: block; }
-    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:none; }
+    }
 
-    /* ── CARDS ── */
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 2px 16px rgba(59,130,246,0.06); }
-    .card-header { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: rgba(248,250,255,0.8); }
-    .ch-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .ch-title { font-size: 14px; font-weight: 700; color: var(--text); }
-    .ch-sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .card-body { padding: 20px 22px; }
+    /* ══ CARDS ══ */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; margin-bottom: 16px;
+      box-shadow: 0 2px 16px rgba(59,130,246,0.06);
+    }
+    .card-header {
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      background: rgba(248,250,255,0.8);
+    }
+    .ch-icon {
+      width: 32px; height: 32px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .ch-title { font-size: 13px; font-weight: 700; color: var(--text); }
+    .ch-sub   { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+    .card-body { padding: 16px; }
 
-    /* ── BUTTONS ── */
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border: none; border-radius: 9px; font-family: 'Sora', sans-serif; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all .18s; white-space: nowrap; }
-    .btn:active { transform: translateY(1px) !important; }
+    /* ══ BUTTONS ══ */
+    .btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 8px 16px; border: none; border-radius: 9px;
+      font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all .18s; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: scale(0.97) !important; }
     .btn-primary { background: linear-gradient(135deg,#1e40af,#2563eb); color: #fff; box-shadow: 0 3px 12px rgba(37,99,235,0.25); }
-    .btn-primary:hover { box-shadow: 0 6px 20px rgba(37,99,235,0.35); transform: translateY(-1px); }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(37,99,235,0.35); }
     .btn-success { background: linear-gradient(135deg,#065f46,#059669); color: #fff; box-shadow: 0 3px 12px rgba(5,150,105,0.25); }
-    .btn-success:hover { box-shadow: 0 6px 20px rgba(5,150,105,0.35); transform: translateY(-1px); }
+    .btn-success:hover { box-shadow: 0 6px 20px rgba(5,150,105,0.35); }
     .btn-warn    { background: var(--warn-lt); border: 1px solid rgba(217,119,6,0.25); color: var(--warn); }
     .btn-warn:hover { background: rgba(217,119,6,0.15); }
     .btn-danger  { background: var(--danger-lt); border: 1px solid rgba(220,38,38,0.25); color: var(--danger); }
@@ -97,53 +212,95 @@
     .btn-purple:hover { background: rgba(124,58,237,0.15); }
     .btn-cyan    { background: var(--cyan-lt); border: 1px solid rgba(8,145,178,0.2); color: var(--cyan); }
     .btn-cyan:hover { background: rgba(8,145,178,0.15); }
-    .btn-sm { padding: 5px 11px; font-size: 11.5px; border-radius: 7px; }
+    .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 7px; }
+    .btn-full { width: 100%; justify-content: center; padding: 12px; }
 
-    /* ── METRICS ── */
-    .metrics-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(148px,1fr)); gap: 14px; margin-bottom: 22px; }
-    .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 2px 10px rgba(59,130,246,0.05); transition: transform .2s, box-shadow .2s; }
+    /* ══ METRICS ══ */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+      gap: 10px; margin-bottom: 16px;
+    }
+    .metric-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 13px 14px; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 2px 10px rgba(59,130,246,0.05); transition: transform .2s, box-shadow .2s;
+    }
     .metric-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.10); }
-    .metric-icon { font-size: 1.7rem; }
-    .metric-num  { font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--text); }
-    .metric-lbl  { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; }
+    .metric-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .metric-num  { font-size: 1.5rem; font-weight: 800; line-height: 1; color: var(--text); }
+    .metric-lbl  { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; }
 
-    /* ── BREAKDOWN ── */
-    .breakdown-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 14px; margin-bottom: 22px; }
-    .breakdown-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; box-shadow: 0 2px 10px rgba(59,130,246,0.05); }
-    .bc-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
-    .bc-item  { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+    /* ══ BREAKDOWN ══ */
+    .breakdown-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 12px; margin-bottom: 16px;
+    }
+    .breakdown-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; box-shadow: 0 2px 10px rgba(59,130,246,0.05);
+    }
+    .bc-title { font-size: 10.5px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+    .bc-item  { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
     .bc-item:last-child { border-bottom: none; }
     .bc-label { color: var(--text2); font-weight: 500; }
-    .bc-val   { font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+    .bc-val   { font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
 
-    /* ── STAT GRID ── */
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 14px; }
-    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: 0 2px 8px rgba(59,130,246,0.04); transition: border-color .2s; }
+    /* ══ STAT GRID ══ */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+      gap: 12px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; box-shadow: 0 2px 8px rgba(59,130,246,0.04); transition: border-color .2s;
+    }
     .stat-card:hover { border-color: var(--border2); }
-    .stat-dept   { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
-    .stat-row    { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; margin-bottom: 6px; }
+    .stat-dept   { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .stat-row    { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 5px; }
     .stat-row span { color: var(--muted); }
     .stat-row strong { color: var(--text); }
-    .prog-bar  { height: 5px; background: var(--blue-lt); border-radius: 100px; margin-top: 10px; overflow: hidden; }
-    .prog-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg,var(--blue2),var(--cyan)); transition: width .6s ease; }
+    .prog-bar    { height: 4px; background: var(--blue-lt); border-radius: 100px; margin-top: 8px; overflow: hidden; }
+    .prog-fill   { height: 100%; border-radius: 100px; background: linear-gradient(90deg,var(--blue2),var(--cyan)); transition: width .6s ease; }
 
-    /* ── FORM ── */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-    .field label { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-    .field input, .field select, .field textarea { width: 100%; padding: 11px 14px; background: #f8faff; border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Sora', sans-serif; font-size: 13px; outline: none; transition: border-color .2s, background .2s; }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.10); }
+    /* ══ FORM ══ */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .field label { display: block; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 10px 12px;
+      background: #f8faff; border: 1.5px solid var(--border); border-radius: 9px;
+      color: var(--text); font-family: 'Sora', sans-serif; font-size: 13px;
+      outline: none; transition: border-color .2s, background .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--blue2); background: #fff;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+    }
     .field input::placeholder { color: var(--muted2); }
-    .field select option { background: #fff; color: var(--text); }
+    .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
 
-    /* ── TABLE ── */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    /* ══ TABLE (mobile scrollable) ══ */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
     thead tr { background: #f0f6ff; }
-    th { padding: 11px 14px; text-align: left; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); white-space: nowrap; border-bottom: 1.5px solid var(--border); }
-    td { padding: 10px 14px; border-top: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+    th {
+      padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+      white-space: nowrap; border-bottom: 1.5px solid var(--border);
+    }
+    td {
+      padding: 9px 12px; border-top: 1px solid var(--border);
+      color: var(--text2); vertical-align: middle;
+    }
     tr:hover td { background: #f8fbff; }
 
-    .pill { display: inline-block; padding: 2px 9px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+    /* ══ MOBILE CARD ROWS (alternative to tables on mobile) ══ */
+    .mob-cards { display: none; }
+
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 10.5px; font-weight: 600; }
     .pill-blue   { background: var(--blue-lt); color: var(--blue1); }
     .pill-green  { background: var(--success-lt); color: var(--success); }
     .pill-red    { background: var(--danger-lt); color: var(--danger); }
@@ -152,95 +309,194 @@
     .pill-muted  { background: #f1f5f9; color: var(--muted); }
     .pill-cyan   { background: var(--cyan-lt); color: var(--cyan); }
 
-    /* ── SEARCH BAR ── */
-    .search-bar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
-    .search-bar input { flex: 1; min-width: 200px; padding: 9px 14px; background: #f8faff; border: 1.5px solid var(--border); border-radius: 9px; color: var(--text); font-family: 'Sora', sans-serif; font-size: 13px; outline: none; }
+    /* ══ SEARCH BAR ══ */
+    .search-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .search-bar input {
+      flex: 1; min-width: 140px; padding: 9px 12px;
+      background: #f8faff; border: 1.5px solid var(--border); border-radius: 9px;
+      color: var(--text); font-family: 'Sora', sans-serif; font-size: 13px; outline: none;
+      -webkit-appearance: none;
+    }
     .search-bar input:focus { border-color: var(--blue2); }
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-row select {
+      flex: 1; min-width: 120px;
+      padding: 9px 28px 9px 10px; background: #f8faff; border: 1.5px solid var(--border);
+      border-radius: 9px; color: var(--text); font-family: 'Sora',sans-serif; font-size: 12px;
+      outline: none; -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 8px center;
+    }
 
-    /* ── LEADERBOARD ── */
-    .lb-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; border: 1px solid var(--border); background: var(--surface); transition: background .15s, border-color .15s; }
+    /* ══ LEADERBOARD ══ */
+    .lb-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px; margin-bottom: 6px;
+      border: 1px solid var(--border); background: var(--surface); transition: background .15s;
+    }
     .lb-row:hover { background: #f0f6ff; border-color: var(--border2); }
-    .lb-rank { width: 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--muted); flex-shrink: 0; text-align: center; }
+    .lb-rank { width: 26px; font-family: 'JetBrains Mono',monospace; font-size: 12px; font-weight: 700; color: var(--muted); flex-shrink: 0; text-align: center; }
     .lb-rank.gold { color: #b45309; } .lb-rank.silver { color: #64748b; } .lb-rank.bronze { color: #92400e; }
-    .lb-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,var(--blue2),var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; color: #fff; }
+    .lb-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,var(--blue2),var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; color: #fff; }
     .lb-info   { flex: 1; min-width: 0; }
-    .lb-name   { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
-    .lb-dept   { font-size: 11px; color: var(--muted); }
-    .lb-bar-wrap { width: 70px; flex-shrink: 0; }
+    .lb-name   { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .lb-dept   { font-size: 10.5px; color: var(--muted); }
+    .lb-bar-wrap { width: 50px; flex-shrink: 0; }
     .lb-bar      { height: 4px; background: var(--blue-lt); border-radius: 100px; overflow: hidden; }
-    .lb-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg,var(--blue2),var(--cyan)); transition: width .5s ease; }
+    .lb-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg,var(--blue2),var(--cyan)); }
     .lb-score-wrap { text-align: right; flex-shrink: 0; }
-    .lb-score { font-size: 14px; font-weight: 800; }
-    .lb-pct   { font-size: 11px; color: var(--muted); }
+    .lb-score { font-size: 13px; font-weight: 800; }
+    .lb-pct   { font-size: 10.5px; color: var(--muted); }
 
-    /* ── Q VIEWER ── */
-    .q-viewer { background: #f8fbff; border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
-    .q-viewer-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+    /* ══ Q VIEWER ══ */
+    .q-viewer { background: #f8fbff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .q-opts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .q-opt { padding: 9px 12px; border-radius: 9px; font-size: 12.5px; }
+    .q-viewer-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; gap: 10px; }
 
-    /* ── DEPT DOWNLOAD CARDS ── */
-    .dept-results-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; }
-    .dept-result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; cursor: pointer; transition: all .2s; }
-    .dept-result-card:hover { border-color: var(--blue2); background: var(--blue-lt); }
-    .dept-result-card.selected { border-color: var(--blue2); background: var(--blue-lt); }
-    .drc-dept  { font-size: 1rem; font-weight: 800; margin-bottom: 4px; color: var(--text); }
-    .drc-count { font-size: 12px; color: var(--muted); }
+    /* ══ DEPT DOWNLOAD CARDS ══ */
+    .dept-results-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(130px,1fr)); gap: 10px; }
+    .dept-result-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
+      padding: 12px; text-align: center; cursor: pointer; transition: all .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .dept-result-card:hover, .dept-result-card.selected { border-color: var(--blue2); background: var(--blue-lt); }
+    .drc-dept  { font-size: .95rem; font-weight: 800; margin-bottom: 4px; color: var(--text); }
+    .drc-count { font-size: 11px; color: var(--muted); }
 
-    /* ── REPORT BUTTONS ── */
-    .report-btns { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 16px; background: #f0f6ff; border: 1px solid var(--border); border-radius: 12px; margin-top: 18px; }
+    /* ══ REPORT BUTTONS ══ */
+    .report-btns {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      padding: 14px; background: #f0f6ff; border: 1px solid var(--border);
+      border-radius: 12px; margin-top: 16px;
+    }
     .report-btns .label { font-size: 13px; font-weight: 600; color: var(--text); flex: 1 1 100%; }
 
-    /* ── ANALYSIS SUB TABS ── */
-    .analysis-subtabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0; }
-    .subtab { padding: 9px 20px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); font-family: 'Sora', sans-serif; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all .2s; }
+    /* ══ ANALYSIS SUB TABS ══ */
+    .analysis-subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0; overflow-x: auto; padding-bottom: 2px; }
+    .subtab {
+      padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 9px;
+      background: var(--surface); color: var(--muted);
+      font-family: 'Sora',sans-serif; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all .2s; white-space: nowrap; flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
     .subtab:hover { border-color: var(--blue2); color: var(--blue2); background: var(--blue-lt); }
     .subtab.active { background: linear-gradient(135deg,#1e40af,#2563eb); color: #fff; border-color: transparent; box-shadow: 0 3px 12px rgba(37,99,235,0.25); }
     .analysis-panel { display: none; }
     .analysis-panel.active { display: block; }
 
-    /* ── MULTIPLE SUBMISSIONS GROUP ── */
-    .multi-group { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(59,130,246,0.05); }
-    .multi-group-header { padding: 12px 18px; background: linear-gradient(135deg,#f0f6ff,#e8f0fe); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .multi-group-name { font-size: 14px; font-weight: 700; color: var(--text); }
-    .multi-group-meta { font-size: 11px; color: var(--muted); }
-    .multi-group-best { font-size: 12px; font-weight: 700; color: var(--success); margin-left: auto; }
+    /* ══ MULTIPLE SUBMISSIONS GROUP ══ */
+    .multi-group {
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      margin-bottom: 14px; box-shadow: 0 2px 10px rgba(59,130,246,0.05);
+    }
+    .multi-group-header {
+      padding: 12px 14px;
+      background: linear-gradient(135deg,#f0f6ff,#e8f0fe);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .multi-group-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+    .multi-group-meta { font-size: 10.5px; color: var(--muted); }
+    .multi-group-best { font-size: 11.5px; font-weight: 700; color: var(--success); margin-left: auto; }
 
-    /* ── SUMMARY DEPT CARD ── */
-    .summary-dept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 18px; box-shadow: 0 2px 12px rgba(59,130,246,0.06); }
-    .sdc-header { padding: 14px 20px; background: linear-gradient(135deg,#1d4ed8,#2563eb); color: #fff; display: flex; align-items: center; justify-content: space-between; }
-    .sdc-title { font-size: 15px; font-weight: 700; }
-    .sdc-total { font-size: 12px; opacity: .85; }
-    .sdc-body { padding: 16px 20px; }
-    .sdc-stats-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(130px,1fr)); gap: 12px; margin-bottom: 14px; }
-    .sdc-stat { text-align: center; padding: 12px; border-radius: 10px; }
-    .sdc-stat-num { font-size: 1.6rem; font-weight: 800; line-height: 1; }
-    .sdc-stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; color: var(--muted); }
+    /* ══ SUMMARY DEPT CARD ══ */
+    .summary-dept-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(59,130,246,0.06);
+    }
+    .sdc-header {
+      padding: 12px 16px; background: linear-gradient(135deg,#1d4ed8,#2563eb);
+      color: #fff; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;
+    }
+    .sdc-title { font-size: 14px; font-weight: 700; }
+    .sdc-total { font-size: 11px; opacity: .85; }
+    .sdc-body { padding: 14px 16px; }
+    .sdc-stats-row { display: grid; grid-template-columns: repeat(auto-fit,minmax(100px,1fr)); gap: 8px; margin-bottom: 12px; }
+    .sdc-stat { text-align: center; padding: 10px; border-radius: 9px; }
+    .sdc-stat-num { font-size: 1.4rem; font-weight: 800; line-height: 1; }
+    .sdc-stat-lbl { font-size: 9.5px; text-transform: uppercase; letter-spacing: .07em; margin-top: 3px; color: var(--muted); }
 
-    /* ── MODAL ── */
-    .modal { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; background: rgba(15,23,42,0.40); backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .2s; }
+    /* ══ REVIEW DEPT GRID ══ */
+    .dept-review-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px; flex-wrap: wrap;
+    }
+    .dept-review-item-name { font-size: 12.5px; font-weight: 600; color: var(--text); flex: 1; min-width: 120px; }
+    .dept-review-actions { display: flex; gap: 6px; margin-left: auto; }
+
+    /* ══ MODAL ══ */
+    .modal {
+      position: fixed; inset: 0; z-index: 500;
+      display: flex; align-items: flex-end; justify-content: center;
+      background: rgba(15,23,42,0.45); backdrop-filter: blur(6px);
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+      padding: 0;
+    }
     .modal.open { opacity: 1; pointer-events: all; }
-    .modal-panel { width: 92%; max-width: 520px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 24px 80px rgba(15,23,42,0.20); animation: mIn .25s ease both; }
-    @keyframes mIn { from{opacity:0;transform:scale(0.96) translateY(12px)} to{opacity:1;transform:none} }
-    .modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-    .modal-header h3 { font-size: 16px; font-weight: 700; color: var(--text); }
-    .modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+    .modal-panel {
+      width: 100%; max-width: 520px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -24px 80px rgba(15,23,42,0.20);
+      animation: mSlideUp .25s ease both;
+      max-height: 90vh; overflow-y: auto;
+    }
+    @keyframes mSlideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+    .modal-header {
+      padding: 18px 20px 14px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--surface); z-index: 1;
+    }
+    .modal-handle {
+      width: 40px; height: 4px; border-radius: 100px; background: var(--border2);
+      margin: 10px auto 0; display: block;
+    }
+    .modal-header h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 4px; }
     .modal-close:hover { color: var(--danger); }
-    .modal-body   { padding: 20px 24px; }
-    .modal-footer { padding: 14px 24px 20px; display: flex; justify-content: flex-end; gap: 10px; }
+    .modal-body   { padding: 18px 20px; }
+    .modal-footer { padding: 12px 20px 20px; display: flex; justify-content: flex-end; gap: 10px; }
 
-    /* NUMBER CONTROL */
+    /* ══ NUMBER CONTROL ══ */
     .number-control { display: flex; align-items: center; gap: 10px; }
-    .number-control input[type=number] { width: 80px; padding: 9px 12px; text-align: center; background: #f8faff; border: 1.5px solid var(--border); border-radius: 9px; color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; outline: none; }
+    .number-control input[type=number] {
+      width: 80px; padding: 9px 12px; text-align: center;
+      background: #f8faff; border: 1.5px solid var(--border); border-radius: 9px;
+      color: var(--text); font-family: 'JetBrains Mono',monospace; font-size: 16px; font-weight: 700; outline: none;
+    }
     .number-control input[type=number]:focus { border-color: var(--blue2); }
     .number-control button { font-size: 18px; width: 34px; height: 34px; border-radius: 8px; }
 
-    /* TOAST */
-    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; padding: 12px 20px; background: rgba(15,23,42,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-size: 13px; color: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.2); animation: toastIn .3s ease both; }
+    /* ══ TOAST ══ */
+    .toast {
+      position: fixed; bottom: 72px; right: 14px; left: 14px;
+      z-index: 9999; padding: 12px 18px;
+      background: rgba(15,23,42,0.95); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; font-size: 13px; color: #fff;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2); animation: toastIn .3s ease both;
+      text-align: center;
+    }
     @keyframes toastIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+
+    /* ══ MISC HELPERS ══ */
+    .section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--muted); margin-bottom: 10px;
+    }
+    .info-tip {
+      padding: 10px 12px; background: var(--warn-lt);
+      border: 1px solid rgba(217,119,6,0.18); border-radius: 10px;
+      font-size: 12px; color: var(--warn); margin-top: 10px;
+    }
 
     /* ══ PRINT STYLES ══ */
     @media print {
       body::before { display: none; }
-      .topbar, .nav-tabs, .analysis-subtabs, .btn, .btn-sm, select, input, .no-print { display: none !important; }
+      .topbar, .nav-tabs, .mob-nav, .analysis-subtabs, .btn, .btn-sm, select, input, .no-print { display: none !important; }
       .page { padding: 0 !important; max-width: 100% !important; }
       .tab-panel { display: block !important; }
       .analysis-panel { display: block !important; }
@@ -250,19 +506,80 @@
       .print-header { display: block !important; text-align: center; padding: 20px 0 12px; border-bottom: 2px solid #000; margin-bottom: 16px; }
       .print-header h1 { font-size: 16px; font-weight: 700; }
       .print-header p  { font-size: 11px; color: #444; margin-top: 4px; }
-      table { font-size: 11px; }
-      th, td { padding: 6px 10px; }
+      table { font-size: 10px; }
+      th, td { padding: 5px 8px; }
       .pill { border: 1px solid #ccc; background: transparent !important; color: #000 !important; }
       @page { size: A4 portrait; margin: 15mm 12mm; }
     }
     .print-header { display: none; }
 
-    @media(max-width:650px){
-      .form-grid{grid-template-columns:1fr}
-      .topbar{padding:0 14px}
-      .nav-tabs{padding:0 10px}
-      .page{padding:14px 12px 50px}
-      .metrics-row{grid-template-columns:1fr 1fr}
+    /* ══ RESPONSIVE BREAKPOINTS ══ */
+    @media (max-width: 768px) {
+      /* Hide desktop nav, show mobile bottom nav */
+      .nav-tabs { display: none; }
+      .mob-nav { display: flex; }
+
+      /* Page padding accounts for mobile bottom nav */
+      .page { padding: 14px 12px 76px; }
+
+      /* Topbar tweaks */
+      .topbar { padding: 0 12px; }
+      .admin-badge { display: none; }
+      .live-dot { padding: 3px 8px; font-size: 9.5px; }
+      .auto-refresh { display: none; }
+      #adminName { display: none; }
+
+      /* Metric grid: 2 columns on phones */
+      .metrics-row { grid-template-columns: 1fr 1fr; }
+      .metric-num { font-size: 1.3rem; }
+
+      /* Breakdown: single column */
+      .breakdown-row { grid-template-columns: 1fr; }
+
+      /* Form grid: single column */
+      .form-grid { grid-template-columns: 1fr; }
+
+      /* Stat grid: 1 column */
+      .stat-grid { grid-template-columns: 1fr; }
+      .sdc-stats-row { grid-template-columns: repeat(3, 1fr); }
+
+      /* Report buttons: full width */
+      .report-btns .btn { width: 100%; justify-content: center; }
+
+      /* Q opts: single column on very small */
+      .q-opts-grid { grid-template-columns: 1fr; }
+
+      /* Subtabs: scrollable row */
+      .analysis-subtabs { flex-wrap: nowrap; }
+
+      /* Multi-group best: break to new line */
+      .multi-group-best { width: 100%; }
+
+      /* Review grid: stack buttons */
+      .dept-review-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .dept-review-actions { width: 100%; }
+      .dept-review-actions .btn { flex: 1; justify-content: center; }
+
+      /* Topbar title: smaller */
+      .topbar-title { font-size: 12px; }
+      .topbar-sub { font-size: 9px; }
+
+      /* Global review bar: stack */
+      .global-review-bar { flex-direction: column; align-items: stretch !important; }
+      .global-review-bar .btn { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .metric-card { padding: 10px 11px; gap: 8px; }
+      .metric-num { font-size: 1.2rem; }
+      .metric-icon { font-size: 1.3rem; }
+      .dept-results-grid { grid-template-columns: repeat(2, 1fr); }
+      .sdc-stats-row { grid-template-columns: repeat(2, 1fr); }
+      .card-header { padding: 12px 14px; }
+      .card-body { padding: 12px 14px; }
+      .lb-bar-wrap { display: none; }
+      .report-btns { padding: 12px; }
     }
   </style>
 </head>
@@ -279,14 +596,14 @@
     <div class="admin-badge">Administrator</div>
     <div class="live-dot">LIVE</div>
   </div>
-  <div style="display:flex;gap:10px;align-items:center">
+  <div class="topbar-right">
     <div class="auto-refresh">Refresh in <span id="refreshCountdown">30</span>s</div>
-    <div style="font-size:12px;color:var(--muted)" id="adminName"></div>
+    <div style="font-size:11px;color:var(--muted)" id="adminName"></div>
     <a href="index.html" class="btn-logout" onclick="localStorage.removeItem('user')">Sign Out</a>
   </div>
 </div>
 
-<!-- ═══ NAV TABS ═══ -->
+<!-- ═══ DESKTOP NAV TABS ═══ -->
 <div class="nav-tabs">
   <div class="nav-tab active" data-tab="overview">📊 Overview</div>
   <div class="nav-tab" data-tab="scoreboard">🏆 Scoreboard</div>
@@ -298,6 +615,36 @@
   <div class="nav-tab" data-tab="add">➕ Add Question</div>
 </div>
 
+<!-- ═══ MOBILE BOTTOM NAV ═══ -->
+<nav class="mob-nav" aria-label="Mobile navigation">
+  <div class="mob-nav-inner">
+    <div class="mob-nav-item active" data-tab="overview">
+      <span class="mn-icon">📊</span>Overview
+    </div>
+    <div class="mob-nav-item" data-tab="scoreboard">
+      <span class="mn-icon">🏆</span>Board
+    </div>
+    <div class="mob-nav-item" data-tab="users">
+      <span class="mn-icon">👥</span>Users
+    </div>
+    <div class="mob-nav-item" data-tab="questions">
+      <span class="mn-icon">❓</span>Q's
+    </div>
+    <div class="mob-nav-item" data-tab="results">
+      <span class="mn-icon">📋</span>Results
+    </div>
+    <div class="mob-nav-item" data-tab="analysis">
+      <span class="mn-icon">🔍</span>Analysis
+    </div>
+    <div class="mob-nav-item" data-tab="reports">
+      <span class="mn-icon">📄</span>Reports
+    </div>
+    <div class="mob-nav-item" data-tab="add">
+      <span class="mn-icon">➕</span>Add Q
+    </div>
+  </div>
+</nav>
+
 <!-- ═══ PAGE ═══ -->
 <div class="page">
 
@@ -307,17 +654,21 @@
       <div class="metric-card"><div class="metric-icon">👥</div><div><div class="metric-num" id="mTotal">—</div><div class="metric-lbl">Registered</div></div></div>
       <div class="metric-card"><div class="metric-icon">✅</div><div><div class="metric-num" id="mAttended" style="color:var(--success)">—</div><div class="metric-lbl">Attended</div></div></div>
       <div class="metric-card"><div class="metric-icon">⏳</div><div><div class="metric-num" id="mPending" style="color:var(--warn)">—</div><div class="metric-lbl">Pending</div></div></div>
-      <div class="metric-card"><div class="metric-icon">⚠️</div><div><div class="metric-num" id="mTotalViolations" style="color:var(--danger)">—</div><div class="metric-lbl">Total Violations</div></div></div>
-      <div class="metric-card"><div class="metric-icon">🚨</div><div><div class="metric-num" id="mHighViolations" style="color:var(--danger)">—</div><div class="metric-lbl">High Viol. (&gt;5)</div></div></div>
+      <div class="metric-card"><div class="metric-icon">⚠️</div><div><div class="metric-num" id="mTotalViolations" style="color:var(--danger)">—</div><div class="metric-lbl">Violations</div></div></div>
+      <div class="metric-card"><div class="metric-icon">🚨</div><div><div class="metric-num" id="mHighViolations" style="color:var(--danger)">—</div><div class="metric-lbl">High Viol.</div></div></div>
       <div class="metric-card"><div class="metric-icon">❓</div><div><div class="metric-num" id="mQuestions" style="color:var(--blue2)">—</div><div class="metric-lbl">Questions</div></div></div>
       <div class="metric-card"><div class="metric-icon">📈</div><div><div class="metric-num" id="mAvgScore" style="color:var(--cyan)">—</div><div class="metric-lbl">Avg Score</div></div></div>
     </div>
     <div class="breakdown-row">
       <div class="breakdown-card"><div class="bc-title">📊 Submissions by Category</div><div id="submissionByCategory"><span style="color:var(--muted);font-size:12px">Loading…</span></div></div>
-      <div class="breakdown-card" style="flex:2"><div class="bc-title">🚨 Violation Breakdown (Top Students)</div><div id="violationBreakdown"><span style="color:var(--muted);font-size:12px">Loading…</span></div></div>
+      <div class="breakdown-card"><div class="bc-title">🚨 Violation Breakdown (Top)</div><div id="violationBreakdown"><span style="color:var(--muted);font-size:12px">Loading…</span></div></div>
     </div>
     <div class="card">
-      <div class="card-header"><div class="ch-icon" style="background:var(--blue-lt)">📊</div><div><div class="ch-title">Department Attendance</div><div class="ch-sub">Real-time participation per department</div></div><button class="btn btn-ghost" style="margin-left:auto" onclick="refreshAll()">↻ Refresh</button></div>
+      <div class="card-header">
+        <div class="ch-icon" style="background:var(--blue-lt)">📊</div>
+        <div><div class="ch-title">Department Attendance</div><div class="ch-sub">Real-time participation</div></div>
+        <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="refreshAll()">↻ Refresh</button>
+      </div>
       <div class="card-body"><div class="stat-grid" id="deptStats"><div style="color:var(--muted);font-size:13px">Loading…</div></div></div>
     </div>
     <div class="card">
@@ -331,45 +682,63 @@
     <div class="card">
       <div class="card-header">
         <div class="ch-icon" style="background:var(--gold-lt)">🏆</div>
-        <div><div class="ch-title">Live Scoreboard</div><div class="ch-sub">Ranked by score, then fastest time</div></div>
-        <div style="display:flex;gap:10px;align-items:center;margin-left:auto;flex-wrap:wrap">
-          <div class="field" style="margin:0"><select id="lbDeptFilter" onchange="renderLeaderboard()" style="padding:7px 12px;font-size:12px;border-radius:8px"><option value="">All Departments</option></select></div>
-          <button class="btn btn-ghost" onclick="fetchResults()">↻</button>
-        </div>
+        <div><div class="ch-title">Live Scoreboard</div><div class="ch-sub">Score ↓ · Time ↑</div></div>
       </div>
-      <div class="card-body"><div id="leaderboardContainer"><div style="color:var(--muted);text-align:center;padding:40px">Loading…</div></div></div>
+      <div class="card-body">
+        <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap">
+          <select id="lbDeptFilter" onchange="renderLeaderboard()" style="flex:1;min-width:160px;padding:9px 12px;background:#f8faff;border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none;-webkit-appearance:none">
+            <option value="">All Departments</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="fetchResults()">↻ Refresh</button>
+        </div>
+        <div id="leaderboardContainer"><div style="color:var(--muted);text-align:center;padding:40px">Loading…</div></div>
+      </div>
     </div>
   </div>
 
   <!-- ── USERS ── -->
   <div class="tab-panel" id="tab-users">
-    <div class="card" style="margin-bottom:16px">
-      <div class="card-header"><div class="ch-icon" style="background:var(--success-lt)">👁</div><div><div class="ch-title">Review Access Controls</div><div class="ch-sub">Enable / disable answer review — globally or per department</div></div></div>
-      <div class="card-body" style="padding:16px 22px">
-        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f0fdf4;border:1px solid rgba(5,150,105,0.18);border-radius:12px;margin-bottom:14px;flex-wrap:wrap">
-          <span style="font-size:13px;font-weight:700;color:var(--text);flex:1">🌐 All Students (Global)</span>
-          <button class="btn btn-success" onclick="bulkReview(null,true)">✅ Enable All Review</button>
-          <button class="btn btn-danger"  onclick="bulkReview(null,false)">⛔ Disable All Review</button>
+    <!-- Review Access Controls -->
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-header"><div class="ch-icon" style="background:var(--success-lt)">👁</div><div><div class="ch-title">Review Access Controls</div><div class="ch-sub">Enable / disable answer review</div></div></div>
+      <div class="card-body">
+        <div class="global-review-bar" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f0fdf4;border:1px solid rgba(5,150,105,0.18);border-radius:10px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:700;color:var(--text);flex:1">🌐 All Students</span>
+          <button class="btn btn-success btn-sm" onclick="bulkReview(null,true)">✅ Enable All</button>
+          <button class="btn btn-danger btn-sm" onclick="bulkReview(null,false)">⛔ Disable All</button>
         </div>
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px">Department-wise</div>
-        <div id="deptReviewGrid" style="display:flex;flex-direction:column;gap:8px"><div style="color:var(--muted);font-size:13px">Loading departments…</div></div>
+        <div class="section-title">Department-wise</div>
+        <div id="deptReviewGrid" style="display:flex;flex-direction:column;gap:8px"><div style="color:var(--muted);font-size:13px">Loading…</div></div>
       </div>
     </div>
+    <!-- User Table -->
     <div class="card">
-      <div class="card-header"><div class="ch-icon" style="background:var(--purple-lt)">👥</div><div><div class="ch-title">User Management</div><div class="ch-sub">Reset exams · set login limit · enable review</div></div><button class="btn btn-ghost" style="margin-left:auto" onclick="fetchUsers()">↻ Refresh</button></div>
+      <div class="card-header">
+        <div class="ch-icon" style="background:var(--purple-lt)">👥</div>
+        <div><div class="ch-title">User Management</div><div class="ch-sub">Reset · limit · review</div></div>
+        <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="fetchUsers()">↻</button>
+      </div>
       <div class="card-body">
         <div class="search-bar">
-          <input id="userSearch" placeholder="🔍 Search name, username, department…" oninput="filterUsers()">
-          <div class="field" style="margin:0"><select id="userDeptFilter" onchange="filterUsers()" style="padding:9px 12px;font-size:12px;border-radius:9px"><option value="">All Depts</option></select></div>
-          <div class="field" style="margin:0"><select id="userStatusFilter" onchange="filterUsers()" style="padding:9px 12px;font-size:12px;border-radius:9px"><option value="">All Status</option><option value="attended">Attended</option><option value="pending">Pending</option></select></div>
+          <input id="userSearch" placeholder="🔍 Search name, roll, dept…" oninput="filterUsers()" style="font-size:13px">
+        </div>
+        <div class="filter-row" style="margin-bottom:12px">
+          <select id="userDeptFilter" onchange="filterUsers()">
+            <option value="">All Depts</option>
+          </select>
+          <select id="userStatusFilter" onchange="filterUsers()">
+            <option value="">All Status</option>
+            <option value="attended">Attended</option>
+            <option value="pending">Pending</option>
+          </select>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Name</th><th>Username</th><th>Dept</th><th>Role</th><th>Logins / Limit</th><th>Status</th><th>Review</th><th>Actions</th></tr></thead>
-            <tbody id="usersTable"><tr><td colspan="9" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
+            <thead><tr><th>#</th><th>Name</th><th>Username</th><th>Dept</th><th>Role</th><th>Logins/Limit</th><th>Status</th><th>Review</th><th>Actions</th></tr></thead>
+            <tbody id="usersTable"><tr><td colspan="9" style="text-align:center;color:var(--muted);padding:28px">Loading…</td></tr></tbody>
           </table>
         </div>
-        <div style="margin-top:10px;font-size:12px;color:var(--muted)" id="usersCountLabel"></div>
+        <div style="margin-top:8px;font-size:11.5px;color:var(--muted)" id="usersCountLabel"></div>
       </div>
     </div>
   </div>
@@ -380,7 +749,9 @@
       <div class="card-header">
         <div class="ch-icon" style="background:var(--blue-lt)">❓</div>
         <div><div class="ch-title">All Questions</div><div class="ch-sub" id="qCountLabel">Loading…</div></div>
-        <div style="display:flex;gap:8px;margin-left:auto;flex-wrap:wrap"><div class="field" style="margin:0"><select id="qDeptFilter" onchange="filterQuestions()" style="padding:7px 12px;font-size:12px;border-radius:8px"><option value="">All Depts</option></select></div></div>
+        <select id="qDeptFilter" onchange="filterQuestions()" style="margin-left:auto;padding:7px 28px 7px 10px;background:#f8faff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none;-webkit-appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 8px center">
+          <option value="">All Depts</option>
+        </select>
       </div>
       <div class="card-body">
         <div class="q-viewer" id="qContainer"><div style="color:var(--muted);text-align:center;padding:20px">Loading…</div></div>
@@ -399,28 +770,26 @@
       <div class="card-header">
         <div class="ch-icon" style="background:var(--warn-lt)">📋</div>
         <div><div class="ch-title">All Submissions</div><div class="ch-sub" id="resultsCountLabel">—</div></div>
-        <div style="display:flex;gap:8px;margin-left:auto;flex-wrap:wrap">
-          <div class="field" style="margin:0"><select id="resultsDeptFilter" onchange="renderResultsTable()" style="padding:7px 12px;font-size:12px;border-radius:8px"><option value="">All Depts</option></select></div>
-          <button class="btn btn-ghost" onclick="fetchResults()">↻</button>
+        <div style="display:flex;gap:8px;margin-left:auto;align-items:center">
+          <select id="resultsDeptFilter" onchange="renderResultsTable()" style="padding:7px 28px 7px 10px;background:#f8faff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:12px;outline:none;-webkit-appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 8px center">
+            <option value="">All Depts</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="fetchResults()">↻</button>
         </div>
       </div>
       <div class="card-body">
         <div class="table-wrap">
           <table>
             <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted</th><th>Reason</th></tr></thead>
-            <tbody id="resultsTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
+            <tbody id="resultsTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">Loading…</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       ── ANALYSIS TAB ──
-       ══════════════════════════════════════════ -->
+  <!-- ── ANALYSIS ── -->
   <div class="tab-panel" id="tab-analysis">
-
-    <!-- Print Header (hidden on screen, shown when printing) -->
     <div class="print-header" id="printHeader">
       <h1>KAMARAJ COLLEGE OF ENGINEERING &amp; TECHNOLOGY</h1>
       <p>Department of Electronics &amp; Communication Engineering</p>
@@ -428,42 +797,40 @@
       <p id="printDate" style="margin-top:4px;font-size:10px;color:#555"></p>
     </div>
 
-    <!-- Sub-tab bar -->
     <div class="analysis-subtabs" id="analysisSubtabs">
       <button class="subtab active" data-subtab="successful" onclick="switchSubtab('successful')">✅ Successful</button>
       <button class="subtab" data-subtab="violated" onclick="switchSubtab('violated')">🚨 Violated</button>
-      <button class="subtab" data-subtab="multiple" onclick="switchSubtab('multiple')">🔁 Multiple Submissions</button>
-      <button class="subtab" data-subtab="summary" onclick="switchSubtab('summary')">📊 Dept Summary</button>
+      <button class="subtab" data-subtab="multiple" onclick="switchSubtab('multiple')">🔁 Multiple</button>
+      <button class="subtab" data-subtab="summary" onclick="switchSubtab('summary')">📊 Summary</button>
     </div>
 
-    <!-- Shared Controls -->
-    <div style="display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap" class="no-print">
-      <select id="analysisDeptFilter" onchange="renderAnalysis()" style="padding:9px 14px;background:#f8faff;border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none;min-width:180px">
+    <div style="display:flex;gap:8px;align-items:center;margin:12px 0;flex-wrap:wrap" class="no-print">
+      <select id="analysisDeptFilter" onchange="renderAnalysis()" style="flex:1;min-width:160px;padding:9px 12px;background:#f8faff;border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none;-webkit-appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 8px center">
         <option value="">All Departments</option>
       </select>
-      <button class="btn btn-ghost" onclick="refreshAll()">↻ Refresh</button>
-      <button class="btn btn-cyan" onclick="printAnalysisSummary()" style="margin-left:auto">🖨️ Print Summary</button>
+      <button class="btn btn-ghost btn-sm" onclick="refreshAll()">↻</button>
+      <button class="btn btn-cyan btn-sm" onclick="printAnalysisSummary()">🖨️ Print</button>
     </div>
 
-    <!-- ── SUCCESSFUL ── -->
+    <!-- Successful -->
     <div class="analysis-panel active" id="subtab-successful">
       <div class="card">
         <div class="card-header">
           <div class="ch-icon" style="background:var(--success-lt)">✅</div>
-          <div><div class="ch-title">Successfully Submitted Students</div><div class="ch-sub" id="successCountLabel">—</div></div>
+          <div><div class="ch-title">Successful Students</div><div class="ch-sub" id="successCountLabel">—</div></div>
         </div>
         <div class="card-body">
           <div class="table-wrap">
             <table>
               <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted At</th><th>Reason</th></tr></thead>
-              <tbody id="successTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
+              <tbody id="successTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">Loading…</td></tr></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── VIOLATED ── -->
+    <!-- Violated -->
     <div class="analysis-panel" id="subtab-violated">
       <div class="card">
         <div class="card-header">
@@ -474,14 +841,14 @@
           <div class="table-wrap">
             <table>
               <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>End Reason</th><th>Duration</th><th>Submitted At</th></tr></thead>
-              <tbody id="violatedTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
+              <tbody id="violatedTable"><tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">Loading…</td></tr></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ── MULTIPLE SUBMISSIONS ── -->
+    <!-- Multiple -->
     <div class="analysis-panel" id="subtab-multiple">
       <div class="card">
         <div class="card-header">
@@ -494,30 +861,34 @@
       </div>
     </div>
 
-    <!-- ── DEPT SUMMARY ── -->
+    <!-- Summary -->
     <div class="analysis-panel" id="subtab-summary">
       <div id="summaryContainer"><div style="color:var(--muted);text-align:center;padding:40px">Loading…</div></div>
     </div>
-
-  </div><!-- end tab-analysis -->
+  </div>
 
   <!-- ── REPORTS ── -->
   <div class="tab-panel" id="tab-reports">
     <div class="card">
-      <div class="card-header"><div class="ch-icon" style="background:var(--cyan-lt)">📄</div><div><div class="ch-title">Department-wise Report Generator</div><div class="ch-sub">Academic standard reports — Excel &amp; PDF</div></div></div>
+      <div class="card-header"><div class="ch-icon" style="background:var(--cyan-lt)">📄</div><div><div class="ch-title">Report Generator</div><div class="ch-sub">Excel &amp; PDF per department</div></div></div>
       <div class="card-body">
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Select a department to generate its official report.</p>
-        <div class="dept-results-grid" id="reportDeptGrid"><div style="color:var(--muted);font-size:13px">Loading departments…</div></div>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">Select a department to generate its report.</p>
+        <div class="dept-results-grid" id="reportDeptGrid"><div style="color:var(--muted);font-size:13px">Loading…</div></div>
         <div id="reportSection" style="display:none">
           <div class="report-btns">
-            <div class="label">Selected Department: <strong id="reportSelectedDept" style="color:var(--blue2)">—</strong></div>
-            <button class="btn btn-success" onclick="generateExcelReport()">📊 Download Excel Report</button>
-            <button class="btn btn-danger"  onclick="generatePdfReport()">📄 Download PDF Report</button>
-            <button class="btn btn-cyan"    onclick="generateExcelAll()">📊 Download ALL Depts Excel</button>
+            <div class="label">Dept: <strong id="reportSelectedDept" style="color:var(--blue2)">—</strong></div>
+            <button class="btn btn-success" onclick="generateExcelReport()">📊 Excel Report</button>
+            <button class="btn btn-danger"  onclick="generatePdfReport()">📄 PDF Report</button>
+            <button class="btn btn-cyan"    onclick="generateExcelAll()">📊 All Depts Excel</button>
           </div>
-          <div style="margin-top:18px">
-            <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Preview</div>
-            <div class="table-wrap"><table id="previewTable"><thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th></tr></thead><tbody id="previewTbody"></tbody></table></div>
+          <div style="margin-top:16px">
+            <div class="section-title">Preview</div>
+            <div class="table-wrap">
+              <table id="previewTable">
+                <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th></tr></thead>
+                <tbody id="previewTbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -529,7 +900,10 @@
     <div class="card">
       <div class="card-header"><div class="ch-icon" style="background:var(--success-lt)">➕</div><div><div class="ch-title">Add New Question</div><div class="ch-sub">LaTeX supported — $E=mc^2$ syntax</div></div></div>
       <div class="card-body">
-        <div class="field" style="margin-bottom:14px"><label>Question Text</label><textarea id="question" rows="3" placeholder="Type question. LaTeX: $\frac{a}{b}$" style="resize:vertical"></textarea></div>
+        <div class="field" style="margin-bottom:12px">
+          <label>Question Text</label>
+          <textarea id="question" rows="3" placeholder="Type question. LaTeX: $\frac{a}{b}$" style="resize:vertical"></textarea>
+        </div>
         <div class="form-grid">
           <div class="field"><label>Option A</label><input id="optA" placeholder="First option"/></div>
           <div class="field"><label>Option B</label><input id="optB" placeholder="Second option"/></div>
@@ -537,83 +911,110 @@
           <div class="field"><label>Option D</label><input id="optD" placeholder="Fourth option"/></div>
         </div>
         <div class="form-grid">
-          <div class="field"><label>Correct Answer (exact match)</label><input id="correct" placeholder="Exact text of correct option"/></div>
-          <div class="field"><label>Department (blank = Aptitude for all)</label><input id="dept" placeholder="IVPSemi, CSE, ECE…"/></div>
+          <div class="field"><label>Correct Answer</label><input id="correct" placeholder="Exact text of correct option"/></div>
+          <div class="field"><label>Department (blank = Aptitude)</label><input id="dept" placeholder="IVPSemi, CSE, ECE…"/></div>
         </div>
-        <div class="field" style="margin-bottom:20px"><label>Image URL (optional)</label><input id="img" placeholder="https://…"/></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="field" style="margin-bottom:16px"><label>Image URL (optional)</label><input id="img" placeholder="https://…"/></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn btn-primary" onclick="addQuestion()">➕ Add Question</button>
           <button class="btn btn-ghost" onclick="clearForm()">✕ Clear</button>
         </div>
-        <div id="addMsg" style="margin-top:12px;font-size:13px;min-height:20px"></div>
+        <div id="addMsg" style="margin-top:10px;font-size:13px;min-height:20px"></div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ═══ MODALS ═══ -->
+<!-- Reset Modal -->
 <div class="modal" id="resetModal">
   <div class="modal-panel">
-    <div class="modal-header"><h3>🔄 Reset User</h3><button class="modal-close" onclick="closeModal('resetModal')">✕</button></div>
+    <span class="modal-handle"></span>
+    <div class="modal-header">
+      <h3>🔄 Reset User</h3>
+      <button class="modal-close" onclick="closeModal('resetModal')">✕</button>
+    </div>
     <div class="modal-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Reset options for: <strong id="resetTargetName" style="color:var(--text)">—</strong></p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Reset options for: <strong id="resetTargetName" style="color:var(--text)">—</strong></p>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#f8faff">
-          <input type="checkbox" id="resetSubmit" checked style="accent-color:var(--blue2);width:16px;height:16px;margin-top:2px">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px;border-radius:10px;border:1px solid var(--border);background:#f8faff">
+          <input type="checkbox" id="resetSubmit" checked style="accent-color:var(--blue2);width:16px;height:16px;margin-top:2px;flex-shrink:0">
           <div><div style="font-size:13px;font-weight:600;color:var(--text)">Reset Login Counter to 0</div><div style="font-size:11px;color:var(--muted);margin-top:2px">User can login again up to their Limit</div></div>
         </label>
-        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#f8faff">
-          <input type="checkbox" id="resetReview" style="accent-color:var(--blue2);width:16px;height:16px;margin-top:2px">
+        <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;padding:12px;border-radius:10px;border:1px solid var(--border);background:#f8faff">
+          <input type="checkbox" id="resetReview" style="accent-color:var(--blue2);width:16px;height:16px;margin-top:2px;flex-shrink:0">
           <div><div style="font-size:13px;font-weight:600;color:var(--text)">Enable Answer Review</div><div style="font-size:11px;color:var(--muted);margin-top:2px">Student can view their answers after exam</div></div>
         </label>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('resetModal')">Cancel</button><button class="btn btn-warn" onclick="confirmReset()">Confirm Reset</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('resetModal')">Cancel</button>
+      <button class="btn btn-warn" onclick="confirmReset()">Confirm Reset</button>
+    </div>
   </div>
 </div>
 
+<!-- Login Limit Modal -->
 <div class="modal" id="loginLimitModal">
   <div class="modal-panel">
-    <div class="modal-header"><h3>🔢 Set Login Limit</h3><button class="modal-close" onclick="closeModal('loginLimitModal')">✕</button></div>
+    <span class="modal-handle"></span>
+    <div class="modal-header">
+      <h3>🔢 Set Login Limit</h3>
+      <button class="modal-close" onclick="closeModal('loginLimitModal')">✕</button>
+    </div>
     <div class="modal-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Max login attempts for: <strong id="limitTargetName" style="color:var(--text)">—</strong></p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px">Max login attempts for: <strong id="limitTargetName" style="color:var(--text)">—</strong></p>
       <div class="number-control">
         <button class="btn btn-ghost" onclick="adjustLimit(-1)">−</button>
         <input type="number" id="loginLimitInput" value="1" min="0" max="99">
         <button class="btn btn-ghost" onclick="adjustLimit(1)">+</button>
         <span style="font-size:12px;color:var(--muted)">attempts</span>
       </div>
-      <div style="margin-top:12px;padding:10px 14px;background:var(--warn-lt);border:1px solid rgba(217,119,6,0.18);border-radius:10px;font-size:12px;color:var(--warn)">
-        💡 <strong>1</strong> = single attempt · <strong>0</strong> = blocked · <strong>2+</strong> = multiple allowed. Also resets submission counter.
-      </div>
+      <div class="info-tip">💡 <strong>1</strong> = single attempt · <strong>0</strong> = blocked · <strong>2+</strong> = multiple allowed.</div>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('loginLimitModal')">Cancel</button><button class="btn btn-primary" onclick="confirmLoginLimit()">Save Limit</button></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('loginLimitModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmLoginLimit()">Save Limit</button>
+    </div>
   </div>
 </div>
 
+<!-- Delete Question Modal -->
 <div class="modal" id="deleteQModal">
   <div class="modal-panel">
-    <div class="modal-header"><h3>🗑 Delete Question</h3><button class="modal-close" onclick="closeModal('deleteQModal')">✕</button></div>
-    <div class="modal-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Permanently delete this question?</p>
-      <div style="padding:14px;background:var(--danger-lt);border:1px solid rgba(220,38,38,0.2);border-radius:10px;font-size:13px;line-height:1.5;color:var(--text)" id="deleteQText">—</div>
+    <span class="modal-handle"></span>
+    <div class="modal-header">
+      <h3>🗑 Delete Question</h3>
+      <button class="modal-close" onclick="closeModal('deleteQModal')">✕</button>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('deleteQModal')">Cancel</button><button class="btn btn-danger" onclick="confirmDeleteQuestion()">🗑 Delete</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Permanently delete this question?</p>
+      <div style="padding:12px;background:var(--danger-lt);border:1px solid rgba(220,38,38,0.2);border-radius:10px;font-size:13px;line-height:1.5;color:var(--text)" id="deleteQText">—</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('deleteQModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDeleteQuestion()">🗑 Delete</button>
+    </div>
   </div>
 </div>
 
 <!-- Delete Result Modal -->
 <div class="modal" id="deleteResultModal">
   <div class="modal-panel">
-    <div class="modal-header"><h3>🗑 Delete Result Entry</h3><button class="modal-close" onclick="closeModal('deleteResultModal')">✕</button></div>
-    <div class="modal-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Permanently delete this submission from the Results sheet?</p>
-      <div style="padding:14px;background:var(--danger-lt);border:1px solid rgba(220,38,38,0.2);border-radius:10px;font-size:13px;line-height:1.6;color:var(--text)" id="deleteResultText">—</div>
-      <div style="margin-top:12px;padding:10px 14px;background:var(--warn-lt);border:1px solid rgba(217,119,6,0.18);border-radius:10px;font-size:12px;color:var(--warn)">
-        ⚠ This action cannot be undone. The row will be removed from the Google Sheet.
-      </div>
+    <span class="modal-handle"></span>
+    <div class="modal-header">
+      <h3>🗑 Delete Result Entry</h3>
+      <button class="modal-close" onclick="closeModal('deleteResultModal')">✕</button>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('deleteResultModal')">Cancel</button><button class="btn btn-danger" onclick="confirmDeleteResult()">🗑 Delete Entry</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Permanently delete this submission?</p>
+      <div style="padding:12px;background:var(--danger-lt);border:1px solid rgba(220,38,38,0.2);border-radius:10px;font-size:13px;line-height:1.6;color:var(--text)" id="deleteResultText">—</div>
+      <div class="info-tip" style="background:var(--warn-lt);border-color:rgba(217,119,6,0.18);color:var(--warn)">⚠ This action cannot be undone. The row will be removed from the Google Sheet.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('deleteResultModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDeleteResult()">🗑 Delete Entry</button>
+    </div>
   </div>
 </div>
 
@@ -651,22 +1052,36 @@ function checkAccess(){
   refreshAll();
   countdownTimer=setInterval(()=>{
     countdownVal--;
-    document.getElementById('refreshCountdown').textContent=countdownVal;
+    const el=document.getElementById('refreshCountdown');
+    if(el) el.textContent=countdownVal;
     if(countdownVal<=0){refreshAll();countdownVal=30;}
   },1000);
 }
 
-/* ─── TABS ─── */
+/* ─── TABS (Desktop + Mobile) ─── */
+function switchTab(tabName) {
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.mob-nav-item').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+
+  const desktopTab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+  const mobileTab  = document.querySelector(`.mob-nav-item[data-tab="${tabName}"]`);
+  const panel      = document.getElementById('tab-'+tabName);
+
+  if(desktopTab) desktopTab.classList.add('active');
+  if(mobileTab)  mobileTab.classList.add('active');
+  if(panel)      panel.classList.add('active');
+
+  if(tabName==='scoreboard') renderLeaderboard();
+  if(tabName==='reports')    renderReportDeptGrid();
+  if(tabName==='analysis')   renderAnalysis();
+}
+
 document.querySelectorAll('.nav-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
-    if(tab.dataset.tab==='scoreboard') renderLeaderboard();
-    if(tab.dataset.tab==='reports') renderReportDeptGrid();
-    if(tab.dataset.tab==='analysis') renderAnalysis();
-  });
+  tab.addEventListener('click',()=>switchTab(tab.dataset.tab));
+});
+document.querySelectorAll('.mob-nav-item').forEach(item=>{
+  item.addEventListener('click',()=>switchTab(item.dataset.tab));
 });
 
 /* ─── ANALYSIS SUB-TABS ─── */
@@ -686,7 +1101,6 @@ function renderAnalysis(){
   else if(currentSubtab==='summary') renderSummary();
 }
 
-/* ─── Populate analysis dept filter ─── */
 function populateAnalysisFilter(){
   const depts=[...new Set(results.map(r=>r.dept).filter(Boolean))].sort();
   const sel=document.getElementById('analysisDeptFilter');
@@ -695,11 +1109,7 @@ function populateAnalysisFilter(){
   sel.value=cur;
 }
 
-/* ─────────────────────────────────────────
-   SUCCESSFUL STUDENTS
-   Criteria: violations <= 5 AND endReason != 'violations'
-   Sorted by: Score DESC, then Roll No
-───────────────────────────────────────── */
+/* ─── SUCCESSFUL ─── */
 function renderSuccessful(){
   const dept=document.getElementById('analysisDeptFilter').value;
   let rows=results.filter(r=>!isViolated(r));
@@ -708,72 +1118,61 @@ function renderSuccessful(){
     const pa=a.total>0?(a.score/a.total):0, pb=b.total>0?(b.score/b.total):0;
     return pb-pa || extractRollNo(a.username).localeCompare(extractRollNo(b.username),undefined,{numeric:true});
   });
-  document.getElementById('successCountLabel').textContent=`${rows.length} students — no violations / submitted normally`;
+  document.getElementById('successCountLabel').textContent=`${rows.length} students`;
   const tbody=document.getElementById('successTable');
-  if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">No successful submissions found.</td></tr>';return;}
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No successful submissions found.</td></tr>';return;}
   tbody.innerHTML=rows.map((r,i)=>{
     const pct=r.total>0?Math.round((r.score/r.total)*100):0;
     const viol=parseInt(r.violations)||0;
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${i+1}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
       <td style="font-weight:600">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
       <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
       <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
       <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
       <td style="color:${viol>0?'var(--warn)':'var(--muted)'};">${viol}</td>
-      <td style="font-size:12px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-      <td style="font-size:11px;color:var(--muted)">${fmtDate(r.date)}</td>
+      <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
+      <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
       <td><span class="pill pill-green">${r.endReason||'manual'}</span></td>
     </tr>`;
   }).join('');
 }
 
-/* ─────────────────────────────────────────
-   VIOLATED STUDENTS
-   Criteria: violations > 5 OR endReason === 'violations'
-   Sorted by violations DESC
-───────────────────────────────────────── */
+/* ─── VIOLATED ─── */
 function renderViolated(){
   const dept=document.getElementById('analysisDeptFilter').value;
   let rows=results.filter(r=>isViolated(r));
   if(dept) rows=rows.filter(r=>r.dept===dept);
   rows.sort((a,b)=>(parseInt(b.violations)||0)-(parseInt(a.violations)||0));
-  document.getElementById('violatedCountLabel').textContent=`${rows.length} students — violations > 5 or terminated for violations`;
+  document.getElementById('violatedCountLabel').textContent=`${rows.length} students`;
   const tbody=document.getElementById('violatedTable');
-  if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">No violated students found.</td></tr>';return;}
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No violated students found.</td></tr>';return;}
   tbody.innerHTML=rows.map((r,i)=>{
     const pct=r.total>0?Math.round((r.score/r.total)*100):0;
     const viol=parseInt(r.violations)||0;
     const violCol=viol>10?'var(--danger)':'var(--warn)';
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${i+1}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
       <td style="font-weight:600">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
       <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
       <td style="font-weight:700;color:var(--warn)">${r.score??'—'}/${r.total??'—'}</td>
       <td><span class="pill ${pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-      <td style="font-weight:800;font-size:14px;color:${violCol}">⚠ ${viol}</td>
+      <td style="font-weight:800;font-size:13px;color:${violCol}">⚠ ${viol}</td>
       <td><span class="pill pill-red">${r.endReason||'manual'}</span></td>
-      <td style="font-size:12px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-      <td style="font-size:11px;color:var(--muted)">${fmtDate(r.date)}</td>
+      <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
+      <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
     </tr>`;
   }).join('');
 }
 
-/* ─────────────────────────────────────────
-   MULTIPLE SUBMISSIONS
-   Group by username → only users with 2+ entries
-   Within each group: sorted max score → min score
-   Groups sorted by: best score DESC
-   Delete button on each row → backend deleteResult
-───────────────────────────────────────── */
+/* ─── MULTIPLE ─── */
 function renderMultiple(){
   const dept=document.getElementById('analysisDeptFilter').value;
   let filtered=results;
   if(dept) filtered=results.filter(r=>r.dept===dept);
 
-  // Group by username
   const groups={};
   filtered.forEach((r,globalIdx)=>{
     const key=String(r.username||'').toLowerCase().trim();
@@ -782,24 +1181,16 @@ function renderMultiple(){
     groups[key].entries.push({...r, _resultIndex: globalIdx});
   });
 
-  // Keep only those with 2+ entries
   const multiGroups=Object.values(groups).filter(g=>g.entries.length>=2);
-
-  // Sort each group's entries by score DESC
   multiGroups.forEach(g=>{
-    g.entries.sort((a,b)=>{
-      const pa=a.total>0?(a.score/a.total):0, pb=b.total>0?(b.score/b.total):0;
-      return pb-pa;
-    });
+    g.entries.sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;});
     g.bestPct=g.entries[0].total>0?Math.round((g.entries[0].score/g.entries[0].total)*100):0;
   });
-
-  // Sort groups by best score DESC
   multiGroups.sort((a,b)=>b.bestPct-a.bestPct);
 
   document.getElementById('multipleCountLabel').textContent=`${multiGroups.length} students submitted more than once`;
   const container=document.getElementById('multipleContainer');
-  if(!multiGroups.length){container.innerHTML='<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px">No students with multiple submissions found.</div>';return;}
+  if(!multiGroups.length){container.innerHTML='<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px">No multiple submissions found.</div>';return;}
 
   container.innerHTML=multiGroups.map(g=>{
     const initials=(g.name||g.username||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
@@ -808,44 +1199,31 @@ function renderMultiple(){
       const pct=r.total>0?Math.round((r.score/r.total)*100):0;
       const viol=parseInt(r.violations)||0;
       const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--muted)';
-      // We need the rowIndex in the sheet — stored as r.rowIndex if available, else need index+2
-      // results array index → sheet row = index+2 (1 header + 1-based)
-      const sheetRowIndex = r._resultIndex + 2;
+      const sheetRowIndex=r._resultIndex+2;
       return `<tr>
-        <td style="text-align:center">
-          ${ei===0?'<span class="pill pill-green" style="font-size:10px">★ Best</span>':'<span style="font-size:11px;color:var(--muted)">#'+(ei+1)+'</span>'}
-        </td>
-        <td><span class="pill pill-purple" style="font-size:11px">${r.dept||'—'}</span></td>
+        <td style="text-align:center">${ei===0?'<span class="pill pill-green" style="font-size:9.5px">★ Best</span>':'<span style="font-size:11px;color:var(--muted)">#'+(ei+1)+'</span>'}</td>
+        <td><span class="pill pill-purple" style="font-size:10px">${r.dept||'—'}</span></td>
         <td style="font-weight:700;color:${ei===0?'var(--success)':'var(--text2)'}">${r.score??'—'}/${r.total??'—'}</td>
         <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
         <td style="color:${violCol}">${viol>0?'⚠ ':''} ${viol}</td>
-        <td style="font-size:12px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-        <td style="font-size:11px;color:var(--muted)">${fmtDate(r.date)}</td>
+        <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
+        <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
         <td><span class="pill ${r.endReason==='violations'?'pill-red':r.endReason==='timeout'?'pill-warn':'pill-green'}">${r.endReason||'manual'}</span></td>
-        <td>
-          <button class="btn btn-sm btn-danger no-print" onclick="openDeleteResultModal(${sheetRowIndex},'${(g.name||roll).replace(/'/g,"\\'")} — ${r.dept||''} — Score ${r.score}/${r.total} — ${fmtDate(r.date)}')">🗑 Delete</button>
-        </td>
+        <td><button class="btn btn-sm btn-danger no-print" onclick="openDeleteResultModal(${sheetRowIndex},'${(g.name||roll).replace(/'/g,"\\'")} — ${r.dept||''} — Score ${r.score}/${r.total} — ${fmtDate(r.date)}')">🗑</button></td>
       </tr>`;
     }).join('');
-
     return `<div class="multi-group">
       <div class="multi-group-header">
-        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0">${initials}</div>
+        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${initials}</div>
         <div>
           <div class="multi-group-name">${g.name||'—'}</div>
-          <div class="multi-group-meta">
-            Roll No: <strong style="color:var(--blue2);font-family:'JetBrains Mono',monospace">${roll}</strong>
-            &nbsp;·&nbsp;
-            🎓 Exam: <strong style="color:var(--purple)">${g.dept||'—'}</strong>
-            &nbsp;·&nbsp;
-            ${g.entries.length} submissions
-          </div>
+          <div class="multi-group-meta">Roll: <strong style="color:var(--blue2);font-family:'JetBrains Mono',monospace">${roll}</strong> · 🎓 ${g.dept||'—'} · ${g.entries.length} submissions</div>
         </div>
         <div class="multi-group-best">Best: ${g.entries[0].score}/${g.entries[0].total} (${g.bestPct}%)</div>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Rank</th><th>Exam / Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted At</th><th>End Reason</th><th class="no-print">Action</th></tr></thead>
+          <thead><tr><th>Rank</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted</th><th>End</th><th class="no-print">Del</th></tr></thead>
           <tbody>${rowsHTML}</tbody>
         </table>
       </div>
@@ -853,89 +1231,51 @@ function renderMultiple(){
   }).join('');
 }
 
-/* ─────────────────────────────────────────
-   DEPT SUMMARY
-───────────────────────────────────────── */
+/* ─── SUMMARY ─── */
 function renderSummary(){
   const dept=document.getElementById('analysisDeptFilter').value;
   let filtered=results;
   if(dept) filtered=results.filter(r=>r.dept===dept);
-
   const depts=[...new Set(filtered.map(r=>r.dept).filter(Boolean))].sort();
   if(!depts.length){document.getElementById('summaryContainer').innerHTML='<div style="color:var(--muted);text-align:center;padding:40px">No data available.</div>';return;}
-
   document.getElementById('summaryContainer').innerHTML=depts.map(d=>{
     const dRows=filtered.filter(r=>r.dept===d);
     const total=dRows.length;
     const successful=dRows.filter(r=>!isViolated(r)).length;
     const violated=dRows.filter(r=>isViolated(r)).length;
-    // Multiple: count usernames with >1 entry
-    const uCounts={};
-    dRows.forEach(r=>{const k=(r.username||'').toLowerCase();uCounts[k]=(uCounts[k]||0)+1;});
+    const uCounts={};dRows.forEach(r=>{const k=(r.username||'').toLowerCase();uCounts[k]=(uCounts[k]||0)+1;});
     const multipleStudents=Object.values(uCounts).filter(c=>c>1).length;
     const avgPct=total?Math.round(dRows.reduce((s,r)=>s+(r.total>0?Math.round((r.score/r.total)*100):0),0)/total):0;
     const totalViol=dRows.reduce((s,r)=>s+(parseInt(r.violations)||0),0);
     const maxScore=dRows.length?Math.max(...dRows.map(r=>r.total>0?Math.round((r.score/r.total)*100):0)):0;
     const minScore=dRows.length?Math.min(...dRows.map(r=>r.total>0?Math.round((r.score/r.total)*100):0)):0;
-
     return `<div class="summary-dept-card">
-      <div class="sdc-header">
-        <div class="sdc-title">🏫 ${d}</div>
-        <div class="sdc-total">${total} total submission${total!==1?'s':''}</div>
-      </div>
+      <div class="sdc-header"><div class="sdc-title">🏫 ${d}</div><div class="sdc-total">${total} submission${total!==1?'s':''}</div></div>
       <div class="sdc-body">
         <div class="sdc-stats-row">
-          <div class="sdc-stat" style="background:var(--success-lt)">
-            <div class="sdc-stat-num" style="color:var(--success)">${successful}</div>
-            <div class="sdc-stat-lbl">Successful</div>
-          </div>
-          <div class="sdc-stat" style="background:var(--danger-lt)">
-            <div class="sdc-stat-num" style="color:var(--danger)">${violated}</div>
-            <div class="sdc-stat-lbl">Violated</div>
-          </div>
-          <div class="sdc-stat" style="background:var(--purple-lt)">
-            <div class="sdc-stat-num" style="color:var(--purple)">${multipleStudents}</div>
-            <div class="sdc-stat-lbl">Multi-Submit</div>
-          </div>
-          <div class="sdc-stat" style="background:var(--blue-lt)">
-            <div class="sdc-stat-num" style="color:var(--blue2)">${avgPct}%</div>
-            <div class="sdc-stat-lbl">Avg Score</div>
-          </div>
-          <div class="sdc-stat" style="background:var(--warn-lt)">
-            <div class="sdc-stat-num" style="color:var(--warn)">${totalViol}</div>
-            <div class="sdc-stat-lbl">Total Viols</div>
-          </div>
-          <div class="sdc-stat" style="background:#f0fdf4">
-            <div class="sdc-stat-num" style="color:#15803d">${maxScore}%</div>
-            <div class="sdc-stat-lbl">Highest</div>
-          </div>
-          <div class="sdc-stat" style="background:#fff1f2">
-            <div class="sdc-stat-num" style="color:#9f1239">${minScore}%</div>
-            <div class="sdc-stat-lbl">Lowest</div>
-          </div>
+          <div class="sdc-stat" style="background:var(--success-lt)"><div class="sdc-stat-num" style="color:var(--success)">${successful}</div><div class="sdc-stat-lbl">Successful</div></div>
+          <div class="sdc-stat" style="background:var(--danger-lt)"><div class="sdc-stat-num" style="color:var(--danger)">${violated}</div><div class="sdc-stat-lbl">Violated</div></div>
+          <div class="sdc-stat" style="background:var(--purple-lt)"><div class="sdc-stat-num" style="color:var(--purple)">${multipleStudents}</div><div class="sdc-stat-lbl">Multi</div></div>
+          <div class="sdc-stat" style="background:var(--blue-lt)"><div class="sdc-stat-num" style="color:var(--blue2)">${avgPct}%</div><div class="sdc-stat-lbl">Avg</div></div>
+          <div class="sdc-stat" style="background:var(--warn-lt)"><div class="sdc-stat-num" style="color:var(--warn)">${totalViol}</div><div class="sdc-stat-lbl">Viols</div></div>
+          <div class="sdc-stat" style="background:#f0fdf4"><div class="sdc-stat-num" style="color:#15803d">${maxScore}%</div><div class="sdc-stat-lbl">Highest</div></div>
+          <div class="sdc-stat" style="background:#fff1f2"><div class="sdc-stat-num" style="color:#9f1239">${minScore}%</div><div class="sdc-stat-lbl">Lowest</div></div>
         </div>
-        <!-- Top 5 this dept by score -->
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px">Top performers</div>
+        <div class="section-title">Top Performers</div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Score</th><th>%</th><th>Violations</th></tr></thead>
-            <tbody>
-              ${[...dRows]
-                .sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;})
-                .slice(0,5)
-                .map((r,i)=>{
-                  const pct=r.total>0?Math.round((r.score/r.total)*100):0;
-                  const viol=parseInt(r.violations)||0;
-                  return `<tr>
-                    <td style="text-align:center;font-weight:700;color:var(--muted)">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
-                    <td style="font-weight:600">${r.name||'—'}</td>
-                    <td style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
-                    <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
-                    <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-                    <td style="color:${viol>5?'var(--danger)':viol>0?'var(--warn)':'var(--muted)'}">${viol}</td>
-                  </tr>`;
-                }).join('')}
-            </tbody>
+            <tbody>${[...dRows].sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;}).slice(0,5).map((r,i)=>{
+              const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;
+              return `<tr>
+                <td style="text-align:center;font-weight:700;color:var(--muted)">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+                <td style="font-weight:600">${r.name||'—'}</td>
+                <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
+                <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
+                <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
+                <td style="color:${viol>5?'var(--danger)':viol>0?'var(--warn)':'var(--muted)'}">${viol}</td>
+              </tr>`;
+            }).join('')}</tbody>
           </table>
         </div>
       </div>
@@ -943,45 +1283,33 @@ function renderSummary(){
   }).join('');
 }
 
-/* ─── PRINT SUMMARY ─── */
+/* ─── PRINT ─── */
 function printAnalysisSummary(){
-  // Switch to summary subtab first
   switchSubtab('summary');
   const dept=document.getElementById('analysisDeptFilter').value;
-  document.getElementById('printSubTitle').textContent=
-    'Industry Specific Mock Test — Analysis Report'+(dept?' ('+dept+')':'');
-  document.getElementById('printDate').textContent=
-    'Generated: '+new Date().toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'});
-  setTimeout(()=>window.print(), 300);
+  document.getElementById('printSubTitle').textContent='Industry Specific Mock Test — Analysis Report'+(dept?' ('+dept+')':'');
+  document.getElementById('printDate').textContent='Generated: '+new Date().toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'});
+  setTimeout(()=>window.print(),300);
 }
 
-/* ─────────────────────────────────────────
-   DELETE RESULT (Multiple Submissions)
-───────────────────────────────────────── */
-function openDeleteResultModal(sheetRowIndex, description){
+/* ─── DELETE RESULT ─── */
+function openDeleteResultModal(sheetRowIndex,description){
   deleteResultTargetRowIndex=sheetRowIndex;
   document.getElementById('deleteResultText').textContent=description;
   openModal('deleteResultModal');
 }
 async function confirmDeleteResult(){
   closeModal('deleteResultModal');
-  if(!deleteResultTargetRowIndex){showToast('⚠ No row selected','#dc2626');return;}
+  if(!deleteResultTargetRowIndex){showToast('⚠ No row selected');return;}
   try{
     const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'deleteResult',rowIndex:deleteResultTargetRowIndex})});
     const data=await res.json();
-    if(data.status==='success'){
-      showToast('🗑 Result deleted successfully','#059669');
-      await fetchResults();
-      renderMultiple();
-    } else {
-      showToast('⚠ '+( data.message||'Delete failed'),'#dc2626');
-    }
-  }catch(e){
-    showToast('⚠ Network error','#dc2626');
-  }
+    if(data.status==='success'){showToast('🗑 Result deleted');await fetchResults();renderMultiple();}
+    else showToast('⚠ '+(data.message||'Delete failed'));
+  }catch(e){showToast('⚠ Network error');}
 }
 
-/* ══════ TOAST ══════ */
+/* ─── TOAST ─── */
 function showToast(msg,color){
   const t=document.createElement('div');t.className='toast';t.textContent=msg;
   if(color)t.style.borderColor=color;
@@ -990,18 +1318,23 @@ function showToast(msg,color){
   setTimeout(()=>t.remove(),2900);
 }
 
-/* ══════ MODALS ══════ */
+/* ─── MODALS ─── */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-/* ══════ REFRESH ALL ══════ */
+// Close modal on backdrop click
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+});
+
+/* ─── REFRESH ─── */
 async function refreshAll(){
   await Promise.all([fetchQuestions(),fetchResults(),fetchDeptStats(),fetchUsers()]);
   renderLeaderboard();
   populateAnalysisFilter();
 }
 
-/* ══════ USERS ══════ */
+/* ─── USERS ─── */
 async function fetchUsers(){
   try{
     const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'getAllUsers'})});
@@ -1033,7 +1366,7 @@ function filterUsers(){
 }
 function renderUsersTable(list){
   const tbody=document.getElementById('usersTable');
-  if(!list.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:30px">No users found.</td></tr>';return;}
+  if(!list.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:28px">No users found.</td></tr>';return;}
   tbody.innerHTML=list.map((u,i)=>{
     const isAdmin=u.role==='Admin';
     const cnt=parseInt(u.submitted)||0;
@@ -1045,23 +1378,23 @@ function renderUsersTable(list){
     const limVal=hasLimit?(parseInt(u.limit)||1):1;
     let cntColor='var(--success)';
     if(!isAdmin){if(blocked)cntColor='var(--danger)';else if(cnt>0)cntColor='var(--warn)';}
-    const counterHTML=isAdmin?'<span style="color:var(--muted)">∞</span>':`<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${cntColor}">${cnt}</span><span style="color:var(--muted);font-size:11px"> / ${lim}</span>`;
+    const counterHTML=isAdmin?'<span style="color:var(--muted)">∞</span>':`<span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${cntColor}">${cnt}</span><span style="color:var(--muted);font-size:10px"> / ${lim}</span>`;
     let statusPill;
     if(isAdmin)statusPill='<span class="pill pill-purple">Admin</span>';
     else if(blocked)statusPill='<span class="pill pill-red">🔒 Blocked</span>';
-    else if(cnt>0)statusPill=`<span class="pill pill-warn">✓ Used ${cnt}/${lim}</span>`;
-    else statusPill='<span class="pill pill-muted">⏳ Not started</span>';
+    else if(cnt>0)statusPill=`<span class="pill pill-warn">✓ Used</span>`;
+    else statusPill='<span class="pill pill-muted">⏳ Pending</span>';
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${i+1}</td>
-      <td style="font-weight:600;color:var(--text)">${u.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${u.username||'—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
+      <td style="font-weight:600;color:var(--text);font-size:12px">${u.name||'—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${u.username||'—'}</td>
       <td><span class="pill pill-blue">${u.dept||'—'}</span></td>
       <td><span class="pill ${isAdmin?'pill-purple':'pill-muted'}">${u.role||'User'}</span></td>
       <td style="text-align:center">${counterHTML}</td>
       <td>${statusPill}</td>
-      <td><button class="btn btn-sm ${reviewOn?'btn-success':'btn-ghost'}" onclick="quickToggleReview('${u.username}',${!reviewOn})">${reviewOn?'✓ On':'Off'}</button></td>
-      <td><div style="display:flex;gap:6px;flex-wrap:wrap">
-        ${!isAdmin?`<button class="btn btn-sm btn-warn" onclick="openResetModal('${u.username}','${nameEsc}')">↺ Reset</button><button class="btn btn-sm btn-purple" onclick="openLoginLimitModal('${u.username}','${nameEsc}','${limVal}')">🔢 Limit</button>`:'<span style="color:var(--muted);font-size:12px">—</span>'}
+      <td><button class="btn btn-sm ${reviewOn?'btn-success':'btn-ghost'}" onclick="quickToggleReview('${u.username}',${!reviewOn})">${reviewOn?'✓':'Off'}</button></td>
+      <td><div style="display:flex;gap:5px;flex-wrap:wrap">
+        ${!isAdmin?`<button class="btn btn-sm btn-warn" onclick="openResetModal('${u.username}','${nameEsc}')">↺</button><button class="btn btn-sm btn-purple" onclick="openLoginLimitModal('${u.username}','${nameEsc}','${limVal}')">🔢</button>`:'<span style="color:var(--muted);font-size:11px">—</span>'}
       </div></td>
     </tr>`;
   }).join('');
@@ -1071,32 +1404,32 @@ async function confirmReset(){
   closeModal('resetModal');const calls=[];
   if(document.getElementById('resetSubmit').checked)calls.push(fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'resetUser',username:resetTargetUsername})}));
   if(document.getElementById('resetReview').checked)calls.push(fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'toggleReview',username:resetTargetUsername,enable:true})}));
-  await Promise.all(calls);showToast('✅ User reset successfully','#059669');fetchUsers();
+  await Promise.all(calls);showToast('✅ User reset successfully');fetchUsers();
 }
 function openLoginLimitModal(username,name,currentLimit){limitTargetUsername=username;document.getElementById('limitTargetName').textContent=name;document.getElementById('loginLimitInput').value=currentLimit||'1';openModal('loginLimitModal');}
 function adjustLimit(delta){const inp=document.getElementById('loginLimitInput');inp.value=Math.max(0,Math.min(99,(parseInt(inp.value)||0)+delta));}
 async function confirmLoginLimit(){
   const limit=parseInt(document.getElementById('loginLimitInput').value)||1;closeModal('loginLimitModal');
   await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'setLoginLimit',username:limitTargetUsername,limit})});
-  showToast(`✅ Login limit set to ${limit}`,'#2563eb');fetchUsers();
+  showToast(`✅ Login limit set to ${limit}`);fetchUsers();
 }
 async function quickToggleReview(username,enable){
   await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'toggleReview',username,enable})});
-  showToast(enable?'✅ Review enabled':'⛔ Review disabled',enable?'#059669':'#dc2626');fetchUsers();
+  showToast(enable?'✅ Review enabled':'⛔ Review disabled');fetchUsers();
 }
 async function bulkReview(dept,enable){
   const targets=users.filter(u=>u.role!=='Admin'&&(!dept||u.dept===dept));
-  if(!targets.length){showToast('⚠ No users found','#d97706');return;}
+  if(!targets.length){showToast('⚠ No users found');return;}
   const label=dept?dept:'all students';
   const confirmed=confirm(`${enable?'Enable':'Disable'} review for ${targets.length} user(s) in ${label}?`);
   if(!confirmed)return;
-  showToast(`⏳ Processing ${targets.length} users…`,'#2563eb');
+  showToast(`⏳ Processing ${targets.length} users…`);
   const batchSize=10;
   for(let i=0;i<targets.length;i+=batchSize){
     const batch=targets.slice(i,i+batchSize);
     await Promise.all(batch.map(u=>fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'toggleReview',username:u.username,enable})})));
   }
-  showToast(`${enable?'✅':'⛔'} Review ${enable?'enabled':'disabled'} for ${targets.length} user(s)`,enable?'#059669':'#dc2626');
+  showToast(`${enable?'✅':'⛔'} Review ${enable?'enabled':'disabled'} for ${targets.length} user(s)`);
   await fetchUsers();renderDeptReviewGrid();
 }
 function renderDeptReviewGrid(){
@@ -1108,19 +1441,19 @@ function renderDeptReviewGrid(){
     const onCount=deptUsers.filter(u=>u.review==='Yes').length;
     const total=deptUsers.length;
     const allOn=onCount===total&&total>0,allOff=onCount===0,partial=!allOn&&!allOff;
-    const statusBadge=allOn?`<span class="pill pill-green">✅ All ON (${onCount}/${total})</span>`:allOff?`<span class="pill pill-red">⛔ All OFF (0/${total})</span>`:`<span class="pill pill-warn">⚡ Partial (${onCount}/${total})</span>`;
+    const statusBadge=allOn?`<span class="pill pill-green">✅ All ON (${onCount}/${total})</span>`:allOff?`<span class="pill pill-red">⛔ All OFF (0/${total})</span>`:`<span class="pill pill-warn">⚡ ${onCount}/${total} ON</span>`;
     const deptEsc=dept.replace(/'/g,"\\'");
-    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap">
-      <span style="font-size:13px;font-weight:600;color:var(--text);min-width:160px">🏫 ${dept}</span>${statusBadge}
-      <div style="display:flex;gap:8px;margin-left:auto">
-        <button class="btn btn-sm btn-success" onclick="bulkReview('${deptEsc}',true)">✅ Enable All</button>
-        <button class="btn btn-sm btn-danger" onclick="bulkReview('${deptEsc}',false)">⛔ Disable All</button>
+    return `<div class="dept-review-item">
+      <span class="dept-review-item-name">🏫 ${dept} &nbsp; ${statusBadge}</span>
+      <div class="dept-review-actions">
+        <button class="btn btn-sm btn-success" onclick="bulkReview('${deptEsc}',true)">✅ Enable</button>
+        <button class="btn btn-sm btn-danger" onclick="bulkReview('${deptEsc}',false)">⛔ Disable</button>
       </div>
     </div>`;
   }).join('');
 }
 
-/* ══════ QUESTIONS ══════ */
+/* ─── QUESTIONS ─── */
 async function fetchQuestions(){
   const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'getAllQuestions'})});
   const data=await res.json();questions=data.questions||[];filteredQuestions=[...questions];currentIndex=0;
@@ -1138,15 +1471,15 @@ function showQuestion(){
   const qc=document.getElementById('qContainer');
   if(!filteredQuestions.length){qc.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px">No questions.</div>';document.getElementById('qNavLabel').textContent='—';return;}
   const q=filteredQuestions[currentIndex];
-  qc.innerHTML=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);padding:3px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px">Q${currentIndex+1} of ${filteredQuestions.length}</span>
+  qc.innerHTML=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);padding:2px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:6px">Q${currentIndex+1}/${filteredQuestions.length}</span>
     <span class="pill ${q.dept?'pill-blue':'pill-muted'}">${q.dept||'Aptitude'}</span>
     <div style="margin-left:auto"><button class="btn btn-sm btn-danger" onclick="openDeleteQModal(${q.rowIndex},'${(q.q||'').slice(0,60).replace(/'/g,"\\'")}')">🗑 Delete</button></div>
   </div>
-  <div style="font-size:15px;font-weight:600;margin-bottom:16px;line-height:1.6;color:var(--text)">${q.q}</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-    ${['A','B','C','D'].map((l,i)=>`<div style="padding:9px 14px;border-radius:9px;background:${q.options[i]===q.answer?'var(--success-lt)':'#f8fbff'};border:1px solid ${q.options[i]===q.answer?'rgba(5,150,105,0.3)':'var(--border)'};font-size:13px;color:${q.options[i]===q.answer?'var(--success)':'var(--text2)'}"><strong>${l})</strong> ${q.options[i]}${q.options[i]===q.answer?' <span style="float:right">✓</span>':''}</div>`).join('')}
-  </div>${q.img?`<img src="${q.img}" style="max-width:220px;border-radius:10px;border:1px solid var(--border)">` :''}`;
+  <div style="font-size:14.5px;font-weight:600;margin-bottom:14px;line-height:1.65;color:var(--text)">${q.q}</div>
+  <div class="q-opts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+    ${['A','B','C','D'].map((l,i)=>`<div style="padding:9px 12px;border-radius:9px;background:${q.options[i]===q.answer?'var(--success-lt)':'#f8fbff'};border:1px solid ${q.options[i]===q.answer?'rgba(5,150,105,0.3)':'var(--border)'};font-size:12.5px;color:${q.options[i]===q.answer?'var(--success)':'var(--text2)'}"><strong>${l})</strong> ${q.options[i]}${q.options[i]===q.answer?' ✓':''}</div>`).join('')}
+  </div>${q.img?`<img src="${q.img}" style="max-width:100%;border-radius:10px;border:1px solid var(--border)">` :''}`;
   document.getElementById('qNavLabel').textContent=`${currentIndex+1} / ${filteredQuestions.length}`;
   if(typeof MathJax!=='undefined')MathJax.typesetPromise?.();
 }
@@ -1156,7 +1489,7 @@ function openDeleteQModal(rowIndex,qText){deleteTargetRowIndex=rowIndex;document
 async function confirmDeleteQuestion(){
   closeModal('deleteQModal');
   await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'deleteQuestion',rowIndex:deleteTargetRowIndex})});
-  showToast('🗑 Question deleted','#dc2626');await fetchQuestions();
+  showToast('🗑 Question deleted');await fetchQuestions();
 }
 async function addQuestion(){
   const data={action:'addQuestion',question:document.getElementById('question').value.trim(),optA:document.getElementById('optA').value.trim(),optB:document.getElementById('optB').value.trim(),optC:document.getElementById('optC').value.trim(),optD:document.getElementById('optD').value.trim(),correct:document.getElementById('correct').value.trim(),dept:document.getElementById('dept').value.trim(),img:document.getElementById('img').value.trim()};
@@ -1164,7 +1497,7 @@ async function addQuestion(){
   document.getElementById('addMsg').innerHTML='<span style="color:var(--muted)">Adding…</span>';
   await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)});
   document.getElementById('addMsg').innerHTML='<span style="color:var(--success)">✅ Added successfully!</span>';
-  clearForm();fetchQuestions();showToast('✅ Question added!','#059669');
+  clearForm();fetchQuestions();showToast('✅ Question added!');
 }
 function clearForm(){['question','optA','optB','optC','optD','correct','dept','img'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';})}
 function renderDeptSummary(){
@@ -1173,7 +1506,7 @@ function renderDeptSummary(){
   document.getElementById('deptSummary').innerHTML=Object.keys(counts).map(d=>`<div class="stat-card"><div class="stat-dept">${d}</div><div class="stat-row"><span>Questions</span><strong>${counts[d]}</strong></div></div>`).join('');
 }
 
-/* ══════ RESULTS ══════ */
+/* ─── RESULTS ─── */
 async function fetchResults(){
   const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'getResults'})});
   const data=await res.json();results=data.results||[];
@@ -1211,14 +1544,14 @@ function renderViolationBreakdown(){
   if(!results.length){document.getElementById('violationBreakdown').innerHTML='<span style="color:var(--muted);font-size:12px">No data</span>';return;}
   const sorted=[...results].sort((a,b)=>(parseInt(b.violations)||0)-(parseInt(a.violations)||0)).slice(0,6);
   let html='';
-  sorted.forEach(r=>{const v=parseInt(r.violations)||0;const col=v>10?'var(--danger)':v>5?'var(--warn)':'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${r.name||extractRollNo(r.username)} <span style="font-size:10px;color:var(--muted)">(${r.dept||'—'})</span></span><span class="bc-val" style="color:${col}">${v} ⚠</span></div>`;});
+  sorted.forEach(r=>{const v=parseInt(r.violations)||0;const col=v>10?'var(--danger)':v>5?'var(--warn)':'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${r.name||extractRollNo(r.username)} <span style="font-size:9px;color:var(--muted)">(${r.dept||'—'})</span></span><span class="bc-val" style="color:${col}">${v} ⚠</span></div>`;});
   document.getElementById('violationBreakdown').innerHTML=html;
 }
 function renderResultsTable(){
   const tbody=document.getElementById('resultsTable');
   const deptF=document.getElementById('resultsDeptFilter').value;
   let sorted=[...results].reverse();if(deptF)sorted=sorted.filter(r=>r.dept===deptF);
-  if(!sorted.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:30px">No results.</td></tr>';return;}
+  if(!sorted.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No results.</td></tr>';return;}
   tbody.innerHTML=sorted.map((r,i)=>{
     const dur=fmtDuration(r.durationSec);
     const pct=r.total>0?Math.round((r.score/r.total)*100):0;
@@ -1228,21 +1561,21 @@ function renderResultsTable(){
     const viol=parseInt(r.violations)||0;
     const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--text2)';
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)">${sorted.length-i}</td>
-      <td style="font-weight:600;color:var(--text)">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue2)">${roll}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${sorted.length-i}</td>
+      <td style="font-weight:600;font-size:12px;color:var(--text)">${r.name||'—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${roll}</td>
       <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
       <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
       <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
       <td style="font-weight:700;color:${violCol}">${viol}</td>
-      <td style="font-size:12px;color:var(--muted)">${dur}</td>
-      <td style="font-size:11px;color:var(--muted)">${date}</td>
-      <td style="font-size:12px;color:${ercol}">${r.endReason||'—'}</td>
+      <td style="font-size:11px;color:var(--muted)">${dur}</td>
+      <td style="font-size:10px;color:var(--muted)">${date}</td>
+      <td style="font-size:11px;color:${ercol}">${r.endReason||'—'}</td>
     </tr>`;
   }).join('');
 }
 
-/* ══════ LEADERBOARD ══════ */
+/* ─── LEADERBOARD ─── */
 function populateLeaderboardFilter(){
   const depts=[...new Set(results.map(r=>r.dept).filter(Boolean))].sort();
   const sel=document.getElementById('lbDeptFilter');const cur=sel.value;
@@ -1268,7 +1601,7 @@ function renderLeaderboard(){
   }).join('');
 }
 
-/* ══════ DEPT STATS ══════ */
+/* ─── DEPT STATS ─── */
 async function fetchDeptStats(){
   const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'getDeptAttendanceStats'})});
   const data=await res.json();const stats=data.stats||{};
@@ -1276,11 +1609,11 @@ async function fetchDeptStats(){
   document.getElementById('deptStats').innerHTML=Object.keys(stats).map(dept=>{
     const s=stats[dept];const pct=s.total>0?Math.round((s.attended/s.total)*100):0;
     const avgCol=s.avgScore>=80?'var(--success)':s.avgScore>=50?'var(--warn)':'var(--danger)';
-    return `<div class="stat-card"><div class="stat-dept">${dept}</div><div class="stat-row"><span>Registered</span><strong>${s.total}</strong></div><div class="stat-row"><span>Attended</span><strong style="color:var(--success)">${s.attended}</strong></div><div class="stat-row"><span>Pending</span><strong style="color:var(--warn)">${s.total-s.attended}</strong></div><div class="stat-row"><span>Avg Score</span><strong style="color:${avgCol}">${s.avgScore||0}%</strong></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div><div style="text-align:right;font-size:11px;color:var(--muted);margin-top:5px">${pct}% attendance</div></div>`;
+    return `<div class="stat-card"><div class="stat-dept">${dept}</div><div class="stat-row"><span>Registered</span><strong>${s.total}</strong></div><div class="stat-row"><span>Attended</span><strong style="color:var(--success)">${s.attended}</strong></div><div class="stat-row"><span>Pending</span><strong style="color:var(--warn)">${s.total-s.attended}</strong></div><div class="stat-row"><span>Avg Score</span><strong style="color:${avgCol}">${s.avgScore||0}%</strong></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div><div style="text-align:right;font-size:10.5px;color:var(--muted);margin-top:4px">${pct}% attendance</div></div>`;
   }).join('');
 }
 
-/* ══════ REPORTS TAB ══════ */
+/* ─── REPORTS ─── */
 function renderReportDeptGrid(){
   const depts=[...new Set(results.map(r=>r.dept).filter(Boolean))].sort();
   if(!depts.length){document.getElementById('reportDeptGrid').innerHTML='<div style="color:var(--muted);font-size:13px">No results data yet.</div>';return;}
@@ -1305,9 +1638,9 @@ function renderPreviewTable(dept){
   const rows=getReportRows(dept).sort((a,b)=>a.rollNo.localeCompare(b.rollNo,undefined,{numeric:true})).map((r,i)=>({...r,sno:i+1}));
   const tbody=document.getElementById('previewTbody');
   if(!rows.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No results for this dept.</td></tr>';return;}
-  tbody.innerHTML=rows.map(r=>{const viol=r.violations;const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--text2)';return `<tr><td style="text-align:center">${r.sno}</td><td style="font-weight:600">${r.name}</td><td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue2)">${r.rollNo}</td><td>${r.dept}</td><td style="font-weight:700;color:var(--success);text-align:center">${r.score}</td><td style="text-align:center">${r.pct}</td><td style="color:${violCol};font-weight:700;text-align:center">${viol}</td></tr>`;}).join('');
+  tbody.innerHTML=rows.map(r=>{const viol=r.violations;const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--text2)';return `<tr><td style="text-align:center">${r.sno}</td><td style="font-weight:600;font-size:12px">${r.name}</td><td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--blue2)">${r.rollNo}</td><td>${r.dept}</td><td style="font-weight:700;color:var(--success);text-align:center">${r.score}</td><td style="text-align:center">${r.pct}</td><td style="color:${violCol};font-weight:700;text-align:center">${viol}</td></tr>`;}).join('');
 }
-function generateExcelReport(){if(!selectedReportDept){showToast('⚠ Select a department first','#dc2626');return;}buildExcel(selectedReportDept);}
+function generateExcelReport(){if(!selectedReportDept){showToast('⚠ Select a department first');return;}buildExcel(selectedReportDept);}
 function generateExcelAll(){buildExcel(null);}
 function buildExcel(dept){
   const wb=XLSX.utils.book_new();
@@ -1322,13 +1655,13 @@ function buildExcel(dept){
     ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:6}},{s:{r:1,c:0},e:{r:1,c:6}},{s:{r:2,c:0},e:{r:2,c:6}}];
     XLSX.utils.book_append_sheet(wb,ws,d.slice(0,31));
   });
-  const fname=dept?`${dept}_Report.xlsx`:`All_Departments_Report.xlsx`;XLSX.writeFile(wb,fname);showToast('📊 Excel downloaded!','#059669');
+  const fname=dept?`${dept}_Report.xlsx`:`All_Departments_Report.xlsx`;XLSX.writeFile(wb,fname);showToast('📊 Excel downloaded!');
 }
 function generatePdfReport(){
-  if(!selectedReportDept){showToast('⚠ Select a department first','#dc2626');return;}
+  if(!selectedReportDept){showToast('⚠ Select a department first');return;}
   const{jsPDF}=window.jspdf;const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const rows=getReportRows(selectedReportDept).sort((a,b)=>a.rollNo.localeCompare(b.rollNo,undefined,{numeric:true})).map((r,i)=>({...r,sno:i+1}));
-  if(!rows.length){showToast('⚠ No data for this department','#dc2626');return;}
+  if(!rows.length){showToast('⚠ No data for this department');return;}
   const pageW=doc.internal.pageSize.getWidth();const marginL=14,marginR=14;let cursorY=14;
   doc.setTextColor(0,0,0);doc.setFont('helvetica','bold');doc.setFontSize(13);
   doc.text('KAMARAJ COLLEGE OF ENGINEERING & TECHNOLOGY',pageW/2,cursorY,{align:'center'});cursorY+=6;
@@ -1344,7 +1677,7 @@ function generatePdfReport(){
   doc.autoTable({startY:cursorY,head:[['S. No','Name','Roll No.','Dept','Score','%','Violations']],body:rows.map(r=>[r.sno,r.name,r.rollNo,r.dept,r.score,r.pct,r.violations]),styles:{font:'helvetica',fontSize:9,cellPadding:{top:3.5,bottom:3.5,left:3,right:3},lineColor:[0,0,0],lineWidth:0.25,textColor:[0,0,0],fillColor:false,overflow:'linebreak'},headStyles:{fillColor:false,textColor:[0,0,0],fontSize:9,fontStyle:'bold',halign:'center',lineColor:[0,0,0],lineWidth:0.4},alternateRowStyles:{fillColor:false},columnStyles:{0:{halign:'center',cellWidth:12},1:{cellWidth:55},2:{halign:'center',cellWidth:30},3:{halign:'center',cellWidth:28},4:{halign:'center',cellWidth:18},5:{halign:'center',cellWidth:14},6:{halign:'center',cellWidth:21}},didParseCell:function(data){data.cell.styles.fillColor=false;},margin:{left:marginL,right:marginR},tableLineColor:[0,0,0],tableLineWidth:0.25});
   const totalPages=doc.internal.getNumberOfPages();
   for(let p=1;p<=totalPages;p++){doc.setPage(p);const pH=doc.internal.pageSize.getHeight();doc.setDrawColor(0,0,0);doc.setLineWidth(0.3);doc.line(marginL,pH-12,pageW-marginR,pH-12);doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(60,60,60);doc.text('EduExam Pro \u2014 Kamaraj College of Engineering & Technology',marginL,pH-7);doc.text(`Page ${p} of ${totalPages}`,pageW-marginR,pH-7,{align:'right'});}
-  doc.save(`${selectedReportDept}_Report.pdf`);showToast('📄 PDF downloaded!','#059669');
+  doc.save(`${selectedReportDept}_Report.pdf`);showToast('📄 PDF downloaded!');
 }
 </script>
 </body>
