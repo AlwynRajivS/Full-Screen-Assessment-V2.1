@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #timer { font-size: 20px; font-weight: bold; color: red; }
+    #warning { color: red; font-weight: bold; margin: 10px; }
+    .question { margin: 15px; padding: 10px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body onload="startTest()">
+
+  <h2>Online Test</h2>
+  <div id="timer">Time Left: </div>
+  <div id="warning"></div>
+  <form id="quizForm"></form>
+  <button type="button" onclick="submitTest()">Submit</button>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwC9V02YbNUFf-0oN_Ku7fvf2LxD6M8XjoO9QZCAG2IDNxyPVBLGXUzeXdrIkpoy9Uv0Q/exec";
+let allQuestions = [];
+let studentDept, studentName;
+
+// ✅ Start Test
+function startTest() {
+  studentName = localStorage.getItem("name") || "Unknown";
+  studentDept = localStorage.getItem("dept") || "CSE";
+
+  // Request fullscreen
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+
+  // Start Timer
+  timerId = setInterval(updateTimer, 1000);
+
+  // Security checks
+  window.addEventListener("blur", registerViolation); // tab switch
+  document.addEventListener("fullscreenchange", checkFullscreen);
+  document.addEventListener("copy", registerViolation);
+  document.addEventListener("paste", registerViolation);
+  document.addEventListener("contextmenu", e => { e.preventDefault(); registerViolation(); });
+
+  // Fetch questions
+  fetch(scriptURL, {method:"POST", body:JSON.stringify({action:"getQuestions"})})
+    .then(res => res.json())
+    .then(data => {
+      // Filter by department
+      let deptQuestions = data.filter(q => q.dept === studentDept);
+      // Shuffle questions
+      allQuestions = shuffleArray(deptQuestions);
+      showQuestions();
+    });
+}
+
+// ✅ Show timer
+function updateTimer() {
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  document.getElementById("timer").innerText = 
+    `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  
+  if (timeLeft <= 0) {
+    clearInterval(timerId);
+    alert("Time is up! Auto-submitting...");
+    submitTest();
+  }
+  timeLeft--;
+}
+
+// ✅ Register violations
+function registerViolation() {
+  violationCount++;
+  let remaining = maxViolations - violationCount;
+  document.getElementById("warning").innerText =
+    `⚠️ Violation detected! Remaining chances: ${remaining}`;
+  
+  if (violationCount >= maxViolations) {
+    alert("Too many violations! Auto-submitting...");
+    submitTest();
+  }
+}
+
+// ✅ Check fullscreen exit
+function checkFullscreen() {
+  if (!document.fullscreenElement) {
+    registerViolation();
+  }
+}
+
+// ✅ Show questions
+function showQuestions() {
+  let quizForm = document.getElementById("quizForm");
+  quizForm.innerHTML = "";
+  allQuestions.forEach((q, i) => {
+    let opts = shuffleArray(q.options); // shuffle answers
+    let qHtml = `<div class="question">
+      <b>Q${i+1}: ${q.q}</b><br>`;
+    if (q.img) {
+      qHtml += `<img src="${q.img}" width="200"><br>`;
+    }
+    opts.forEach(opt => {
+      qHtml += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
+    });
+    qHtml += `</div>`;
+    quizForm.innerHTML += qHtml;
+  });
+}
+
+// ✅ Submit Test
+function submitTest() {
+  clearInterval(timerId);
+
+  let score = 0;
+  allQuestions.forEach((q, i) => {
+    let chosen = document.querySelector(`input[name="q${i}"]:checked`);
+    if (chosen && chosen.value === q.answer) {
+      score++;
+    }
+  });
+
+  let data = {
+    action: "submitResult",
+    name: studentName,
+    dept: studentDept,
+    score: score + "/" + allQuestions.length,
+    violations: violationCount,
+    timeUsed: (300 - timeLeft) + " sec"
+  };
+
+  fetch(scriptURL, { method: "POST", body: JSON.stringify(data) })
+    .then(res => res.text())
+    .then(msg => {
+      alert("Test Submitted! " + msg);
+      window.location.href = "index.html";
+    });
+}
+
+// ✅ Utility: shuffle array
+function shuffleArray(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+</script>
+</body>
+</html>
+
+

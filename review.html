@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EduExam Pro | Review Answers</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #f0f5ff;
+      --bg2:        #e8effe;
+      --surface:    #ffffff;
+      --surface2:   #f6f9ff;
+      --border:     #dce7f9;
+      --border2:    #c4d7f5;
+      --text:       #0f1f3d;
+      --text2:      #3a5080;
+      --muted:      #7a93bc;
+      --blue1:      #1a4fd6;
+      --blue2:      #2563eb;
+      --blue3:      #3b82f6;
+      --blue4:      #93c5fd;
+      --blue-bg:    #eff6ff;
+      --blue-bg2:   #dbeafe;
+      --cyan:       #0891b2;
+      --success:    #059669;
+      --suc-bg:     #ecfdf5;
+      --suc-border: rgba(5,150,105,0.25);
+      --danger:     #dc2626;
+      --dan-bg:     #fef2f2;
+      --dan-border: rgba(220,38,38,0.25);
+      --warn:       #d97706;
+      --warn-bg:    #fffbeb;
+      --shadow-sm:  0 1px 3px rgba(37,99,235,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow:     0 4px 16px rgba(37,99,235,0.08), 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-md:  0 8px 32px rgba(37,99,235,0.12), 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg:  0 16px 48px rgba(37,99,235,0.15), 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    html, body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100%;
+    }
+
+    /* ── Subtle grid background ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1.5px solid var(--border);
+      padding: 0 28px;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 16px rgba(37,99,235,0.07);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .topbar-logo {
+      width: 38px; height: 38px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--blue1), var(--blue3));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+    .topbar-title { font-size: 15px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+    .topbar-sub   { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .user-chip {
+      padding: 6px 14px;
+      background: var(--blue-bg);
+      border: 1.5px solid var(--blue-bg2);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+      color: var(--blue2);
+    }
+    .back-btn {
+      padding: 6px 14px;
+      background: var(--surface);
+      border: 1.5px solid var(--border2);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.18s;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .back-btn:hover { background: var(--blue-bg); border-color: var(--blue3); color: var(--blue2); }
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap {
+      position: relative; z-index: 1;
+      max-width: 960px; margin: 0 auto;
+      padding: 28px 24px 80px;
+    }
+
+    /* ── SCORE BANNER ── */
+    .score-banner {
+      background: linear-gradient(135deg, var(--blue1) 0%, var(--blue2) 60%, #1e88e5 100%);
+      border-radius: 22px; padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+      box-shadow: var(--shadow-lg);
+      position: relative; overflow: hidden;
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease both;
+    }
+    .score-banner::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+    .score-banner::after {
+      content: '';
+      position: absolute; bottom: -60px; left: 30%;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+    .score-left { display: flex; align-items: center; gap: 20px; position: relative; z-index: 1; }
+    .score-ring-svg { flex-shrink: 0; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2)); }
+    .score-info h2 { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .score-info p  { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .score-badges  { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .score-badge {
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .score-right { display: flex; gap: 20px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .sstat {
+      text-align: center;
+      padding: 12px 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      backdrop-filter: blur(4px);
+      min-width: 72px;
+    }
+    .sstat-val { font-size: 1.6rem; font-weight: 800; color: #fff; line-height: 1; }
+    .sstat-lbl { font-size: 10px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+    /* ── PROGRESS ROW ── */
+    .progress-row {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 18px 22px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+    .progress-row-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .prog-bars { display: flex; flex-direction: column; gap: 10px; }
+    .prog-bar-row { display: flex; align-items: center; gap: 12px; }
+    .prog-bar-label { font-size: 12px; font-weight: 600; color: var(--text2); min-width: 80px; }
+    .prog-bar-track { flex: 1; height: 8px; background: var(--bg2); border-radius: 8px; overflow: hidden; }
+    .prog-bar-fill  { height: 100%; border-radius: 8px; transition: width 1.2s cubic-bezier(0.22,1,0.36,1); }
+    .prog-bar-val   { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--muted); min-width: 28px; text-align: right; }
+
+    /* ── SEARCH + FILTERS ROW ── */
+    .controls-row {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 18px;
+      animation: fadeUp 0.5s ease 0.15s both;
+    }
+    .search-wrap {
+      flex: 1; min-width: 180px;
+      position: relative;
+    }
+    .search-icon {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: 14px; pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px; color: var(--text);
+      outline: none; transition: all 0.18s;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: var(--blue3); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+
+    .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--blue3); color: var(--blue2); background: var(--blue-bg); }
+    .filter-btn.active { background: var(--blue2); border-color: var(--blue2); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+
+    .sort-select {
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 600; color: var(--text2);
+      outline: none; cursor: pointer; transition: all 0.18s;
+    }
+    .sort-select:focus { border-color: var(--blue3); }
+
+    /* ── RESULTS COUNT + PDF BUTTON ── */
+    .results-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+      animation: fadeUp 0.5s ease 0.2s both;
+    }
+    .results-count { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .results-count strong { color: var(--text); font-weight: 700; }
+    .btn-pdf {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border2);
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 700; color: var(--text2);
+      cursor: pointer; transition: all 0.18s;
+    }
+    .btn-pdf:hover { background: var(--blue-bg); border-color: var(--blue3); color: var(--blue2); box-shadow: var(--shadow-sm); }
+
+    /* ── Q CARD ── */
+    .q-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px; overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeUp 0.4s ease both;
+      margin-bottom: 12px;
+    }
+    .q-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+    /* Left accent stripe */
+    .q-card.card-correct { border-left: 4px solid var(--success); }
+    .q-card.card-wrong   { border-left: 4px solid var(--danger); }
+    .q-card.card-unanswered { border-left: 4px solid var(--muted); }
+
+    .q-card-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 18px 22px 14px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .q-num-badge {
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 600;
+      padding: 4px 10px;
+      background: var(--blue-bg);
+      border: 1.5px solid var(--blue-bg2);
+      border-radius: 7px;
+      color: var(--blue2);
+      margin-top: 2px;
+    }
+    .q-text-main {
+      flex: 1;
+      font-size: 14.5px; font-weight: 600; line-height: 1.65; color: var(--text);
+    }
+    .q-status-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .q-status-icon.correct    { background: var(--suc-bg); }
+    .q-status-icon.wrong      { background: var(--dan-bg); }
+    .q-status-icon.unanswered { background: #f1f5f9; }
+
+    .q-img { max-width: 280px; border-radius: 10px; border: 1.5px solid var(--border); display: block; margin: 12px 0 0; box-shadow: var(--shadow-sm); }
+
+    /* ── OPTIONS ── */
+    .q-options { padding: 14px 22px; display: flex; flex-direction: column; gap: 8px; }
+    .opt-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 11px 16px; border-radius: 11px;
+      font-size: 13.5px; line-height: 1.55; color: var(--text2);
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      transition: all 0.15s;
+    }
+    .opt-row.correct {
+      background: var(--suc-bg);
+      border-color: var(--suc-border);
+      color: #065f46;
+    }
+    .opt-row.wrong {
+      background: var(--dan-bg);
+      border-color: var(--dan-border);
+      color: #7f1d1d;
+    }
+    .opt-row.user-selected:not(.correct):not(.wrong) {
+      background: var(--blue-bg);
+      border-color: rgba(37,99,235,0.25);
+    }
+    .opt-letter {
+      flex-shrink: 0;
+      width: 26px; height: 26px; border-radius: 7px;
+      background: var(--surface);
+      border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 700;
+      color: var(--blue2);
+    }
+    .opt-row.correct .opt-letter { background: #bbf7d0; border-color: rgba(5,150,105,0.3); color: #065f46; }
+    .opt-row.wrong   .opt-letter { background: #fecaca; border-color: rgba(220,38,38,0.3);  color: #7f1d1d; }
+    .opt-icon { flex-shrink: 0; font-size: 13px; font-weight: 700; padding-top: 1px; }
+
+    /* ── ANSWER SUMMARY ── */
+    .q-summary {
+      padding: 12px 22px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      display: flex; gap: 0; flex-wrap: wrap;
+    }
+    .q-sum-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 16px 6px 0;
+      margin-right: 16px;
+      border-right: 1px solid var(--border);
+      font-size: 12.5px;
+    }
+    .q-sum-item:last-child { border-right: none; }
+    .q-sum-label { color: var(--muted); font-weight: 500; }
+    .q-sum-value { font-weight: 700; }
+    .val-correct    { color: var(--success); }
+    .val-wrong      { color: var(--danger); }
+    .val-unanswered { color: var(--muted); font-style: italic; font-weight: 400; }
+    .val-answer     { color: var(--blue1); }
+
+    /* ── STATUS CHIP ── */
+    .status-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 11px; font-weight: 700;
+    }
+    .chip-correct    { background: var(--suc-bg); color: var(--success); border: 1px solid var(--suc-border); }
+    .chip-wrong      { background: var(--dan-bg);  color: var(--danger);  border: 1px solid var(--dan-border); }
+    .chip-unanswered { background: #f1f5f9; color: var(--muted); border: 1px solid var(--border2); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center; padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 14px; }
+    .empty-state h3 { font-size: 16px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
+    .empty-state p  { font-size: 13px; }
+
+    /* ── LOADING ── */
+    .loading-state {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 80px 20px; gap: 16px;
+      position: relative; z-index: 1;
+    }
+    .spin {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue2);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── STICKY MINI SCORE BAR (scrolled) ── */
+    .mini-score-bar {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      z-index: 200;
+      background: rgba(255,255,255,0.95);
+      border: 1.5px solid var(--border2);
+      border-radius: 100px;
+      padding: 10px 24px;
+      box-shadow: var(--shadow-md);
+      display: flex; align-items: center; gap: 20px;
+      backdrop-filter: blur(16px);
+      font-size: 13px; font-weight: 700;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .mini-score-bar.visible { opacity: 1; pointer-events: all; }
+    .mini-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── JUMP TO TOP BTN ── */
+    .jump-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      width: 42px; height: 42px; border-radius: 12px;
+      background: var(--blue2); color: #fff;
+      border: none; cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+      transition: all 0.2s;
+      opacity: 0; pointer-events: none;
+    }
+    .jump-top.visible { opacity: 1; pointer-events: all; }
+    .jump-top:hover { background: var(--blue1); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      .topbar, .controls-row, .results-bar, .mini-score-bar, .jump-top, body::before { display: none !important; }
+      .q-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .topbar { padding: 0 16px; }
+      .score-banner { flex-direction: column; padding: 22px 20px; }
+      .score-right { justify-content: center; }
+      .page-wrap { padding: 18px 14px 80px; }
+      .q-card-header { padding: 14px 16px 12px; }
+      .q-options { padding: 12px 16px; }
+      .q-summary { padding: 10px 16px 14px; flex-direction: column; gap: 6px; }
+      .q-sum-item { border-right: none; padding-right: 0; margin-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+      .q-sum-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logo">🎓</div>
+    <div>
+      <div class="topbar-title">Review Answers</div>
+      <div class="topbar-sub">EduExam Pro · Result Analysis</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a href="index.html" class="back-btn">← Back to Home</a>
+    <div class="user-chip" id="userChip">Loading…</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="page-wrap" id="pageWrap">
+
+  <!-- Loading -->
+  <div class="loading-state" id="loadingState">
+    <div class="spin"></div>
+    <div style="color:var(--muted);font-size:14px;font-weight:500">Loading your results…</div>
+  </div>
+
+  <!-- Score Banner -->
+  <div id="scoreBanner" style="display:none">
+    <div class="score-banner">
+      <div class="score-left">
+        <svg class="score-ring-svg" width="86" height="86" viewBox="0 0 86 86" id="scoreRingSvg">
+          <circle cx="43" cy="43" r="36" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="7"/>
+          <circle id="scoreRingArc" cx="43" cy="43" r="36" fill="none"
+                  stroke="#fff" stroke-width="7" stroke-linecap="round"
+                  stroke-dasharray="226.2" stroke-dashoffset="226.2"
+                  transform="rotate(-90 43 43)"
+                  style="transition: stroke-dashoffset 1.6s cubic-bezier(0.22,1,0.36,1) 0.4s"/>
+          <text x="43" y="39" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" font-weight="700" fill="white" id="ringPctText">0%</text>
+          <text x="43" y="54" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">SCORE</text>
+        </svg>
+        <div class="score-info">
+          <h2 id="scoreTitle">—</h2>
+          <p id="scoreSubtitle">—</p>
+          <div class="score-badges" id="scoreBadges"></div>
+        </div>
+      </div>
+      <div class="score-right" id="scoreStats"></div>
+    </div>
+  </div>
+
+  <!-- Progress Bars -->
+  <div class="progress-row" id="progressRow" style="display:none">
+    <div class="progress-row-title">Attempt Breakdown</div>
+    <div class="prog-bars" id="progBars"></div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-row" id="controlsRow" style="display:none">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search questions…" />
+    </div>
+    <div class="filter-pills" id="filterPills">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="correct">✅ Correct</button>
+      <button class="filter-btn" data-filter="wrong">❌ Wrong</button>
+      <button class="filter-btn" data-filter="unanswered">— Skipped</button>
+    </div>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="correct-first">Correct First</option>
+      <option value="wrong-first">Wrong First</option>
+      <option value="unanswered-first">Skipped First</option>
+    </select>
+  </div>
+
+  <!-- Results bar -->
+  <div class="results-bar" id="resultsBar" style="display:none">
+    <div class="results-count" id="resultsCount">Showing <strong>0</strong> questions</div>
+    <button class="btn-pdf" id="downloadBtn">⬇ Download PDF</button>
+  </div>
+
+  <!-- Q Cards container -->
+  <div id="reviewContainer"></div>
+
+</div>
+
+<!-- Floating mini score bar -->
+<div class="mini-score-bar" id="miniScoreBar">
+  <div style="color:var(--text2);font-weight:700" id="miniTitle">—</div>
+  <div style="display:flex;align-items:center;gap:6px"><div class="mini-dot" style="background:var(--success)"></div><span id="miniCorrect" style="color:var(--success)">0</span> Correct</div>
+  <div style="display:flex;align-items:center;gap:6px"><div class="mini-dot" style="background:var(--danger)"></div><span id="miniWrong" style="color:var(--danger)">0</span> Wrong</div>
+  <div style="display:flex;align-items:center;gap:6px"><div class="mini-dot" style="background:var(--muted)"></div><span id="miniSkipped" style="color:var(--muted)">0</span> Skipped</div>
+</div>
+
+<!-- Jump to top -->
+<button class="jump-top" id="jumpTop" title="Back to top">↑</button>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPPekygbfE15NaoZGi5NAnH3wWTlWIjkjU9mzOkpMGjSnUk1vTeogRjKzNzqrUcKq_Dw/exec";
+  const LETTERS = ['A','B','C','D'];
+
+  /* ── USER ── */
+  const userStr = localStorage.getItem('user');
+  if (!userStr) { alert('Not logged in!'); window.location.href = 'index.html'; }
+  const user = JSON.parse(userStr);
+  document.getElementById('userChip').textContent = `👤 ${user.name || user.username}`;
+
+  function esc(s) {
+    return (s===null||s===undefined)?'':String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ── STATE ── */
+  let reviewData = [];
+  let currentFilter = 'all';
+  let currentSearch = '';
+  let currentSort   = 'default';
+
+  /* ── FIND USER ANSWER ── */
+  function findUserAnswer(userAnswers, idx, qText) {
+    if (!userAnswers) return '';
+    if (userAnswers.hasOwnProperty(qText))         return userAnswers[qText];
+    if (userAnswers.hasOwnProperty(idx))            return userAnswers[idx];
+    if (userAnswers.hasOwnProperty(String(idx)))    return userAnswers[String(idx)];
+    if (userAnswers.hasOwnProperty(String(idx+1)))  return userAnswers[String(idx+1)];
+    return '';
+  }
+
+  /* ── BUILD DATA ── */
+  function buildReviewData(questions, userAnswers) {
+    return questions.map((qObj, idx) => {
+      const qText      = String(qObj.q || qObj.question || '').trim();
+      const opts       = qObj.options || [];
+      const correctRaw = (qObj.answer || qObj.correctText || qObj.correct || '').toString().trim();
+      const rawUserAns = findUserAnswer(userAnswers, idx, qText) || '';
+      let userChosenText = String(rawUserAns).trim();
+
+      // Resolve letter → text
+      if (userChosenText.length === 1 && LETTERS.includes(userChosenText.toUpperCase())) {
+        const li = LETTERS.indexOf(userChosenText.toUpperCase());
+        userChosenText = (opts[li] !== undefined) ? String(opts[li]).trim() : userChosenText;
+      }
+
+      let status = 'unanswered';
+      if (userChosenText && correctRaw) {
+        status = (userChosenText === correctRaw) ? 'correct' : 'wrong';
+      } else if (userChosenText && !correctRaw) {
+        status = 'unanswered'; // no answer key
+      }
+
+      return { idx, qText, opts, correctRaw, userChosenText, status, img: qObj.img };
+    });
+  }
+
+  /* ── SCORE BANNER ── */
+  function showScoreBanner() {
+    const correct    = reviewData.filter(d => d.status === 'correct').length;
+    const wrong      = reviewData.filter(d => d.status === 'wrong').length;
+    const unanswered = reviewData.filter(d => d.status === 'unanswered').length;
+    const total      = reviewData.length;
+    const scorable   = reviewData.filter(d => d.correctRaw).length;
+    const pct        = scorable > 0 ? Math.round((correct / scorable) * 100) : 0;
+
+    // Ring animation
+    const circum = 226.2;
+    const offset = circum * (1 - pct / 100);
+    setTimeout(() => {
+      document.getElementById('scoreRingArc').style.strokeDashoffset = offset;
+      document.getElementById('ringPctText').textContent = pct + '%';
+    }, 100);
+
+    const emoji  = pct >= 80 ? '🎉' : pct >= 60 ? '👍' : pct >= 40 ? '📚' : '💪';
+    const title  = pct >= 80 ? 'Excellent Performance!' : pct >= 60 ? 'Good Job!' : pct >= 40 ? 'Keep Going!' : 'Needs More Practice';
+    document.getElementById('scoreTitle').textContent    = `${emoji} ${title}`;
+    document.getElementById('scoreSubtitle').textContent = `${user.name || user.username} · ${user.dept || ''}`;
+    document.getElementById('scoreBadges').innerHTML = `
+      <div class="score-badge">📊 ${pct}% Score</div>
+      <div class="score-badge">📝 ${total} Questions</div>
+      <div class="score-badge">⏱ ${scorable} Scorable</div>
+    `;
+    document.getElementById('scoreStats').innerHTML = `
+      <div class="sstat"><div class="sstat-val">${correct}</div><div class="sstat-lbl">Correct</div></div>
+      <div class="sstat"><div class="sstat-val" style="color:#fca5a5">${wrong}</div><div class="sstat-lbl">Wrong</div></div>
+      <div class="sstat"><div class="sstat-val" style="color:rgba(255,255,255,0.5)">${unanswered}</div><div class="sstat-lbl">Skipped</div></div>
+    `;
+
+    // Mini bar
+    document.getElementById('miniTitle').textContent  = `${pct}% — ${user.name||user.username}`;
+    document.getElementById('miniCorrect').textContent  = correct;
+    document.getElementById('miniWrong').textContent    = wrong;
+    document.getElementById('miniSkipped').textContent  = unanswered;
+
+    // Progress bars
+    document.getElementById('progressRow').style.display = '';
+    const barsEl = document.getElementById('progBars');
+    const rows = [
+      { label: 'Correct',  val: correct,    pct: scorable>0?Math.round(correct/scorable*100):0,    color: 'var(--success)' },
+      { label: 'Wrong',    val: wrong,      pct: scorable>0?Math.round(wrong/scorable*100):0,      color: 'var(--danger)' },
+      { label: 'Skipped',  val: unanswered, pct: total>0?Math.round(unanswered/total*100):0,       color: 'var(--muted)' },
+    ];
+    barsEl.innerHTML = rows.map(r => `
+      <div class="prog-bar-row">
+        <div class="prog-bar-label">${r.label}</div>
+        <div class="prog-bar-track"><div class="prog-bar-fill" style="width:0%;background:${r.color}" data-target="${r.pct}"></div></div>
+        <div class="prog-bar-val">${r.val}</div>
+      </div>
+    `).join('');
+    setTimeout(() => {
+      document.querySelectorAll('.prog-bar-fill[data-target]').forEach(el => {
+        el.style.width = el.dataset.target + '%';
+      });
+    }, 150);
+  }
+
+  /* ── FILTER + SEARCH + SORT ── */
+  function getFiltered() {
+    let data = [...reviewData];
+
+    // Filter
+    if (currentFilter !== 'all') {
+      data = data.filter(d => d.status === currentFilter);
+    }
+
+    // Search
+    if (currentSearch.trim()) {
+      const q = currentSearch.toLowerCase();
+      data = data.filter(d =>
+        d.qText.toLowerCase().includes(q) ||
+        d.opts.some(o => String(o).toLowerCase().includes(q))
+      );
+    }
+
+    // Sort
+    if (currentSort === 'correct-first')    data.sort((a,b) => (a.status==='correct'?-1:1));
+    if (currentSort === 'wrong-first')      data.sort((a,b) => (a.status==='wrong'?-1:1));
+    if (currentSort === 'unanswered-first') data.sort((a,b) => (a.status==='unanswered'?-1:1));
+
+    return data;
+  }
+
+  /* ── RENDER ── */
+  function renderReview() {
+    const container = document.getElementById('reviewContainer');
+    container.innerHTML = '';
+
+    const filtered = getFiltered();
+    document.getElementById('resultsCount').innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${reviewData.length}</strong> questions`;
+
+    if (!filtered.length) {
+      container.innerHTML = `
+        <div class="q-card" style="padding:48px 20px">
+          <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <h3>No questions found</h3>
+            <p>Try adjusting your filter or search query.</p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    filtered.forEach((item, fi) => {
+      const card = document.createElement('div');
+      card.className = `q-card card-${item.status}`;
+      card.style.animationDelay = `${Math.min(fi * 0.04, 0.8)}s`;
+
+      // Options HTML
+      const optHtml = item.opts.map((opt, oi) => {
+        const optText   = (opt===null||opt===undefined) ? '' : String(opt).trim();
+        const isCorrect  = item.correctRaw && (item.correctRaw === optText || item.correctRaw === LETTERS[oi]);
+        const isSelected = item.userChosenText && (item.userChosenText === optText || item.userChosenText === LETTERS[oi]);
+        let cls = '';
+        if (isCorrect)  cls += ' correct';
+        if (isSelected && !isCorrect) cls += ' wrong';
+        if (isSelected && !isCorrect) cls += ' user-selected';
+        const icon = isCorrect ? '<span class="opt-icon" style="color:var(--success)">✓</span>' : (isSelected && !isCorrect) ? '<span class="opt-icon" style="color:var(--danger)">✗</span>' : '';
+        return `<div class="opt-row${cls}">
+          <div class="opt-letter">${LETTERS[oi]}</div>
+          <div style="flex:1;color:inherit">${esc(optText)}</div>
+          ${icon}
+        </div>`;
+      }).join('');
+
+      // Status chip
+      const chipCls = `chip-${item.status}`;
+      const chipTxt = item.status === 'correct' ? '✓ Correct' : item.status === 'wrong' ? '✗ Wrong' : '— Skipped';
+      const statusIcon = item.status === 'correct' ? '✅' : item.status === 'wrong' ? '❌' : '—';
+
+      // Summary row
+      const userDisplayCls  = item.status === 'correct' ? 'val-correct' : item.status === 'wrong' ? 'val-wrong' : 'val-unanswered';
+      const userDisplayText = item.userChosenText
+        ? `<span class="q-sum-value ${userDisplayCls}">${esc(item.userChosenText)}</span>`
+        : `<span class="q-sum-value val-unanswered">Not Answered</span>`;
+      const correctDisplayText = item.correctRaw
+        ? `<span class="q-sum-value val-correct">${esc(item.correctRaw)}</span>`
+        : `<span class="q-sum-value val-unanswered">N/A</span>`;
+
+      card.innerHTML = `
+        <div class="q-card-header">
+          <div class="q-num-badge">Q${item.idx + 1}</div>
+          <div class="q-text-main">
+            ${esc(item.qText)}
+            ${item.img ? `<img class="q-img" src="${esc(item.img)}" alt=""/>` : ''}
+          </div>
+          <div class="q-status-icon ${item.status}">${statusIcon}</div>
+        </div>
+        <div class="q-options">${optHtml}</div>
+        <div class="q-summary">
+          <div class="q-sum-item">
+            <span class="q-sum-label">Status</span>
+            <div class="status-chip ${chipCls}">${chipTxt}</div>
+          </div>
+          <div class="q-sum-item">
+            <span class="q-sum-label">Your Answer:</span>
+            ${userDisplayText}
+          </div>
+          <div class="q-sum-item">
+            <span class="q-sum-label">Correct Answer:</span>
+            ${correctDisplayText}
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  /* ── EVENT LISTENERS ── */
+  document.getElementById('filterPills').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderReview();
+  });
+
+  document.getElementById('searchInput').addEventListener('input', e => {
+    currentSearch = e.target.value;
+    renderReview();
+  });
+
+  document.getElementById('sortSelect').addEventListener('change', e => {
+    currentSort = e.target.value;
+    renderReview();
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', () => generatePDF());
+
+  function generatePDF() {
+    const correct    = reviewData.filter(d => d.status === 'correct').length;
+    const wrong      = reviewData.filter(d => d.status === 'wrong').length;
+    const unanswered = reviewData.filter(d => d.status === 'unanswered').length;
+    const scorable   = reviewData.filter(d => d.correctRaw).length;
+    const pct        = scorable > 0 ? Math.round((correct / scorable) * 100) : 0;
+    const total      = reviewData.length;
+    const grade      = pct >= 90 ? 'A+' : pct >= 80 ? 'A' : pct >= 70 ? 'B+' : pct >= 60 ? 'B' : pct >= 50 ? 'C' : 'F';
+    const gradeColor = pct >= 60 ? '#059669' : '#dc2626';
+    const now        = new Date().toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' });
+
+    // Build Q rows HTML
+    const qRowsHTML = reviewData.map((item, i) => {
+      const statusColor = item.status === 'correct' ? '#059669' : item.status === 'wrong' ? '#dc2626' : '#6b7280';
+      const statusText  = item.status === 'correct' ? '✓ Correct' : item.status === 'wrong' ? '✗ Wrong' : '— Skipped';
+      const mark        = item.status === 'correct' ? '+1' : item.status === 'wrong' ? '0' : '0';
+      const markColor   = item.status === 'correct' ? '#059669' : '#6b7280';
+
+      const optsHTML = item.opts.map((opt, oi) => {
+        const optText   = (opt===null||opt===undefined)?'':String(opt).trim();
+        const isCorrect  = item.correctRaw && (item.correctRaw === optText || item.correctRaw === LETTERS[oi]);
+        const isSelected = item.userChosenText && (item.userChosenText === optText || item.userChosenText === LETTERS[oi]);
+        let bg = '#f8fafc', border = '#e2e8f0', color = '#374151', fontW = '400';
+        if (isCorrect)               { bg = '#f0fdf4'; border = '#86efac'; color = '#166534'; fontW = '600'; }
+        if (isSelected && !isCorrect){ bg = '#fef2f2'; border = '#fca5a5'; color = '#991b1b'; fontW = '600'; }
+        const tick = isCorrect ? ' ✓' : (isSelected && !isCorrect) ? ' ✗' : '';
+        return `<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 10px;background:${bg};border:1px solid ${border};border-radius:6px;margin-bottom:4px">
+          <span style="flex-shrink:0;width:20px;height:20px;background:${isCorrect?'#bbf7d0':isSelected?'#fecaca':'#e2e8f0'};border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:${color}">${LETTERS[oi]}</span>
+          <span style="flex:1;font-size:11px;color:${color};font-weight:${fontW};line-height:1.4">${optText}${tick}</span>
+        </div>`;
+      }).join('');
+
+      const rowBg = i % 2 === 0 ? '#ffffff' : '#f8fafc';
+      return `
+        <div style="background:${rowBg};border:1px solid #e2e8f0;border-left:4px solid ${statusColor};border-radius:8px;margin-bottom:10px;overflow:hidden;page-break-inside:avoid">
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px 8px;border-bottom:1px solid #f1f5f9">
+            <span style="flex-shrink:0;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;color:#1d4ed8;font-family:monospace">Q${item.idx+1}</span>
+            <span style="flex:1;font-size:12px;font-weight:600;color:#0f172a;line-height:1.5">${item.qText}</span>
+            <div style="flex-shrink:0;text-align:right">
+              <span style="display:block;font-size:10px;font-weight:700;color:${statusColor}">${statusText}</span>
+              <span style="display:block;font-size:11px;font-weight:800;color:${markColor};margin-top:2px">${mark} mark</span>
+            </div>
+          </div>
+          <div style="padding:10px 14px 8px">${optsHTML}</div>
+          <div style="display:flex;gap:16px;padding:8px 14px;background:#f8fafc;border-top:1px solid #f1f5f9;font-size:10.5px">
+            <div><span style="color:#64748b">Your Answer: </span><strong style="color:${item.status==='correct'?'#059669':item.status==='wrong'?'#dc2626':'#94a3b8'}">${item.userChosenText||'Not Answered'}</strong></div>
+            <div><span style="color:#64748b">Correct Answer: </span><strong style="color:#059669">${item.correctRaw||'N/A'}</strong></div>
+          </div>
+        </div>`;
+    }).join('');
+
+    const pdfHTML = `
+      <div style="font-family:'Plus Jakarta Sans',Arial,sans-serif;background:#fff;color:#0f172a;padding:0;width:100%">
+
+        <!-- HEADER BAND -->
+        <div style="background:linear-gradient(135deg,#1a4fd6,#2563eb);padding:28px 32px;position:relative;overflow:hidden">
+          <div style="position:absolute;top:-30px;right:-30px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.06)"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+            <div>
+              <div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em">🎓 EduExam Pro</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:3px;font-weight:500">Official Result Report · Generated on ${now}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:32px;font-weight:800;color:#fff;line-height:1">${pct}%</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px">Overall Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STUDENT CREDENTIALS BOX -->
+        <div style="margin:20px 32px 0;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+          <div style="background:#eff6ff;border-bottom:1px solid #dbeafe;padding:10px 18px">
+            <span style="font-size:11px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:0.08em">Student Credentials</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0;padding:0">
+            ${[
+              ['👤 Student Name', user.name || user.username],
+              ['🆔 Username',     user.username],
+              ['🏫 Department',   user.dept || '—'],
+              ['📅 Exam Date',    now],
+            ].map(([label, val]) => `
+              <div style="flex:1;min-width:180px;padding:12px 18px;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0">
+                <div style="font-size:10px;color:#64748b;font-weight:600;margin-bottom:3px">${label}</div>
+                <div style="font-size:13px;font-weight:700;color:#0f172a">${val}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <!-- SCORE SUMMARY BOX -->
+        <div style="margin:14px 32px 0;display:flex;gap:12px;flex-wrap:wrap">
+          ${[
+            { label: 'Total Questions', val: total,      color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe' },
+            { label: 'Correct',         val: correct,    color: '#059669', bg: '#f0fdf4', border: '#86efac' },
+            { label: 'Wrong',           val: wrong,      color: '#dc2626', bg: '#fef2f2', border: '#fca5a5' },
+            { label: 'Skipped',         val: unanswered, color: '#6b7280', bg: '#f8fafc', border: '#e2e8f0' },
+            { label: 'Score',           val: `${correct}/${scorable}`, color: '#1d4ed8', bg: '#eff6ff', border: '#bfdbfe' },
+            { label: 'Percentage',      val: `${pct}%`,  color: pct>=60?'#059669':'#dc2626', bg: pct>=60?'#f0fdf4':'#fef2f2', border: pct>=60?'#86efac':'#fca5a5' },
+            { label: 'Grade',           val: grade,      color: gradeColor, bg: pct>=60?'#f0fdf4':'#fef2f2', border: pct>=60?'#86efac':'#fca5a5' },
+          ].map(s => `
+            <div style="flex:1;min-width:80px;background:${s.bg};border:1.5px solid ${s.border};border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:${s.color};line-height:1">${s.val}</div>
+              <div style="font-size:9px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.07em;margin-top:4px">${s.label}</div>
+            </div>`).join('')}
+        </div>
+
+        <!-- DIVIDER -->
+        <div style="margin:20px 32px 14px;display:flex;align-items:center;gap:12px">
+          <div style="flex:1;height:1px;background:#e2e8f0"></div>
+          <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em">Answer Sheet — All ${total} Questions</span>
+          <div style="flex:1;height:1px;background:#e2e8f0"></div>
+        </div>
+
+        <!-- Q&A ROWS -->
+        <div style="padding:0 32px 32px">
+          ${qRowsHTML}
+        </div>
+
+        <!-- FOOTER -->
+        <div style="background:#f8fafc;border-top:1.5px solid #e2e8f0;padding:14px 32px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;color:#94a3b8">EduExam Pro · Confidential Student Report</span>
+          <span style="font-size:10px;color:#94a3b8">Generated: ${now}</span>
+        </div>
+      </div>
+    `;
+
+    const container = document.createElement('div');
+    container.innerHTML = pdfHTML;
+    document.body.appendChild(container);
+
+    html2pdf().from(container).set({
+      margin: 0,
+      filename: `${user.username || 'student'}_result_report.pdf`,
+      image: { type: 'jpeg', quality: 0.97 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).save().then(() => {
+      document.body.removeChild(container);
+    });
+  }
+
+  /* ── SCROLL: mini bar + jump top ── */
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 280;
+    document.getElementById('miniScoreBar').classList.toggle('visible', scrolled);
+    document.getElementById('jumpTop').classList.toggle('visible', scrolled);
+  });
+  document.getElementById('jumpTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ── LOAD ── */
+  async function loadReview() {
+    try {
+      const res  = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'getUserResult', username: user.username })
+      });
+      const data = await res.json();
+      document.getElementById('loadingState').style.display = 'none';
+
+      if (data.error) {
+        document.getElementById('reviewContainer').innerHTML = `
+          <div class="q-card" style="padding:60px 20px;text-align:center">
+            <div style="font-size:3rem;margin-bottom:14px">🔒</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px">Review Not Available</div>
+            <div style="font-size:13px;color:var(--muted)">${esc(data.error)}</div>
+          </div>`;
+        return;
+      }
+
+      reviewData = buildReviewData(data.questions || [], data.answers || {});
+      showScoreBanner();
+      document.getElementById('scoreBanner').style.display = '';
+      document.getElementById('controlsRow').style.display = '';
+      document.getElementById('resultsBar').style.display  = '';
+      renderReview();
+    } catch (err) {
+      document.getElementById('loadingState').innerHTML = `
+        <div style="color:var(--danger);font-weight:600">⚠ Failed to load review data. Please try again.</div>`;
+    }
+  }
+
+  loadReview();
+</script>
+</body>
+</html>
