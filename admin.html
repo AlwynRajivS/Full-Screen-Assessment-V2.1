@@ -297,9 +297,6 @@
     }
     tr:hover td { background: #f8fbff; }
 
-    /* ══ MOBILE CARD ROWS (alternative to tables on mobile) ══ */
-    .mob-cards { display: none; }
-
     .pill { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 10.5px; font-weight: 600; }
     .pill-blue   { background: var(--blue-lt); color: var(--blue1); }
     .pill-green  { background: var(--success-lt); color: var(--success); }
@@ -515,56 +512,29 @@
 
     /* ══ RESPONSIVE BREAKPOINTS ══ */
     @media (max-width: 768px) {
-      /* Hide desktop nav, show mobile bottom nav */
       .nav-tabs { display: none; }
       .mob-nav { display: flex; }
-
-      /* Page padding accounts for mobile bottom nav */
       .page { padding: 14px 12px 76px; }
-
-      /* Topbar tweaks */
       .topbar { padding: 0 12px; }
       .admin-badge { display: none; }
       .live-dot { padding: 3px 8px; font-size: 9.5px; }
       .auto-refresh { display: none; }
       #adminName { display: none; }
-
-      /* Metric grid: 2 columns on phones */
       .metrics-row { grid-template-columns: 1fr 1fr; }
       .metric-num { font-size: 1.3rem; }
-
-      /* Breakdown: single column */
       .breakdown-row { grid-template-columns: 1fr; }
-
-      /* Form grid: single column */
       .form-grid { grid-template-columns: 1fr; }
-
-      /* Stat grid: 1 column */
       .stat-grid { grid-template-columns: 1fr; }
       .sdc-stats-row { grid-template-columns: repeat(3, 1fr); }
-
-      /* Report buttons: full width */
       .report-btns .btn { width: 100%; justify-content: center; }
-
-      /* Q opts: single column on very small */
       .q-opts-grid { grid-template-columns: 1fr; }
-
-      /* Subtabs: scrollable row */
       .analysis-subtabs { flex-wrap: nowrap; }
-
-      /* Multi-group best: break to new line */
       .multi-group-best { width: 100%; }
-
-      /* Review grid: stack buttons */
       .dept-review-item { flex-direction: column; align-items: flex-start; gap: 8px; }
       .dept-review-actions { width: 100%; }
       .dept-review-actions .btn { flex: 1; justify-content: center; }
-
-      /* Topbar title: smaller */
       .topbar-title { font-size: 12px; }
       .topbar-sub { font-size: 9px; }
-
-      /* Global review bar: stack */
       .global-review-bar { flex-direction: column; align-items: stretch !important; }
       .global-review-bar .btn { width: 100%; justify-content: center; }
     }
@@ -618,30 +588,14 @@
 <!-- ═══ MOBILE BOTTOM NAV ═══ -->
 <nav class="mob-nav" aria-label="Mobile navigation">
   <div class="mob-nav-inner">
-    <div class="mob-nav-item active" data-tab="overview">
-      <span class="mn-icon">📊</span>Overview
-    </div>
-    <div class="mob-nav-item" data-tab="scoreboard">
-      <span class="mn-icon">🏆</span>Board
-    </div>
-    <div class="mob-nav-item" data-tab="users">
-      <span class="mn-icon">👥</span>Users
-    </div>
-    <div class="mob-nav-item" data-tab="questions">
-      <span class="mn-icon">❓</span>Q's
-    </div>
-    <div class="mob-nav-item" data-tab="results">
-      <span class="mn-icon">📋</span>Results
-    </div>
-    <div class="mob-nav-item" data-tab="analysis">
-      <span class="mn-icon">🔍</span>Analysis
-    </div>
-    <div class="mob-nav-item" data-tab="reports">
-      <span class="mn-icon">📄</span>Reports
-    </div>
-    <div class="mob-nav-item" data-tab="add">
-      <span class="mn-icon">➕</span>Add Q
-    </div>
+    <div class="mob-nav-item active" data-tab="overview"><span class="mn-icon">📊</span>Overview</div>
+    <div class="mob-nav-item" data-tab="scoreboard"><span class="mn-icon">🏆</span>Board</div>
+    <div class="mob-nav-item" data-tab="users"><span class="mn-icon">👥</span>Users</div>
+    <div class="mob-nav-item" data-tab="questions"><span class="mn-icon">❓</span>Q's</div>
+    <div class="mob-nav-item" data-tab="results"><span class="mn-icon">📋</span>Results</div>
+    <div class="mob-nav-item" data-tab="analysis"><span class="mn-icon">🔍</span>Analysis</div>
+    <div class="mob-nav-item" data-tab="reports"><span class="mn-icon">📄</span>Reports</div>
+    <div class="mob-nav-item" data-tab="add"><span class="mn-icon">➕</span>Add Q</div>
   </div>
 </nav>
 
@@ -698,7 +652,6 @@
 
   <!-- ── USERS ── -->
   <div class="tab-panel" id="tab-users">
-    <!-- Review Access Controls -->
     <div class="card" style="margin-bottom:14px">
       <div class="card-header"><div class="ch-icon" style="background:var(--success-lt)">👁</div><div><div class="ch-title">Review Access Controls</div><div class="ch-sub">Enable / disable answer review</div></div></div>
       <div class="card-body">
@@ -711,7 +664,6 @@
         <div id="deptReviewGrid" style="display:flex;flex-direction:column;gap:8px"><div style="color:var(--muted);font-size:13px">Loading…</div></div>
       </div>
     </div>
-    <!-- User Table -->
     <div class="card">
       <div class="card-header">
         <div class="ch-icon" style="background:var(--purple-lt)">👥</div>
@@ -812,7 +764,6 @@
       <button class="btn btn-cyan btn-sm" onclick="printAnalysisSummary()">🖨️ Print</button>
     </div>
 
-    <!-- Successful -->
     <div class="analysis-panel active" id="subtab-successful">
       <div class="card">
         <div class="card-header">
@@ -830,7 +781,6 @@
       </div>
     </div>
 
-    <!-- Violated -->
     <div class="analysis-panel" id="subtab-violated">
       <div class="card">
         <div class="card-header">
@@ -848,7 +798,6 @@
       </div>
     </div>
 
-    <!-- Multiple -->
     <div class="analysis-panel" id="subtab-multiple">
       <div class="card">
         <div class="card-header">
@@ -861,7 +810,6 @@
       </div>
     </div>
 
-    <!-- Summary -->
     <div class="analysis-panel" id="subtab-summary">
       <div id="summaryContainer"><div style="color:var(--muted);text-align:center;padding:40px">Loading…</div></div>
     </div>
@@ -963,14 +911,16 @@
       <button class="modal-close" onclick="closeModal('loginLimitModal')">✕</button>
     </div>
     <div class="modal-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:18px">Max login attempts for: <strong id="limitTargetName" style="color:var(--text)">—</strong></p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Max login attempts for: <strong id="limitTargetName" style="color:var(--text)">—</strong></p>
+      <!-- ★ FIX: shows current login count so admin knows what's being preserved -->
+      <p style="font-size:11.5px;color:var(--muted);margin-bottom:18px">Current logins used: <strong id="limitCurrentCount" style="color:var(--blue2);font-family:'JetBrains Mono',monospace">—</strong> (will be retained)</p>
       <div class="number-control">
         <button class="btn btn-ghost" onclick="adjustLimit(-1)">−</button>
         <input type="number" id="loginLimitInput" value="1" min="0" max="99">
         <button class="btn btn-ghost" onclick="adjustLimit(1)">+</button>
         <span style="font-size:12px;color:var(--muted)">attempts</span>
       </div>
-      <div class="info-tip">💡 <strong>1</strong> = single attempt · <strong>0</strong> = blocked · <strong>2+</strong> = multiple allowed.</div>
+      <div class="info-tip">💡 <strong>1</strong> = single attempt · <strong>0</strong> = blocked · <strong>2+</strong> = multiple allowed. Existing login count is preserved — use Reset (↺) to clear it.</div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('loginLimitModal')">Cancel</button>
@@ -1022,6 +972,8 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPPekygbfE15NaoZGi5NAnH3wWTlWIjkjU9mzOkpMGjSnUk1vTeogRjKzNzqrUcKq_Dw/exec";
 let questions=[], results=[], users=[], filteredQuestions=[], currentIndex=0;
 let resetTargetUsername='', limitTargetUsername='', deleteTargetRowIndex=null;
+// ★ FIX: track the current submitted count for the user whose limit is being changed
+let limitTargetSubmitted=0;
 let deleteResultTargetRowIndex=null;
 let selectedReportDept=null;
 let countdownVal=30, countdownTimer;
@@ -1058,31 +1010,23 @@ function checkAccess(){
   },1000);
 }
 
-/* ─── TABS (Desktop + Mobile) ─── */
+/* ─── TABS ─── */
 function switchTab(tabName) {
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.mob-nav-item').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-
-  const desktopTab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
-  const mobileTab  = document.querySelector(`.mob-nav-item[data-tab="${tabName}"]`);
-  const panel      = document.getElementById('tab-'+tabName);
-
+  const desktopTab=document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+  const mobileTab=document.querySelector(`.mob-nav-item[data-tab="${tabName}"]`);
+  const panel=document.getElementById('tab-'+tabName);
   if(desktopTab) desktopTab.classList.add('active');
   if(mobileTab)  mobileTab.classList.add('active');
   if(panel)      panel.classList.add('active');
-
   if(tabName==='scoreboard') renderLeaderboard();
   if(tabName==='reports')    renderReportDeptGrid();
   if(tabName==='analysis')   renderAnalysis();
 }
-
-document.querySelectorAll('.nav-tab').forEach(tab=>{
-  tab.addEventListener('click',()=>switchTab(tab.dataset.tab));
-});
-document.querySelectorAll('.mob-nav-item').forEach(item=>{
-  item.addEventListener('click',()=>switchTab(item.dataset.tab));
-});
+document.querySelectorAll('.nav-tab').forEach(tab=>{tab.addEventListener('click',()=>switchTab(tab.dataset.tab));});
+document.querySelectorAll('.mob-nav-item').forEach(item=>{item.addEventListener('click',()=>switchTab(item.dataset.tab));});
 
 /* ─── ANALYSIS SUB-TABS ─── */
 function switchSubtab(name){
@@ -1093,20 +1037,16 @@ function switchSubtab(name){
   document.getElementById('subtab-'+name).classList.add('active');
   renderAnalysis();
 }
-
 function renderAnalysis(){
   if(currentSubtab==='successful') renderSuccessful();
   else if(currentSubtab==='violated') renderViolated();
   else if(currentSubtab==='multiple') renderMultiple();
   else if(currentSubtab==='summary') renderSummary();
 }
-
 function populateAnalysisFilter(){
   const depts=[...new Set(results.map(r=>r.dept).filter(Boolean))].sort();
-  const sel=document.getElementById('analysisDeptFilter');
-  const cur=sel.value;
-  sel.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
-  sel.value=cur;
+  const sel=document.getElementById('analysisDeptFilter');const cur=sel.value;
+  sel.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');sel.value=cur;
 }
 
 /* ─── SUCCESSFUL ─── */
@@ -1114,28 +1054,13 @@ function renderSuccessful(){
   const dept=document.getElementById('analysisDeptFilter').value;
   let rows=results.filter(r=>!isViolated(r));
   if(dept) rows=rows.filter(r=>r.dept===dept);
-  rows.sort((a,b)=>{
-    const pa=a.total>0?(a.score/a.total):0, pb=b.total>0?(b.score/b.total):0;
-    return pb-pa || extractRollNo(a.username).localeCompare(extractRollNo(b.username),undefined,{numeric:true});
-  });
+  rows.sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa||extractRollNo(a.username).localeCompare(extractRollNo(b.username),undefined,{numeric:true});});
   document.getElementById('successCountLabel').textContent=`${rows.length} students`;
   const tbody=document.getElementById('successTable');
   if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No successful submissions found.</td></tr>';return;}
   tbody.innerHTML=rows.map((r,i)=>{
-    const pct=r.total>0?Math.round((r.score/r.total)*100):0;
-    const viol=parseInt(r.violations)||0;
-    return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
-      <td style="font-weight:600">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
-      <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
-      <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
-      <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-      <td style="color:${viol>0?'var(--warn)':'var(--muted)'};">${viol}</td>
-      <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-      <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
-      <td><span class="pill pill-green">${r.endReason||'manual'}</span></td>
-    </tr>`;
+    const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td><td style="font-weight:600">${r.name||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td><td><span class="pill pill-blue">${r.dept||'—'}</span></td><td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td><td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td><td style="color:${viol>0?'var(--warn)':'var(--muted)'};">${viol}</td><td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td><td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td><td><span class="pill pill-green">${r.endReason||'manual'}</span></td></tr>`;
   }).join('');
 }
 
@@ -1149,137 +1074,50 @@ function renderViolated(){
   const tbody=document.getElementById('violatedTable');
   if(!rows.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No violated students found.</td></tr>';return;}
   tbody.innerHTML=rows.map((r,i)=>{
-    const pct=r.total>0?Math.round((r.score/r.total)*100):0;
-    const viol=parseInt(r.violations)||0;
-    const violCol=viol>10?'var(--danger)':'var(--warn)';
-    return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td>
-      <td style="font-weight:600">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
-      <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
-      <td style="font-weight:700;color:var(--warn)">${r.score??'—'}/${r.total??'—'}</td>
-      <td><span class="pill ${pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-      <td style="font-weight:800;font-size:13px;color:${violCol}">⚠ ${viol}</td>
-      <td><span class="pill pill-red">${r.endReason||'manual'}</span></td>
-      <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-      <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
-    </tr>`;
+    const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;const violCol=viol>10?'var(--danger)':'var(--warn)';
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${i+1}</td><td style="font-weight:600">${r.name||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td><td><span class="pill pill-blue">${r.dept||'—'}</span></td><td style="font-weight:700;color:var(--warn)">${r.score??'—'}/${r.total??'—'}</td><td><span class="pill ${pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td><td style="font-weight:800;font-size:13px;color:${violCol}">⚠ ${viol}</td><td><span class="pill pill-red">${r.endReason||'manual'}</span></td><td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td><td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td></tr>`;
   }).join('');
 }
 
 /* ─── MULTIPLE ─── */
 function renderMultiple(){
   const dept=document.getElementById('analysisDeptFilter').value;
-  let filtered=results;
-  if(dept) filtered=results.filter(r=>r.dept===dept);
-
+  let filtered=results;if(dept) filtered=results.filter(r=>r.dept===dept);
   const groups={};
-  filtered.forEach((r,globalIdx)=>{
-    const key=String(r.username||'').toLowerCase().trim();
-    if(!key) return;
-    if(!groups[key]) groups[key]={name:r.name,username:r.username,dept:r.dept,entries:[]};
-    groups[key].entries.push({...r, _resultIndex: globalIdx});
-  });
-
+  filtered.forEach((r,globalIdx)=>{const key=String(r.username||'').toLowerCase().trim();if(!key)return;if(!groups[key])groups[key]={name:r.name,username:r.username,dept:r.dept,entries:[]};groups[key].entries.push({...r,_resultIndex:globalIdx});});
   const multiGroups=Object.values(groups).filter(g=>g.entries.length>=2);
-  multiGroups.forEach(g=>{
-    g.entries.sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;});
-    g.bestPct=g.entries[0].total>0?Math.round((g.entries[0].score/g.entries[0].total)*100):0;
-  });
+  multiGroups.forEach(g=>{g.entries.sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;});g.bestPct=g.entries[0].total>0?Math.round((g.entries[0].score/g.entries[0].total)*100):0;});
   multiGroups.sort((a,b)=>b.bestPct-a.bestPct);
-
   document.getElementById('multipleCountLabel').textContent=`${multiGroups.length} students submitted more than once`;
   const container=document.getElementById('multipleContainer');
   if(!multiGroups.length){container.innerHTML='<div style="color:var(--muted);text-align:center;padding:40px;font-size:13px">No multiple submissions found.</div>';return;}
-
   container.innerHTML=multiGroups.map(g=>{
     const initials=(g.name||g.username||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const roll=extractRollNo(g.username);
     const rowsHTML=g.entries.map((r,ei)=>{
-      const pct=r.total>0?Math.round((r.score/r.total)*100):0;
-      const viol=parseInt(r.violations)||0;
-      const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--muted)';
-      const sheetRowIndex=r._resultIndex+2;
-      return `<tr>
-        <td style="text-align:center">${ei===0?'<span class="pill pill-green" style="font-size:9.5px">★ Best</span>':'<span style="font-size:11px;color:var(--muted)">#'+(ei+1)+'</span>'}</td>
-        <td><span class="pill pill-purple" style="font-size:10px">${r.dept||'—'}</span></td>
-        <td style="font-weight:700;color:${ei===0?'var(--success)':'var(--text2)'}">${r.score??'—'}/${r.total??'—'}</td>
-        <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-        <td style="color:${violCol}">${viol>0?'⚠ ':''} ${viol}</td>
-        <td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td>
-        <td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td>
-        <td><span class="pill ${r.endReason==='violations'?'pill-red':r.endReason==='timeout'?'pill-warn':'pill-green'}">${r.endReason||'manual'}</span></td>
-        <td><button class="btn btn-sm btn-danger no-print" onclick="openDeleteResultModal(${sheetRowIndex},'${(g.name||roll).replace(/'/g,"\\'")} — ${r.dept||''} — Score ${r.score}/${r.total} — ${fmtDate(r.date)}')">🗑</button></td>
-      </tr>`;
+      const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--muted)';const sheetRowIndex=r._resultIndex+2;
+      return `<tr><td style="text-align:center">${ei===0?'<span class="pill pill-green" style="font-size:9.5px">★ Best</span>':'<span style="font-size:11px;color:var(--muted)">#'+(ei+1)+'</span>'}</td><td><span class="pill pill-purple" style="font-size:10px">${r.dept||'—'}</span></td><td style="font-weight:700;color:${ei===0?'var(--success)':'var(--text2)'}">${r.score??'—'}/${r.total??'—'}</td><td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td><td style="color:${violCol}">${viol>0?'⚠ ':''} ${viol}</td><td style="font-size:11px;color:var(--muted)">${fmtDuration(r.durationSec)}</td><td style="font-size:10px;color:var(--muted)">${fmtDate(r.date)}</td><td><span class="pill ${r.endReason==='violations'?'pill-red':r.endReason==='timeout'?'pill-warn':'pill-green'}">${r.endReason||'manual'}</span></td><td><button class="btn btn-sm btn-danger no-print" onclick="openDeleteResultModal(${sheetRowIndex},'${(g.name||roll).replace(/'/g,"\\'")} — ${r.dept||''} — Score ${r.score}/${r.total} — ${fmtDate(r.date)}')">🗑</button></td></tr>`;
     }).join('');
-    return `<div class="multi-group">
-      <div class="multi-group-header">
-        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${initials}</div>
-        <div>
-          <div class="multi-group-name">${g.name||'—'}</div>
-          <div class="multi-group-meta">Roll: <strong style="color:var(--blue2);font-family:'JetBrains Mono',monospace">${roll}</strong> · 🎓 ${g.dept||'—'} · ${g.entries.length} submissions</div>
-        </div>
-        <div class="multi-group-best">Best: ${g.entries[0].score}/${g.entries[0].total} (${g.bestPct}%)</div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Rank</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted</th><th>End</th><th class="no-print">Del</th></tr></thead>
-          <tbody>${rowsHTML}</tbody>
-        </table>
-      </div>
-    </div>`;
+    return `<div class="multi-group"><div class="multi-group-header"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${initials}</div><div><div class="multi-group-name">${g.name||'—'}</div><div class="multi-group-meta">Roll: <strong style="color:var(--blue2);font-family:'JetBrains Mono',monospace">${roll}</strong> · 🎓 ${g.dept||'—'} · ${g.entries.length} submissions</div></div><div class="multi-group-best">Best: ${g.entries[0].score}/${g.entries[0].total} (${g.bestPct}%)</div></div><div class="table-wrap"><table><thead><tr><th>Rank</th><th>Dept</th><th>Score</th><th>%</th><th>Violations</th><th>Duration</th><th>Submitted</th><th>End</th><th class="no-print">Del</th></tr></thead><tbody>${rowsHTML}</tbody></table></div></div>`;
   }).join('');
 }
 
 /* ─── SUMMARY ─── */
 function renderSummary(){
   const dept=document.getElementById('analysisDeptFilter').value;
-  let filtered=results;
-  if(dept) filtered=results.filter(r=>r.dept===dept);
+  let filtered=results;if(dept) filtered=results.filter(r=>r.dept===dept);
   const depts=[...new Set(filtered.map(r=>r.dept).filter(Boolean))].sort();
   if(!depts.length){document.getElementById('summaryContainer').innerHTML='<div style="color:var(--muted);text-align:center;padding:40px">No data available.</div>';return;}
   document.getElementById('summaryContainer').innerHTML=depts.map(d=>{
-    const dRows=filtered.filter(r=>r.dept===d);
-    const total=dRows.length;
-    const successful=dRows.filter(r=>!isViolated(r)).length;
-    const violated=dRows.filter(r=>isViolated(r)).length;
+    const dRows=filtered.filter(r=>r.dept===d);const total=dRows.length;
+    const successful=dRows.filter(r=>!isViolated(r)).length;const violated=dRows.filter(r=>isViolated(r)).length;
     const uCounts={};dRows.forEach(r=>{const k=(r.username||'').toLowerCase();uCounts[k]=(uCounts[k]||0)+1;});
     const multipleStudents=Object.values(uCounts).filter(c=>c>1).length;
     const avgPct=total?Math.round(dRows.reduce((s,r)=>s+(r.total>0?Math.round((r.score/r.total)*100):0),0)/total):0;
     const totalViol=dRows.reduce((s,r)=>s+(parseInt(r.violations)||0),0);
     const maxScore=dRows.length?Math.max(...dRows.map(r=>r.total>0?Math.round((r.score/r.total)*100):0)):0;
     const minScore=dRows.length?Math.min(...dRows.map(r=>r.total>0?Math.round((r.score/r.total)*100):0)):0;
-    return `<div class="summary-dept-card">
-      <div class="sdc-header"><div class="sdc-title">🏫 ${d}</div><div class="sdc-total">${total} submission${total!==1?'s':''}</div></div>
-      <div class="sdc-body">
-        <div class="sdc-stats-row">
-          <div class="sdc-stat" style="background:var(--success-lt)"><div class="sdc-stat-num" style="color:var(--success)">${successful}</div><div class="sdc-stat-lbl">Successful</div></div>
-          <div class="sdc-stat" style="background:var(--danger-lt)"><div class="sdc-stat-num" style="color:var(--danger)">${violated}</div><div class="sdc-stat-lbl">Violated</div></div>
-          <div class="sdc-stat" style="background:var(--purple-lt)"><div class="sdc-stat-num" style="color:var(--purple)">${multipleStudents}</div><div class="sdc-stat-lbl">Multi</div></div>
-          <div class="sdc-stat" style="background:var(--blue-lt)"><div class="sdc-stat-num" style="color:var(--blue2)">${avgPct}%</div><div class="sdc-stat-lbl">Avg</div></div>
-          <div class="sdc-stat" style="background:var(--warn-lt)"><div class="sdc-stat-num" style="color:var(--warn)">${totalViol}</div><div class="sdc-stat-lbl">Viols</div></div>
-          <div class="sdc-stat" style="background:#f0fdf4"><div class="sdc-stat-num" style="color:#15803d">${maxScore}%</div><div class="sdc-stat-lbl">Highest</div></div>
-          <div class="sdc-stat" style="background:#fff1f2"><div class="sdc-stat-num" style="color:#9f1239">${minScore}%</div><div class="sdc-stat-lbl">Lowest</div></div>
-        </div>
-        <div class="section-title">Top Performers</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Score</th><th>%</th><th>Violations</th></tr></thead>
-            <tbody>${[...dRows].sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;}).slice(0,5).map((r,i)=>{
-              const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;
-              return `<tr>
-                <td style="text-align:center;font-weight:700;color:var(--muted)">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
-                <td style="font-weight:600">${r.name||'—'}</td>
-                <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td>
-                <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
-                <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-                <td style="color:${viol>5?'var(--danger)':viol>0?'var(--warn)':'var(--muted)'}">${viol}</td>
-              </tr>`;
-            }).join('')}</tbody>
-          </table>
-        </div>
-      </div>
-    </div>`;
+    return `<div class="summary-dept-card"><div class="sdc-header"><div class="sdc-title">🏫 ${d}</div><div class="sdc-total">${total} submission${total!==1?'s':''}</div></div><div class="sdc-body"><div class="sdc-stats-row"><div class="sdc-stat" style="background:var(--success-lt)"><div class="sdc-stat-num" style="color:var(--success)">${successful}</div><div class="sdc-stat-lbl">Successful</div></div><div class="sdc-stat" style="background:var(--danger-lt)"><div class="sdc-stat-num" style="color:var(--danger)">${violated}</div><div class="sdc-stat-lbl">Violated</div></div><div class="sdc-stat" style="background:var(--purple-lt)"><div class="sdc-stat-num" style="color:var(--purple)">${multipleStudents}</div><div class="sdc-stat-lbl">Multi</div></div><div class="sdc-stat" style="background:var(--blue-lt)"><div class="sdc-stat-num" style="color:var(--blue2)">${avgPct}%</div><div class="sdc-stat-lbl">Avg</div></div><div class="sdc-stat" style="background:var(--warn-lt)"><div class="sdc-stat-num" style="color:var(--warn)">${totalViol}</div><div class="sdc-stat-lbl">Viols</div></div><div class="sdc-stat" style="background:#f0fdf4"><div class="sdc-stat-num" style="color:#15803d">${maxScore}%</div><div class="sdc-stat-lbl">Highest</div></div><div class="sdc-stat" style="background:#fff1f2"><div class="sdc-stat-num" style="color:#9f1239">${minScore}%</div><div class="sdc-stat-lbl">Lowest</div></div></div><div class="section-title">Top Performers</div><div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Roll No.</th><th>Score</th><th>%</th><th>Violations</th></tr></thead><tbody>${[...dRows].sort((a,b)=>{const pa=a.total>0?(a.score/a.total):0,pb=b.total>0?(b.score/b.total):0;return pb-pa;}).slice(0,5).map((r,i)=>{const pct=r.total>0?Math.round((r.score/r.total)*100):0;const viol=parseInt(r.violations)||0;return `<tr><td style="text-align:center;font-weight:700;color:var(--muted)">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td><td style="font-weight:600">${r.name||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${extractRollNo(r.username)}</td><td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td><td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td><td style="color:${viol>5?'var(--danger)':viol>0?'var(--warn)':'var(--muted)'}">${viol}</td></tr>`;}).join('')}</tbody></table></div></div></div>`;
   }).join('');
 }
 
@@ -1321,17 +1159,12 @@ function showToast(msg,color){
 /* ─── MODALS ─── */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-
-// Close modal on backdrop click
-document.querySelectorAll('.modal').forEach(m=>{
-  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
-});
+document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 
 /* ─── REFRESH ─── */
 async function refreshAll(){
   await Promise.all([fetchQuestions(),fetchResults(),fetchDeptStats(),fetchUsers()]);
-  renderLeaderboard();
-  populateAnalysisFilter();
+  renderLeaderboard();populateAnalysisFilter();
 }
 
 /* ─── USERS ─── */
@@ -1394,7 +1227,7 @@ function renderUsersTable(list){
       <td>${statusPill}</td>
       <td><button class="btn btn-sm ${reviewOn?'btn-success':'btn-ghost'}" onclick="quickToggleReview('${u.username}',${!reviewOn})">${reviewOn?'✓':'Off'}</button></td>
       <td><div style="display:flex;gap:5px;flex-wrap:wrap">
-        ${!isAdmin?`<button class="btn btn-sm btn-warn" onclick="openResetModal('${u.username}','${nameEsc}')">↺</button><button class="btn btn-sm btn-purple" onclick="openLoginLimitModal('${u.username}','${nameEsc}','${limVal}')">🔢</button>`:'<span style="color:var(--muted);font-size:11px">—</span>'}
+        ${!isAdmin?`<button class="btn btn-sm btn-warn" onclick="openResetModal('${u.username}','${nameEsc}')">↺</button><button class="btn btn-sm btn-purple" onclick="openLoginLimitModal('${u.username}','${nameEsc}','${limVal}','${cnt}')">🔢</button>`:'<span style="color:var(--muted);font-size:11px">—</span>'}
       </div></td>
     </tr>`;
   }).join('');
@@ -1406,13 +1239,34 @@ async function confirmReset(){
   if(document.getElementById('resetReview').checked)calls.push(fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'toggleReview',username:resetTargetUsername,enable:true})}));
   await Promise.all(calls);showToast('✅ User reset successfully');fetchUsers();
 }
-function openLoginLimitModal(username,name,currentLimit){limitTargetUsername=username;document.getElementById('limitTargetName').textContent=name;document.getElementById('loginLimitInput').value=currentLimit||'1';openModal('loginLimitModal');}
-function adjustLimit(delta){const inp=document.getElementById('loginLimitInput');inp.value=Math.max(0,Math.min(99,(parseInt(inp.value)||0)+delta));}
-async function confirmLoginLimit(){
-  const limit=parseInt(document.getElementById('loginLimitInput').value)||1;closeModal('loginLimitModal');
-  await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'setLoginLimit',username:limitTargetUsername,limit})});
-  showToast(`✅ Login limit set to ${limit}`);fetchUsers();
+
+// ★ FIX: Accept 4th param (currentSubmitted) — store it so confirmLoginLimit can send it
+function openLoginLimitModal(username, name, currentLimit, currentSubmitted) {
+  limitTargetUsername = username;
+  limitTargetSubmitted = parseInt(currentSubmitted) || 0;   // ★ preserve current count
+  document.getElementById('limitTargetName').textContent = name;
+  document.getElementById('limitCurrentCount').textContent = limitTargetSubmitted; // ★ show in modal
+  document.getElementById('loginLimitInput').value = currentLimit || '1';
+  openModal('loginLimitModal');
 }
+
+function adjustLimit(delta){const inp=document.getElementById('loginLimitInput');inp.value=Math.max(0,Math.min(99,(parseInt(inp.value)||0)+delta));}
+
+// ★ FIX: Send preserveCount:true + currentSubmitted so Apps Script only updates the Limit column
+async function confirmLoginLimit(){
+  const limit=parseInt(document.getElementById('loginLimitInput').value)||1;
+  closeModal('loginLimitModal');
+  await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({
+    action:'setLoginLimit',
+    username:limitTargetUsername,
+    limit,
+    preserveCount: true,          // ★ tells Apps Script NOT to reset the submitted counter
+    currentSubmitted: limitTargetSubmitted  // ★ current count to retain if needed
+  })});
+  showToast(`✅ Limit set to ${limit} (logins retained: ${limitTargetSubmitted})`);
+  fetchUsers();
+}
+
 async function quickToggleReview(username,enable){
   await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'toggleReview',username,enable})});
   showToast(enable?'✅ Review enabled':'⛔ Review disabled');fetchUsers();
@@ -1438,18 +1292,11 @@ function renderDeptReviewGrid(){
   if(!depts.length){grid.innerHTML='<div style="color:var(--muted);font-size:13px">No departments found.</div>';return;}
   grid.innerHTML=depts.map(dept=>{
     const deptUsers=users.filter(u=>u.role!=='Admin'&&u.dept===dept);
-    const onCount=deptUsers.filter(u=>u.review==='Yes').length;
-    const total=deptUsers.length;
+    const onCount=deptUsers.filter(u=>u.review==='Yes').length;const total=deptUsers.length;
     const allOn=onCount===total&&total>0,allOff=onCount===0,partial=!allOn&&!allOff;
     const statusBadge=allOn?`<span class="pill pill-green">✅ All ON (${onCount}/${total})</span>`:allOff?`<span class="pill pill-red">⛔ All OFF (0/${total})</span>`:`<span class="pill pill-warn">⚡ ${onCount}/${total} ON</span>`;
     const deptEsc=dept.replace(/'/g,"\\'");
-    return `<div class="dept-review-item">
-      <span class="dept-review-item-name">🏫 ${dept} &nbsp; ${statusBadge}</span>
-      <div class="dept-review-actions">
-        <button class="btn btn-sm btn-success" onclick="bulkReview('${deptEsc}',true)">✅ Enable</button>
-        <button class="btn btn-sm btn-danger" onclick="bulkReview('${deptEsc}',false)">⛔ Disable</button>
-      </div>
-    </div>`;
+    return `<div class="dept-review-item"><span class="dept-review-item-name">🏫 ${dept} &nbsp; ${statusBadge}</span><div class="dept-review-actions"><button class="btn btn-sm btn-success" onclick="bulkReview('${deptEsc}',true)">✅ Enable</button><button class="btn btn-sm btn-danger" onclick="bulkReview('${deptEsc}',false)">⛔ Disable</button></div></div>`;
   }).join('');
 }
 
@@ -1471,15 +1318,7 @@ function showQuestion(){
   const qc=document.getElementById('qContainer');
   if(!filteredQuestions.length){qc.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px">No questions.</div>';document.getElementById('qNavLabel').textContent='—';return;}
   const q=filteredQuestions[currentIndex];
-  qc.innerHTML=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);padding:2px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:6px">Q${currentIndex+1}/${filteredQuestions.length}</span>
-    <span class="pill ${q.dept?'pill-blue':'pill-muted'}">${q.dept||'Aptitude'}</span>
-    <div style="margin-left:auto"><button class="btn btn-sm btn-danger" onclick="openDeleteQModal(${q.rowIndex},'${(q.q||'').slice(0,60).replace(/'/g,"\\'")}')">🗑 Delete</button></div>
-  </div>
-  <div style="font-size:14.5px;font-weight:600;margin-bottom:14px;line-height:1.65;color:var(--text)">${q.q}</div>
-  <div class="q-opts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-    ${['A','B','C','D'].map((l,i)=>`<div style="padding:9px 12px;border-radius:9px;background:${q.options[i]===q.answer?'var(--success-lt)':'#f8fbff'};border:1px solid ${q.options[i]===q.answer?'rgba(5,150,105,0.3)':'var(--border)'};font-size:12.5px;color:${q.options[i]===q.answer?'var(--success)':'var(--text2)'}"><strong>${l})</strong> ${q.options[i]}${q.options[i]===q.answer?' ✓':''}</div>`).join('')}
-  </div>${q.img?`<img src="${q.img}" style="max-width:100%;border-radius:10px;border:1px solid var(--border)">` :''}`;
+  qc.innerHTML=`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px"><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);padding:2px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:6px">Q${currentIndex+1}/${filteredQuestions.length}</span><span class="pill ${q.dept?'pill-blue':'pill-muted'}">${q.dept||'Aptitude'}</span><div style="margin-left:auto"><button class="btn btn-sm btn-danger" onclick="openDeleteQModal(${q.rowIndex},'${(q.q||'').slice(0,60).replace(/'/g,"\\'")}')">🗑 Delete</button></div></div><div style="font-size:14.5px;font-weight:600;margin-bottom:14px;line-height:1.65;color:var(--text)">${q.q}</div><div class="q-opts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">${['A','B','C','D'].map((l,i)=>`<div style="padding:9px 12px;border-radius:9px;background:${q.options[i]===q.answer?'var(--success-lt)':'#f8fbff'};border:1px solid ${q.options[i]===q.answer?'rgba(5,150,105,0.3)':'var(--border)'};font-size:12.5px;color:${q.options[i]===q.answer?'var(--success)':'var(--text2)'}"><strong>${l})</strong> ${q.options[i]}${q.options[i]===q.answer?' ✓':''}</div>`).join('')}</div>${q.img?`<img src="${q.img}" style="max-width:100%;border-radius:10px;border:1px solid var(--border)">` :''}`;
   document.getElementById('qNavLabel').textContent=`${currentIndex+1} / ${filteredQuestions.length}`;
   if(typeof MathJax!=='undefined')MathJax.typesetPromise?.();
 }
@@ -1519,16 +1358,12 @@ function populateResultDeptFilter(){
   sel.innerHTML='<option value="">All Depts</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');sel.value=cur;
 }
 function updateOverviewMetrics(){
-  const nonAdmin=users.filter(u=>u.role!=='Admin');
-  const totalU=nonAdmin.length||results.length;
+  const nonAdmin=users.filter(u=>u.role!=='Admin');const totalU=nonAdmin.length||results.length;
   const attended=nonAdmin.filter(u=>(parseInt(u.submitted)||0)>0).length;
-  document.getElementById('mTotal').textContent=totalU;
-  document.getElementById('mAttended').textContent=attended;
-  document.getElementById('mPending').textContent=Math.max(0,totalU-attended);
+  document.getElementById('mTotal').textContent=totalU;document.getElementById('mAttended').textContent=attended;document.getElementById('mPending').textContent=Math.max(0,totalU-attended);
   const totalViol=results.reduce((s,r)=>s+(parseInt(r.violations)||0),0);
   const highViol=results.filter(r=>(parseInt(r.violations)||0)>5).length;
-  document.getElementById('mTotalViolations').textContent=totalViol;
-  document.getElementById('mHighViolations').textContent=highViol;
+  document.getElementById('mTotalViolations').textContent=totalViol;document.getElementById('mHighViolations').textContent=highViol;
   if(results.length){const avg=results.reduce((s,r)=>s+(r.total>0?Math.round((r.score/r.total)*100):0),0)/results.length;document.getElementById('mAvgScore').textContent=Math.round(avg)+'%';}
   renderSubmissionByCategory();renderViolationBreakdown();
 }
@@ -1536,42 +1371,24 @@ function renderSubmissionByCategory(){
   if(!results.length){document.getElementById('submissionByCategory').innerHTML='<span style="color:var(--muted);font-size:12px">No data</span>';return;}
   const counts={};results.forEach(r=>{const key=r.endReason||'manual';counts[key]=(counts[key]||0)+1;});
   const reasonColors={'manual':'var(--success)','timeout':'var(--warn)','violations':'var(--danger)','final-review':'var(--cyan)'};
-  let html='';
-  Object.entries(counts).forEach(([key,val])=>{const col=reasonColors[key]||'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${key}</span><span class="bc-val" style="color:${col}">${val}</span></div>`;});
+  let html='';Object.entries(counts).forEach(([key,val])=>{const col=reasonColors[key]||'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${key}</span><span class="bc-val" style="color:${col}">${val}</span></div>`;});
   document.getElementById('submissionByCategory').innerHTML=html||'<span style="color:var(--muted);font-size:12px">No data</span>';
 }
 function renderViolationBreakdown(){
   if(!results.length){document.getElementById('violationBreakdown').innerHTML='<span style="color:var(--muted);font-size:12px">No data</span>';return;}
   const sorted=[...results].sort((a,b)=>(parseInt(b.violations)||0)-(parseInt(a.violations)||0)).slice(0,6);
-  let html='';
-  sorted.forEach(r=>{const v=parseInt(r.violations)||0;const col=v>10?'var(--danger)':v>5?'var(--warn)':'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${r.name||extractRollNo(r.username)} <span style="font-size:9px;color:var(--muted)">(${r.dept||'—'})</span></span><span class="bc-val" style="color:${col}">${v} ⚠</span></div>`;});
+  let html='';sorted.forEach(r=>{const v=parseInt(r.violations)||0;const col=v>10?'var(--danger)':v>5?'var(--warn)':'var(--muted)';html+=`<div class="bc-item"><span class="bc-label">${r.name||extractRollNo(r.username)} <span style="font-size:9px;color:var(--muted)">(${r.dept||'—'})</span></span><span class="bc-val" style="color:${col}">${v} ⚠</span></div>`;});
   document.getElementById('violationBreakdown').innerHTML=html;
 }
 function renderResultsTable(){
-  const tbody=document.getElementById('resultsTable');
-  const deptF=document.getElementById('resultsDeptFilter').value;
+  const tbody=document.getElementById('resultsTable');const deptF=document.getElementById('resultsDeptFilter').value;
   let sorted=[...results].reverse();if(deptF)sorted=sorted.filter(r=>r.dept===deptF);
   if(!sorted.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:28px">No results.</td></tr>';return;}
   tbody.innerHTML=sorted.map((r,i)=>{
-    const dur=fmtDuration(r.durationSec);
-    const pct=r.total>0?Math.round((r.score/r.total)*100):0;
+    const dur=fmtDuration(r.durationSec);const pct=r.total>0?Math.round((r.score/r.total)*100):0;
     const ercol=r.endReason==='violations'?'var(--danger)':r.endReason==='timeout'?'var(--warn)':'var(--success)';
-    const date=fmtDate(r.date);
-    const roll=extractRollNo(r.username);
-    const viol=parseInt(r.violations)||0;
-    const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--text2)';
-    return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${sorted.length-i}</td>
-      <td style="font-weight:600;font-size:12px;color:var(--text)">${r.name||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${roll}</td>
-      <td><span class="pill pill-blue">${r.dept||'—'}</span></td>
-      <td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td>
-      <td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td>
-      <td style="font-weight:700;color:${violCol}">${viol}</td>
-      <td style="font-size:11px;color:var(--muted)">${dur}</td>
-      <td style="font-size:10px;color:var(--muted)">${date}</td>
-      <td style="font-size:11px;color:${ercol}">${r.endReason||'—'}</td>
-    </tr>`;
+    const date=fmtDate(r.date);const roll=extractRollNo(r.username);const viol=parseInt(r.violations)||0;const violCol=viol>10?'var(--danger)':viol>5?'var(--warn)':'var(--text2)';
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)">${sorted.length-i}</td><td style="font-weight:600;font-size:12px;color:var(--text)">${r.name||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--blue2)">${roll}</td><td><span class="pill pill-blue">${r.dept||'—'}</span></td><td style="font-weight:700;color:var(--success)">${r.score??'—'}/${r.total??'—'}</td><td><span class="pill ${pct>=80?'pill-green':pct>=50?'pill-warn':'pill-red'}">${pct}%</span></td><td style="font-weight:700;color:${violCol}">${viol}</td><td style="font-size:11px;color:var(--muted)">${dur}</td><td style="font-size:10px;color:var(--muted)">${date}</td><td style="font-size:11px;color:${ercol}">${r.endReason||'—'}</td></tr>`;
   }).join('');
 }
 
@@ -1584,18 +1401,13 @@ function populateLeaderboardFilter(){
 function renderLeaderboard(){
   const dept=document.getElementById('lbDeptFilter').value;
   const seen={},entries=[];
-  [...results].reverse().forEach(r=>{
-    if(seen[r.username])return;if(dept&&r.dept!==dept)return;seen[r.username]=true;
-    const pct=r.total>0?Math.round((r.score/r.total)*100):0;entries.push({...r,pct});
-  });
+  [...results].reverse().forEach(r=>{if(seen[r.username])return;if(dept&&r.dept!==dept)return;seen[r.username]=true;const pct=r.total>0?Math.round((r.score/r.total)*100):0;entries.push({...r,pct});});
   entries.sort((a,b)=>b.score!==a.score?b.score-a.score:(a.durationSec||9999)-(b.durationSec||9999));
   const container=document.getElementById('leaderboardContainer');
   if(!entries.length){container.innerHTML='<div style="text-align:center;color:var(--muted);padding:40px">No submissions yet.</div>';return;}
   container.innerHTML=entries.map((e,idx)=>{
-    const rank=idx+1;const cls=rank===1?'gold':rank===2?'silver':rank===3?'bronze':'';
-    const icon=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'';
-    const initials=(e.name||e.username||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const dur=fmtDuration(e.durationSec);
+    const rank=idx+1;const cls=rank===1?'gold':rank===2?'silver':rank===3?'bronze':'';const icon=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'';
+    const initials=(e.name||e.username||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();const dur=fmtDuration(e.durationSec);
     const col=e.pct>=80?'var(--success)':e.pct>=50?'var(--warn)':'var(--danger)';
     return `<div class="lb-row"><div class="lb-rank ${cls}">${icon||rank}</div><div class="lb-avatar">${initials}</div><div class="lb-info"><div class="lb-name">${e.name||e.username||'—'}</div><div class="lb-dept">${e.dept||'—'} · ⏱ ${dur}</div></div><div class="lb-bar-wrap"><div class="lb-bar"><div class="lb-bar-fill" style="width:${e.pct}%"></div></div></div><div class="lb-score-wrap"><div class="lb-score" style="color:${col}">${e.score}/${e.total}</div><div class="lb-pct">${e.pct}%</div></div></div>`;
   }).join('');
@@ -1607,8 +1419,7 @@ async function fetchDeptStats(){
   const data=await res.json();const stats=data.stats||{};
   if(!Object.keys(stats).length){document.getElementById('deptStats').innerHTML='<div style="color:var(--muted);font-size:13px">No data yet.</div>';return;}
   document.getElementById('deptStats').innerHTML=Object.keys(stats).map(dept=>{
-    const s=stats[dept];const pct=s.total>0?Math.round((s.attended/s.total)*100):0;
-    const avgCol=s.avgScore>=80?'var(--success)':s.avgScore>=50?'var(--warn)':'var(--danger)';
+    const s=stats[dept];const pct=s.total>0?Math.round((s.attended/s.total)*100):0;const avgCol=s.avgScore>=80?'var(--success)':s.avgScore>=50?'var(--warn)':'var(--danger)';
     return `<div class="stat-card"><div class="stat-dept">${dept}</div><div class="stat-row"><span>Registered</span><strong>${s.total}</strong></div><div class="stat-row"><span>Attended</span><strong style="color:var(--success)">${s.attended}</strong></div><div class="stat-row"><span>Pending</span><strong style="color:var(--warn)">${s.total-s.attended}</strong></div><div class="stat-row"><span>Avg Score</span><strong style="color:${avgCol}">${s.avgScore||0}%</strong></div><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div><div style="text-align:right;font-size:10.5px;color:var(--muted);margin-top:4px">${pct}% attendance</div></div>`;
   }).join('');
 }
@@ -1617,18 +1428,13 @@ async function fetchDeptStats(){
 function renderReportDeptGrid(){
   const depts=[...new Set(results.map(r=>r.dept).filter(Boolean))].sort();
   if(!depts.length){document.getElementById('reportDeptGrid').innerHTML='<div style="color:var(--muted);font-size:13px">No results data yet.</div>';return;}
-  document.getElementById('reportDeptGrid').innerHTML=depts.map(d=>{
-    const cnt=results.filter(r=>r.dept===d).length;
-    return `<div class="dept-result-card" onclick="selectReportDept('${d}')" id="rdc-${d.replace(/\s/g,'_')}"><div class="drc-dept">${d}</div><div class="drc-count">${cnt} submissions</div></div>`;
-  }).join('');
+  document.getElementById('reportDeptGrid').innerHTML=depts.map(d=>{const cnt=results.filter(r=>r.dept===d).length;return `<div class="dept-result-card" onclick="selectReportDept('${d}')" id="rdc-${d.replace(/\s/g,'_')}"><div class="drc-dept">${d}</div><div class="drc-count">${cnt} submissions</div></div>`;}).join('');
 }
 function selectReportDept(dept){
   selectedReportDept=dept;
   document.querySelectorAll('.dept-result-card').forEach(c=>c.classList.remove('selected'));
   const el=document.getElementById('rdc-'+dept.replace(/\s/g,'_'));if(el)el.classList.add('selected');
-  document.getElementById('reportSelectedDept').textContent=dept;
-  document.getElementById('reportSection').style.display='';
-  renderPreviewTable(dept);
+  document.getElementById('reportSelectedDept').textContent=dept;document.getElementById('reportSection').style.display='';renderPreviewTable(dept);
 }
 function getReportRows(dept){
   const deptResults=results.filter(r=>!dept||r.dept===dept);
@@ -1663,15 +1469,12 @@ function generatePdfReport(){
   const rows=getReportRows(selectedReportDept).sort((a,b)=>a.rollNo.localeCompare(b.rollNo,undefined,{numeric:true})).map((r,i)=>({...r,sno:i+1}));
   if(!rows.length){showToast('⚠ No data for this department');return;}
   const pageW=doc.internal.pageSize.getWidth();const marginL=14,marginR=14;let cursorY=14;
-  doc.setTextColor(0,0,0);doc.setFont('helvetica','bold');doc.setFontSize(13);
-  doc.text('KAMARAJ COLLEGE OF ENGINEERING & TECHNOLOGY',pageW/2,cursorY,{align:'center'});cursorY+=6;
+  doc.setTextColor(0,0,0);doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text('KAMARAJ COLLEGE OF ENGINEERING & TECHNOLOGY',pageW/2,cursorY,{align:'center'});cursorY+=6;
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Department of Electronics & Communication Engineering',pageW/2,cursorY,{align:'center'});cursorY+=6;
   doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`Industry Specific Mock Test \u2014 ${selectedReportDept} Department Results`,pageW/2,cursorY,{align:'center'});cursorY+=5;
   doc.setDrawColor(0,0,0);doc.setLineWidth(0.5);doc.line(marginL,cursorY,pageW-marginR,cursorY);cursorY+=5;
-  const avgPct=rows.length?Math.round(rows.reduce((s,r)=>s+parseInt(r.pct),0)/rows.length):0;
-  const totalViol=rows.reduce((s,r)=>s+r.violations,0);
-  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(0,0,0);
-  doc.text(`Total Students: ${rows.length}`,marginL,cursorY);doc.text(`Generated: ${new Date().toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}`,pageW-marginR,cursorY,{align:'right'});cursorY+=5;
+  const avgPct=rows.length?Math.round(rows.reduce((s,r)=>s+parseInt(r.pct),0)/rows.length):0;const totalViol=rows.reduce((s,r)=>s+r.violations,0);
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(0,0,0);doc.text(`Total Students: ${rows.length}`,marginL,cursorY);doc.text(`Generated: ${new Date().toLocaleString('en-IN',{dateStyle:'short',timeStyle:'short'})}`,pageW-marginR,cursorY,{align:'right'});cursorY+=5;
   doc.setFont('helvetica','bold');doc.text(`Avg Score: ${avgPct}%   |   Total Violations: ${totalViol}   |   Dept: ${selectedReportDept}`,pageW/2,cursorY,{align:'center'});cursorY+=4;
   doc.setLineWidth(0.3);doc.line(marginL,cursorY,pageW-marginR,cursorY);cursorY+=3;
   doc.autoTable({startY:cursorY,head:[['S. No','Name','Roll No.','Dept','Score','%','Violations']],body:rows.map(r=>[r.sno,r.name,r.rollNo,r.dept,r.score,r.pct,r.violations]),styles:{font:'helvetica',fontSize:9,cellPadding:{top:3.5,bottom:3.5,left:3,right:3},lineColor:[0,0,0],lineWidth:0.25,textColor:[0,0,0],fillColor:false,overflow:'linebreak'},headStyles:{fillColor:false,textColor:[0,0,0],fontSize:9,fontStyle:'bold',halign:'center',lineColor:[0,0,0],lineWidth:0.4},alternateRowStyles:{fillColor:false},columnStyles:{0:{halign:'center',cellWidth:12},1:{cellWidth:55},2:{halign:'center',cellWidth:30},3:{halign:'center',cellWidth:28},4:{halign:'center',cellWidth:18},5:{halign:'center',cellWidth:14},6:{halign:'center',cellWidth:21}},didParseCell:function(data){data.cell.styles.fillColor=false;},margin:{left:marginL,right:marginR},tableLineColor:[0,0,0],tableLineWidth:0.25});
