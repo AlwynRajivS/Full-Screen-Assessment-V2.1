@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>EduExam Pro | Exam Instructions</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:        #f4f7ff;
-      --bg2:       #eaf0ff;
       --surface:   #ffffff;
       --border:    rgba(59,130,246,0.14);
       --border2:   rgba(59,130,246,0.25);
@@ -39,24 +38,24 @@
       color: var(--text);
     }
 
-    /* subtle dot grid */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
-      background-image: radial-gradient(circle, rgba(59,130,246,0.09) 1px, transparent 1px);
-      background-size: 26px 26px;
+      background-image: radial-gradient(circle, rgba(59,130,246,0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
       pointer-events: none;
     }
 
-    /* soft blobs */
+    /* Blobs — smaller on mobile */
     .blob {
-      position: fixed; border-radius: 50%; z-index: 0; filter: blur(70px); pointer-events: none;
+      position: fixed; border-radius: 50%; z-index: 0;
+      filter: blur(60px); pointer-events: none;
     }
-    .blob1 { width: 400px; height: 400px; top: -120px; left: -100px; background: rgba(59,130,246,0.10); animation: blobFloat 14s ease-in-out infinite; }
-    .blob2 { width: 300px; height: 300px; bottom: -80px; right: -60px;  background: rgba(8,145,178,0.08); animation: blobFloat 10s ease-in-out infinite reverse; }
+    .blob1 { width: 300px; height: 300px; top: -80px; left: -80px; background: rgba(59,130,246,0.09); animation: blobFloat 14s ease-in-out infinite; }
+    .blob2 { width: 220px; height: 220px; bottom: -60px; right: -40px; background: rgba(8,145,178,0.07); animation: blobFloat 10s ease-in-out infinite reverse; }
     @keyframes blobFloat {
       0%,100% { transform: translate(0,0) scale(1); }
-      50%      { transform: translate(18px,-18px) scale(1.04); }
+      50%      { transform: translate(12px,-12px) scale(1.03); }
     }
 
     /* ── TOP BAR ── */
@@ -65,37 +64,39 @@
       background: rgba(255,255,255,0.97);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      padding: 12px 32px;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
       box-shadow: 0 1px 12px rgba(59,130,246,0.07);
     }
-    .topbar-brand { display: flex; align-items: center; gap: 12px; }
+    .topbar-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .topbar-logo {
-      width: 38px; height: 38px;
+      width: 36px; height: 36px; flex-shrink: 0;
       background: linear-gradient(135deg, var(--blue2), var(--cyan));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
       box-shadow: 0 2px 10px rgba(37,99,235,0.22);
     }
-    .topbar-name { font-size: 14px; font-weight: 700; color: var(--text); }
-    .topbar-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .topbar-name { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .topbar-sub  { font-size: 10px; color: var(--muted); margin-top: 1px; white-space: nowrap; }
     .user-chip {
-      padding: 6px 14px;
+      padding: 5px 12px;
       background: var(--blue-lt);
       border: 1px solid rgba(37,99,235,0.2);
       border-radius: 100px;
-      font-size: 12px; font-weight: 600; color: var(--blue2);
+      font-size: 11px; font-weight: 600; color: var(--blue2);
+      white-space: nowrap; flex-shrink: 0;
+      max-width: 160px; overflow: hidden; text-overflow: ellipsis;
     }
 
     /* ── PAGE ── */
     .page {
       position: relative; z-index: 1;
       max-width: 860px; margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 18px 14px 100px;
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
@@ -103,70 +104,109 @@
     .hero-strip {
       background: linear-gradient(135deg, rgba(37,99,235,0.07), rgba(8,145,178,0.05));
       border: 1px solid rgba(59,130,246,0.18);
-      border-radius: 20px;
-      padding: 30px 36px;
-      margin-bottom: 32px;
-      display: flex; align-items: center; justify-content: space-between; gap: 24px;
-      flex-wrap: wrap;
-      box-shadow: 0 4px 24px rgba(59,130,246,0.07);
-      animation: fadeUp 0.5s ease both;
+      border-radius: 18px;
+      padding: 20px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 20px rgba(59,130,246,0.07);
+      animation: fadeUp 0.4s ease both;
     }
-    .hero-strip h1 { font-size: 1.75rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-    .hero-strip p  { font-size: 13px; color: var(--muted); }
+    .hero-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .hero-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue2), var(--cyan));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.25);
+    }
+    .hero-strip h1 { font-size: 1.35rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .hero-strip p  { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
 
-    .meta-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    /* Meta chips — 2×2 grid on mobile */
+    .meta-chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
     .meta-chip {
-      padding: 8px 16px;
-      border-radius: 100px;
+      padding: 10px 12px;
+      border-radius: 12px;
       border: 1px solid var(--border2);
       background: var(--surface);
-      font-size: 12.5px; font-weight: 600; color: var(--text2);
-      white-space: nowrap;
-      box-shadow: 0 1px 6px rgba(59,130,246,0.07);
+      font-size: 12px; font-weight: 600; color: var(--text2);
+      display: flex; flex-direction: column; gap: 3px;
+      box-shadow: 0 1px 6px rgba(59,130,246,0.06);
     }
-    .meta-chip .val { color: var(--blue2); }
+    .meta-chip .label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+    .meta-chip .val   { font-size: 14px; font-weight: 800; color: var(--blue2); }
 
     /* ── SECTIONS ── */
-    .sections { display: flex; flex-direction: column; gap: 18px; }
+    .sections { display: flex; flex-direction: column; gap: 14px; }
 
     .section {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px; overflow: hidden;
-      box-shadow: 0 2px 14px rgba(59,130,246,0.06);
-      animation: fadeUp 0.5s ease both;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.06);
+      animation: fadeUp 0.45s ease both;
     }
     .section:nth-child(1) { animation-delay: 0.05s; }
     .section:nth-child(2) { animation-delay: 0.10s; }
     .section:nth-child(3) { animation-delay: 0.15s; }
     .section:nth-child(4) { animation-delay: 0.20s; }
 
+    /* Collapsible header */
     .sec-header {
-      display: flex; align-items: center; gap: 12px;
-      padding: 14px 22px;
+      display: flex; align-items: center; gap: 11px;
+      padding: 13px 16px;
       border-bottom: 1px solid var(--border);
       background: rgba(248,250,255,0.9);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     .sec-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 15px;
     }
     .sec-icon.blue   { background: var(--blue-lt); }
     .sec-icon.green  { background: var(--success-lt); }
     .sec-icon.red    { background: var(--danger-lt); }
     .sec-icon.yellow { background: var(--warn-lt); }
 
-    .sec-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
-    .sec-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .sec-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+    .sec-sub   { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
 
-    .sec-body  { padding: 20px 22px; }
+    .sec-chevron {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 12px; color: var(--muted);
+      transition: transform .25s ease;
+    }
+    .section.open .sec-chevron { transform: rotate(180deg); }
+
+    /* Collapsible body */
+    .sec-body-wrap {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .section.open .sec-body-wrap { max-height: 2000px; }
+
+    /* Default open (no collapse needed) — add .always-open to skip toggle */
+    .section.always-open .sec-body-wrap { max-height: none; overflow: visible; }
+    .section.always-open .sec-chevron { display: none; }
+    .section.always-open .sec-header   { cursor: default; }
+
+    .sec-body { padding: 16px; }
 
     /* ── RULE LIST ── */
     .rule-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .rule-item {
-      display: flex; align-items: flex-start; gap: 12px;
-      font-size: 13.5px; line-height: 1.65; color: var(--text2);
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; line-height: 1.6; color: var(--text2);
+      padding: 10px 12px;
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
     }
     .rule-dot { flex-shrink: 0; margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; }
     .dot-blue   { background: var(--blue3); }
@@ -176,73 +216,96 @@
 
     /* ── VIOLATION GRID ── */
     .violation-grid {
-      display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
     }
     .v-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 14px;
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px;
       background: var(--danger-lt);
       border: 1px solid rgba(220,38,38,0.14);
       border-radius: 10px;
-      font-size: 12.5px; color: var(--danger);
+      font-size: 12px; color: var(--danger); line-height: 1.4;
     }
-    .v-item .v-ico { font-size: 15px; }
+    .v-item .v-ico { font-size: 16px; flex-shrink: 0; }
 
     /* ── ALERT BANNER ── */
     .alert-banner {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 14px 18px;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 14px;
       background: var(--warn-lt);
       border: 1px solid rgba(217,119,6,0.2);
       border-radius: 12px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
-    .alert-ico  { font-size: 19px; flex-shrink: 0; }
-    .alert-text { font-size: 13px; color: var(--warn); line-height: 1.6; }
+    .alert-ico  { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert-text { font-size: 12.5px; color: var(--warn); line-height: 1.6; }
     .alert-text strong { color: #92400e; }
 
     /* ── CONSENT ── */
     .consent-wrap {
-      display: flex; align-items: center; gap: 12px;
-      padding: 16px 22px;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
       border-top: 1px solid var(--border);
-      background: #f8fbff;
+      background: #f0f6ff;
     }
     .consent-wrap input[type="checkbox"] {
-      width: 18px; height: 18px; accent-color: var(--blue2);
-      cursor: pointer; flex-shrink: 0;
+      width: 20px; height: 20px; accent-color: var(--blue2);
+      cursor: pointer; flex-shrink: 0; margin-top: 2px;
     }
-    .consent-wrap label { font-size: 13px; color: var(--muted); cursor: pointer; line-height: 1.5; }
+    .consent-wrap label { font-size: 12.5px; color: var(--muted); cursor: pointer; line-height: 1.6; }
     .consent-wrap label span { color: var(--blue2); font-weight: 600; }
 
-    /* ── CTA ── */
-    .cta-wrap { margin-top: 32px; text-align: center; }
+    /* ── STICKY CTA BAR ── */
+    .cta-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      box-shadow: 0 -4px 24px rgba(15,23,42,0.08);
+    }
     .btn-proceed {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 15px 48px;
+      width: 100%; max-width: 500px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 24px;
       background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6);
-      color: #fff; border: none; border-radius: 14px;
+      color: #fff; border: none; border-radius: 12px;
       font-family: 'Sora', sans-serif;
-      font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
+      font-size: 15px; font-weight: 700; letter-spacing: 0.03em;
       cursor: pointer;
-      box-shadow: 0 6px 28px rgba(37,99,235,0.30);
-      transition: transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 6px 24px rgba(37,99,235,0.30);
+      transition: transform 0.2s, box-shadow 0.3s, opacity .2s;
       position: relative; overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn-proceed::after {
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
     }
-    .btn-proceed:hover  { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(37,99,235,0.42); }
-    .btn-proceed:active { transform: translateY(0); }
-    .btn-proceed:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
-    .cta-note { margin-top: 10px; font-size: 12px; color: var(--muted2); }
+    .btn-proceed:active   { transform: scale(0.98); }
+    .btn-proceed:disabled { opacity: 0.42; cursor: not-allowed; box-shadow: none; }
+    .cta-note { font-size: 11px; color: var(--muted2); }
 
-    @media (max-width: 600px) {
-      .topbar     { padding: 12px 16px; }
-      .hero-strip { flex-direction: column; padding: 22px 18px; }
-      .page       { padding: 22px 14px 60px; }
-      .violation-grid { grid-template-columns: 1fr; }
+    /* ── SECTION COUNT BADGE ── */
+    .open-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--blue2); color: #fff;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0; margin-left: 4px;
+    }
+
+    /* Desktop tweaks */
+    @media (min-width: 640px) {
+      .page { padding: 32px 24px 100px; }
+      .hero-strip { padding: 28px 32px; }
+      .meta-chips { grid-template-columns: repeat(4,1fr); }
+      .meta-chip { flex-direction: row; align-items: center; gap: 8px; }
+      .meta-chip .label { display: none; }
+      .meta-chip .val { font-size: 13px; }
+      .cta-bar { padding: 14px 24px; }
+      .btn-proceed { font-size: 15px; padding: 15px 40px; }
+      .rule-item { padding: 10px 14px; }
     }
   </style>
 </head>
@@ -267,140 +330,191 @@
 
   <!-- HERO -->
   <div class="hero-strip">
-    <div>
-      <h1>📘 Exam Instructions</h1>
-      <p>Read all instructions carefully before starting. Once you proceed, the timer begins.</p>
+    <div class="hero-top">
+      <div class="hero-icon">📘</div>
+      <div>
+        <h1>Exam Instructions</h1>
+        <p>Read carefully before starting. Timer begins immediately on proceed.</p>
+      </div>
     </div>
     <div class="meta-chips">
-      <div class="meta-chip">⏱ Duration: <span class="val">90 Min</span></div>
-      <div class="meta-chip">❓ Questions: <span class="val">50</span></div>
-      <div class="meta-chip">🔒 Mode: <span class="val">Full-Screen</span></div>
-      <div class="meta-chip">⚠️ Max Violations: <span class="val">20</span></div>
+      <div class="meta-chip">
+        <span class="label">Duration</span>
+        <span class="val">⏱ 90 Min</span>
+      </div>
+      <div class="meta-chip">
+        <span class="label">Questions</span>
+        <span class="val">❓ 50 Qs</span>
+      </div>
+      <div class="meta-chip">
+        <span class="label">Mode</span>
+        <span class="val">🔒 Full-Screen</span>
+      </div>
+      <div class="meta-chip">
+        <span class="label">Max Violations</span>
+        <span class="val">⚠️ 20 Max</span>
+      </div>
     </div>
   </div>
 
   <div class="sections">
 
-    <!-- Exam Details -->
-    <div class="section">
-      <div class="sec-header">
+    <!-- 1. Exam Details -->
+    <div class="section open" id="sec1">
+      <div class="sec-header" onclick="toggleSection('sec1')">
         <div class="sec-icon blue">📋</div>
         <div>
           <div class="sec-title">Exam Details</div>
-          <div class="sec-sub">Overview of the examination structure</div>
+          <div class="sec-sub">Structure & marking scheme</div>
         </div>
+        <span class="sec-chevron">▼</span>
       </div>
-      <div class="sec-body">
-        <ul class="rule-list">
-          <li class="rule-item"><span class="rule-dot dot-blue"></span>The test consists of <strong>50 MCQ questions</strong> — aptitude + department-specific.</li>
-          <li class="rule-item"><span class="rule-dot dot-blue"></span>Total duration is <strong>90 minutes</strong>. Timer begins immediately after you enter the exam.</li>
-          <li class="rule-item"><span class="rule-dot dot-blue"></span>Questions are randomised and shuffled uniquely for each candidate.</li>
-          <li class="rule-item"><span class="rule-dot dot-blue"></span>There is <strong>no negative marking</strong>. Attempt all questions.</li>
-          <li class="rule-item"><span class="rule-dot dot-blue"></span>Each question carries <strong>1 mark</strong>. Maximum score: 50.</li>
-        </ul>
+      <div class="sec-body-wrap">
+        <div class="sec-body">
+          <ul class="rule-list">
+            <li class="rule-item"><span class="rule-dot dot-blue"></span><strong>50 MCQ questions</strong> — aptitude + department-specific topics.</li>
+            <li class="rule-item"><span class="rule-dot dot-blue"></span>Total duration is <strong>90 minutes</strong>. Timer begins right after entering the exam.</li>
+            <li class="rule-item"><span class="rule-dot dot-blue"></span>Questions are <strong>randomised and shuffled</strong> uniquely for each candidate.</li>
+            <li class="rule-item"><span class="rule-dot dot-blue"></span><strong>No negative marking.</strong> Attempt all questions.</li>
+            <li class="rule-item"><span class="rule-dot dot-blue"></span>Each question carries <strong>1 mark</strong>. Maximum score: <strong>50</strong>.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Navigation & Answering -->
-    <div class="section">
-      <div class="sec-header">
+    <!-- 2. Navigation -->
+    <div class="section open" id="sec2">
+      <div class="sec-header" onclick="toggleSection('sec2')">
         <div class="sec-icon green">🗺️</div>
         <div>
           <div class="sec-title">Navigation & Answering</div>
-          <div class="sec-sub">How to navigate through questions</div>
+          <div class="sec-sub">How to move through questions</div>
         </div>
+        <span class="sec-chevron">▼</span>
       </div>
-      <div class="sec-body">
-        <ul class="rule-list">
-          <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Save & Next</strong> — saves your answer and moves to the next question.</li>
-          <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Mark for Review</strong> — flags the question (yellow) to revisit later.</li>
-          <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Question Palette</strong> — colour-coded status: green = answered, yellow = review, purple = answered + review, grey = unanswered.</li>
-          <li class="rule-item"><span class="rule-dot dot-green"></span>You can change your answer at any time before final submission.</li>
-          <li class="rule-item"><span class="rule-dot dot-green"></span>Use <strong>Review All</strong> to see a summary of your answers before submitting.</li>
-        </ul>
+      <div class="sec-body-wrap">
+        <div class="sec-body">
+          <ul class="rule-list">
+            <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Save & Next</strong> — saves your answer and moves to the next question.</li>
+            <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Mark for Review</strong> — flags the question (yellow) to revisit later.</li>
+            <li class="rule-item"><span class="rule-dot dot-green"></span><strong>Question Palette</strong> — Green = answered · Yellow = review · Purple = answered + review · Grey = unanswered.</li>
+            <li class="rule-item"><span class="rule-dot dot-green"></span>You can change your answer at <strong>any time before final submission.</strong></li>
+            <li class="rule-item"><span class="rule-dot dot-green"></span>Use <strong>Review All</strong> to see a summary of answers before submitting.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Violations -->
-    <div class="section">
-      <div class="sec-header">
+    <!-- 3. Violations -->
+    <div class="section open" id="sec3">
+      <div class="sec-header" onclick="toggleSection('sec3')">
         <div class="sec-icon red">⚠️</div>
         <div>
           <div class="sec-title">Violation Rules</div>
           <div class="sec-sub">Actions that trigger a violation warning</div>
         </div>
+        <span class="sec-chevron">▼</span>
       </div>
-      <div class="sec-body">
-        <div class="violation-grid">
-          <div class="v-item"><span class="v-ico">🔄</span> Refreshing or reloading the page</div>
-          <div class="v-item"><span class="v-ico">🪟</span> Switching tabs or windows</div>
-          <div class="v-item"><span class="v-ico">📋</span> Copy / Paste / Cut actions</div>
-          <div class="v-item"><span class="v-ico">🖥️</span> Exiting full-screen mode</div>
-          <div class="v-item"><span class="v-ico">📱</span> Long-press on screen (mobile)</div>
-          <div class="v-item"><span class="v-ico">🖱️</span> Right-click context menu</div>
-          <div class="v-item"><span class="v-ico">🔇</span> Minimising the exam window</div>
-          <div class="v-item"><span class="v-ico">📷</span> PrintScreen key press</div>
-        </div>
-        <div class="alert-banner">
-          <span class="alert-ico">🚨</span>
-          <div class="alert-text">
-            Each violation is recorded in real time. Accumulating <strong>20 violations</strong> will trigger
-            an <strong>automatic submission</strong> of your test immediately.
-            Returning to a refreshed/closed page also triggers <strong>auto-submission</strong>.
+      <div class="sec-body-wrap">
+        <div class="sec-body">
+          <div class="violation-grid">
+            <div class="v-item"><span class="v-ico">🔄</span>Refresh / Reload page</div>
+            <div class="v-item"><span class="v-ico">🪟</span>Switch tabs or windows</div>
+            <div class="v-item"><span class="v-ico">📋</span>Copy / Paste / Cut</div>
+            <div class="v-item"><span class="v-ico">🖥️</span>Exit full-screen mode</div>
+            <div class="v-item"><span class="v-ico">📱</span>Long-press on screen</div>
+            <div class="v-item"><span class="v-ico">🖱️</span>Right-click context menu</div>
+            <div class="v-item"><span class="v-ico">🔇</span>Minimise exam window</div>
+            <div class="v-item"><span class="v-ico">📷</span>PrintScreen key press</div>
+          </div>
+          <div class="alert-banner">
+            <span class="alert-ico">🚨</span>
+            <div class="alert-text">
+              Each violation is recorded in real time. Reaching <strong>20 violations</strong> causes
+              <strong>automatic submission</strong> of your test. Returning to a refreshed or closed page
+              also triggers <strong>auto-submission</strong>.
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Submission Rules -->
-    <div class="section">
-      <div class="sec-header">
+    <!-- 4. Submission -->
+    <div class="section open" id="sec4">
+      <div class="sec-header" onclick="toggleSection('sec4')">
         <div class="sec-icon yellow">✅</div>
         <div>
           <div class="sec-title">Submission Rules</div>
           <div class="sec-sub">Final submission guidelines</div>
         </div>
+        <span class="sec-chevron">▼</span>
       </div>
-      <div class="sec-body">
-        <ul class="rule-list">
-          <li class="rule-item"><span class="rule-dot dot-yellow"></span>The system will <strong>auto-submit</strong> when the 90-minute timer expires.</li>
-          <li class="rule-item"><span class="rule-dot dot-yellow"></span>You may <strong>manually submit</strong> at any time using the "Submit" button on the last question.</li>
-          <li class="rule-item"><span class="rule-dot dot-yellow"></span>After submission, <strong>re-login is not possible</strong>. Your session is permanently locked.</li>
-          <li class="rule-item"><span class="rule-dot dot-yellow"></span>Results are saved securely on the server immediately upon submission.</li>
-          <li class="rule-item"><span class="rule-dot dot-yellow"></span>If the network fails at submission, results are saved locally and retried automatically.</li>
-        </ul>
-      </div>
-      <div class="consent-wrap">
-        <input type="checkbox" id="agreeCheck" />
-        <label for="agreeCheck">
-          I have read and understood all the instructions. I agree to the
-          <span>examination conduct rules</span> and will follow them throughout the test.
-        </label>
+      <div class="sec-body-wrap">
+        <div class="sec-body">
+          <ul class="rule-list">
+            <li class="rule-item"><span class="rule-dot dot-yellow"></span>System will <strong>auto-submit</strong> when the 90-minute timer expires.</li>
+            <li class="rule-item"><span class="rule-dot dot-yellow"></span>You can <strong>manually submit</strong> at any time using the "Submit" button on the last question.</li>
+            <li class="rule-item"><span class="rule-dot dot-yellow"></span>After submission, <strong>re-login is not possible.</strong> Your session is permanently locked.</li>
+            <li class="rule-item"><span class="rule-dot dot-yellow"></span>Results are saved securely on the server <strong>immediately</strong> upon submission.</li>
+            <li class="rule-item"><span class="rule-dot dot-yellow"></span>If network fails at submission, results are saved locally and retried automatically.</li>
+          </ul>
+        </div>
+        <!-- Consent inside section 4 -->
+        <div class="consent-wrap">
+          <input type="checkbox" id="agreeCheck" />
+          <label for="agreeCheck">
+            I have read and understood all instructions. I agree to the
+            <span>examination conduct rules</span> and will follow them throughout the test.
+          </label>
+        </div>
       </div>
     </div>
 
   </div><!-- end sections -->
+</div>
 
-  <div class="cta-wrap">
-    <button class="btn-proceed" id="proceedBtn" disabled onclick="proceedToTest()">
-      🚀 &nbsp;Start Examination
-    </button>
-    <div class="cta-note">You must accept the instructions before proceeding</div>
-  </div>
-
+<!-- STICKY CTA BAR -->
+<div class="cta-bar">
+  <button class="btn-proceed" id="proceedBtn" disabled onclick="proceedToTest()">
+    🚀 &nbsp;Start Examination
+  </button>
+  <div class="cta-note" id="ctaNote">Check the box above to enable this button</div>
 </div>
 
 <script>
+  /* ── USER ── */
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   if (!user.username) { window.location.href = 'index.html'; }
-  document.getElementById('userChip').textContent = `👤 ${user.name || user.username}  ·  ${user.dept || ''}`;
 
-  document.getElementById('agreeCheck').addEventListener('change', function() {
-    document.getElementById('proceedBtn').disabled = !this.checked;
+  const chip = document.getElementById('userChip');
+  const nameStr = user.name || user.username || '';
+  chip.textContent = nameStr + (user.dept ? ' · ' + user.dept : '');
+
+  /* ── COLLAPSIBLE SECTIONS ── */
+  function toggleSection(id) {
+    const sec = document.getElementById(id);
+    sec.classList.toggle('open');
+  }
+
+  /* ── CONSENT ── */
+  const agreeCheck  = document.getElementById('agreeCheck');
+  const proceedBtn  = document.getElementById('proceedBtn');
+  const ctaNote     = document.getElementById('ctaNote');
+
+  agreeCheck.addEventListener('change', function () {
+    proceedBtn.disabled = !this.checked;
+    ctaNote.textContent = this.checked
+      ? 'You are ready — tap Start Examination!'
+      : 'Check the box above to enable this button';
   });
 
+  /* ── PROCEED ── */
   function proceedToTest() {
-    if (!localStorage.getItem('user')) { alert('⚠ Please login first!'); window.location.href = 'index.html'; return; }
+    if (!localStorage.getItem('user')) {
+      alert('⚠ Please login first!');
+      window.location.href = 'index.html';
+      return;
+    }
     window.location.href = 'test.html';
   }
 </script>
